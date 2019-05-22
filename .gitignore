@@ -1,7 +1,6 @@
 
 Program/BMS.cogui
 Program/BMS.comarker
-Program/BMS.coproj
 Program/BMS/BMS.elf.xcodeproj/project.pbxproj
 Program/BMS/Debug/obj/ADC.o
 Program/BMS/Debug/obj/dependencies.xml
