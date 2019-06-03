@@ -1,90 +1,86 @@
 #include "General.h"
-#define AddressFlash FLASH_BASE+1024*124
-struct StructOptionValuetoSaveInEEpromAndMenu SaveData=
+#define ADDRESS_FLASH FLASH_BASE+1024*124
+struct StructOptionValuetoSaveInEEprom SaveData=
 {
-		1,//DefaultValuesFromEEpromOrNotAfterBurning; 0-from this structure, 1- from EEprom
-		AddressFlash,
-		1,//option
-		AddressFlash+4,
-		15,//value
-		AddressFlash+8,
-		0,//BatteryCapacityDischargePreviousValue
-		AddressFlash+12,
-		1050,//LowVoltage
-		AddressFlash+16,
-		1450,//MaxVoltage
-		AddressFlash+20,
-		10,//Swing_Chrg_time
-		AddressFlash+24,
-		10,//Swing_DChrg_time
-		AddressFlash+28,
-		0,//BatteryCapacityDischargeCurrent
-		AddressFlash+32,
-		0,//Calibration0ValueForCurrent
-		AddressFlash+36,
-		0,//Calibration0ValueForCurrent1
-		AddressFlash+40,
-		155,//CalibrationValueForCurrent
-		AddressFlash+44,
-		155,//CalibrationValueForCurrent1
-		AddressFlash+48,
-		1331,//CalibrationValueForVoltage
-		AddressFlash+52,
-		1331,//CalibrationValueForVoltage1
-		AddressFlash+56,
-		1331,//CalibrationValueForVoltage2
-		AddressFlash+60,
-
-		10,//ChargeAdapt %
-		AddressFlash+64,
-		131,//Resistance_Comp
-		AddressFlash+68
-
+		0,
+		ADDRESS_FLASH,
+		0,
+		ADDRESS_FLASH+4,
+		0,
+		ADDRESS_FLASH+8,
+		0,
+		ADDRESS_FLASH+12,
+		0,
+		ADDRESS_FLASH+16,
+		0,
+		ADDRESS_FLASH+20,
+		0,
+		ADDRESS_FLASH+24,
+		0,
+		ADDRESS_FLASH+28,
+		0,
+		ADDRESS_FLASH+32,
+		0,
+		ADDRESS_FLASH+36,
+		0,
+		ADDRESS_FLASH+40,
+		0,
+		ADDRESS_FLASH+44,
+		0,
+		ADDRESS_FLASH+48,
+		0,
+		ADDRESS_FLASH+52,
+		0,
+		ADDRESS_FLASH+56,
+		0,
+		ADDRESS_FLASH+60,
+		0,
+		ADDRESS_FLASH+64,
+		0,
+		ADDRESS_FLASH+68
 };
-struct StructOptionValuetoSaveInEEpromAndMenu FactorySaveData=
+struct StructOptionValuetoSaveInEEprom FactorySaveData=
 {
-		1,//DefaultValuesFromEEpromOrNotAfterBurning; 0-from this structure, 1- from EEprom
-		AddressFlash,
+		1,
+		ADDRESS_FLASH,
 		1,//option
-		AddressFlash+4,
+		ADDRESS_FLASH+4,
 		15,//value
-		AddressFlash+8,
+		ADDRESS_FLASH+8,
 		0,//BatteryCapacityDischargePreviousValue
-		AddressFlash+12,
+		ADDRESS_FLASH+12,
 		1050,//LowVoltage
-		AddressFlash+16,
+		ADDRESS_FLASH+16,
 		1450,//MaxVoltage
-		AddressFlash+20,
+		ADDRESS_FLASH+20,
 		10,//Swing_Chrg_time
-		AddressFlash+24,
+		ADDRESS_FLASH+24,
 		10,//Swing_DChrg_time
-		AddressFlash+28,
+		ADDRESS_FLASH+28,
 		0,//BatteryCapacityDischargeCurrent
-		AddressFlash+32,
+		ADDRESS_FLASH+32,
 		0,//Calibration0ValueForCurrent
-		AddressFlash+36,
+		ADDRESS_FLASH+36,
 		0,//Calibration0ValueForCurrent1
-		AddressFlash+40,
+		ADDRESS_FLASH+40,
 		155,//CalibrationValueForCurrent
-		AddressFlash+44,
+		ADDRESS_FLASH+44,
 		155,//CalibrationValueForCurrent1
-		AddressFlash+48,
+		ADDRESS_FLASH+48,
 		1331,//CalibrationValueForVoltage
-		AddressFlash+52,
+		ADDRESS_FLASH+52,
 		1331,//CalibrationValueForVoltage1
-		AddressFlash+56,
+		ADDRESS_FLASH+56,
 		1331,//CalibrationValueForVoltage2
-		AddressFlash+60,
+		ADDRESS_FLASH+60,
 
 		10,//ChargeAdapt %
-		AddressFlash+64,
+		ADDRESS_FLASH+64,
 		131,//Resistance_Comp mOm
-		AddressFlash+68
+		ADDRESS_FLASH+68
 
 };
-uint16_t EEpromSaveStatus=0;
 volatile uint16_t U_OUT_ForSetResistance=0;
-volatile int16_t Current_RAW=0;
 volatile int16_t Current_load = 0;
 volatile int16_t Current_Out = 0;
 

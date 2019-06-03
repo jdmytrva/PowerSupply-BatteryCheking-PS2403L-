@@ -8,7 +8,7 @@ void flash_erase_page(uint32_t address);
 void flash_unlock(void);
 void flash_lock();
 void flash_write(uint32_t address,uint32_t data);
-uint32_t flash_read(uint32_t address);
+uint32_t flash_read(uint32_t address, uint32_t MinValue, uint32_t MaxValue);
 
 uint8_t ReadFromEEprom(void);
 uint8_t EEpromWrite(void);

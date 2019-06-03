@@ -1,7 +1,7 @@
 #include <stm32f10x.h>
-#ifndef _EE_
-#define _EE_
-struct StructOptionValuetoSaveInEEpromAndMenu
+#ifndef _GENERAL_
+#define _GENERAL_
+struct StructOptionValuetoSaveInEEprom
 {
 	uint32_t DefaultValuesFromEEpromOrNotAfterBurning;
 	uint32_t DefaultValuesFromEEpromOrNotAfterBurning_AddresInEEprom;
@@ -56,10 +56,8 @@ struct StructOptionValuetoSaveInEEpromAndMenu
 	uint32_t ResistanceComp;
 	uint32_t ResistanceComp_AddresInEEprom;
 };
-struct StructOptionValuetoSaveInEEpromAndMenu SaveData;
-struct StructOptionValuetoSaveInEEpromAndMenu FactorySaveData;
-uint16_t EEpromSaveStatus;
-
+struct StructOptionValuetoSaveInEEprom SaveData;
+struct StructOptionValuetoSaveInEEprom FactorySaveData;
 
 //ADC
 volatile uint16_t U_OUT_ForSetResistance;

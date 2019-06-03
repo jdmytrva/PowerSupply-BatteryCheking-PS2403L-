@@ -20,7 +20,7 @@
 
 
 
-uint8_t Version[] = "PS 30V 3A v1.50";
+uint8_t Version[] = "PS 30V 3A v1.51";
 
 
 Key_Pressed_t pressedKey = 0;
