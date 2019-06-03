@@ -20,7 +20,7 @@
 
 
 
-uint8_t Version[] = "PS 30V 3A v1.49";
+uint8_t Version[] = "PS 30V 3A v1.50";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -929,11 +929,24 @@ void MenuCalibration_BackToFactory(Key_Pressed_t key)
 	PrintToLCD("Factory-press >>");
 	if (key == KEY_NEXT)
 	{
+		uint8_t EEpromReadStatus;
 		FactoryEEpromWrite();
-		ReadFromEEprom();
+		EEpromReadStatus = ReadFromEEprom();
 		lcd_set_xy(0,0);
 		PrintToLCD("In Proccess ....");
 		Delay_mSec(2000);
+		lcd_set_xy(0,0);
+		if (EEpromReadStatus == 1)
+		{
+			PrintToLCD("Factory are OK  ");
+			Delay_mSec(2000);
+		}
+		else
+		{
+			PrintToLCD("EEprom read FAIL");
+			Delay_mSec(4000);
+
+		}
 	}
 }
 
@@ -1036,7 +1049,13 @@ int main(void)
 	SetSymbols();
 	lcd_set_xy(0,0);
 	Delay_mSec(2000);
-    ReadFromEEprom();
+	uint8_t EEpromReadStatus;
+	EEpromReadStatus = ReadFromEEprom();
+	if (EEpromReadStatus == 0)
+	{
+		PrintToLCD("EEprom Read FAIL");
+		Delay_mSec(4000);
+	}
     BatteryCapacityDischargeCurrentAfterPOwerUp = SaveData.BatteryCapacityDischargeCurrent;
     ChargeDurationSec = SaveData.Value*3600;
     Print_to_USART1(Version);

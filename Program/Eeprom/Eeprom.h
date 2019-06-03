@@ -10,8 +10,8 @@ void flash_lock();
 void flash_write(uint32_t address,uint32_t data);
 uint32_t flash_read(uint32_t address);
 
-int ReadFromEEprom();
-void EEpromWrite(void);
-void FactoryEEpromWrite(void);
+uint8_t ReadFromEEprom(void);
+uint8_t EEpromWrite(void);
+uint8_t FactoryEEpromWrite(void);
 
 #endif
