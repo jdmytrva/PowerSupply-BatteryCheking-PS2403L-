@@ -1,7 +1,6 @@
 
-Program/BMS.cogui
-Program/BMS.comarker
-Program/BMS/BMS.elf.xcodeproj/project.pbxproj
+
+
 Program/BMS/Debug/obj/ADC.o
 Program/BMS/Debug/obj/dependencies.xml
 Program/BMS/Debug/obj/Eeprom.o
@@ -20,3 +19,4 @@ Program/BMS/Debug/obj/stm32f10x_tim.o
 Program/BMS/Debug/obj/stm32f10x_usart.o
 Program/BMS/Debug/obj/system_stm32f10x.o
 Program/BMS/Debug/obj/usart.o
+*.pbxproj

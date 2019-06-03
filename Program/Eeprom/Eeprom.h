@@ -1,4 +1,5 @@
 #include <stm32f10x.h>
+#include "General/General.h"
 #ifndef _EE_
 #define _EE_
 
@@ -9,6 +10,8 @@ void flash_lock();
 void flash_write(uint32_t address,uint32_t data);
 uint32_t flash_read(uint32_t address);
 
-
+int ReadFromEEprom();
+void EEpromWrite(void);
+void FactoryEEpromWrite(void);
 
 #endif

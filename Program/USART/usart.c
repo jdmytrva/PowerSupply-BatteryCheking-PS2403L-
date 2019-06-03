@@ -10,6 +10,7 @@
 #include <stm32f10x_conf.h>
 //#include "stm32f10x_dma.h"
 #include "misc.h"
+#include "Library/Lib.h"
 #define ASYNCHRONOUS_PRINT_TO_USART 0
 void USART1Init(void)
 {
@@ -72,7 +73,7 @@ volatile uint8_t TXhead = 0;
 volatile uint8_t TXcount = 0;
 
 //положить символ в буфер
-void PutChar(unsigned char sym)
+void PutChar(uint8_t sym)
 {
   if (RXcount < SIZE_BUF){   //если в буфере еще есть место
       RXBuf[RXtail] = sym;   //помещаем в него символ
@@ -83,7 +84,7 @@ void PutChar(unsigned char sym)
 }
 
 
-void USART_PutChar(unsigned char sym)
+void USART_PutChar(uint8_t sym)
 {
   if((USART1->SR & USART_SR_TC) && (TXcount == 0)){
 	  USART1->DR = sym;
@@ -123,14 +124,14 @@ void USART1_IRQHandler(void)
 }
 
 
-void Print_to_USART1_d(volatile int32_t value,volatile char *string,char koma)
+void Print_to_USART1_d(volatile int32_t value,volatile uint8_t *string,uint8_t koma)
 {
-	volatile char str[100];
+	uint8_t *str;
 
 	if (koma == 0)
-		itoa(value, str);
+		str = itoa(value);
 	else
-		itoa_koma(value, str,koma);
+		str = itoa_koma(value,koma);
 	TransmitString(string);
 	TransmitString(str);
 	TransmitChar('\n');
@@ -146,7 +147,7 @@ uint8_t strlen(uint8_t string[])
 	return i;
 }
 
-void Print_to_USART1(volatile char *data)
+void Print_to_USART1(volatile uint8_t *data)
 {
 	#if ASYNCHRONOUS_PRINT_TO_USART
 		while(*data)
@@ -171,7 +172,7 @@ void Print_to_USART1(volatile char *data)
 
 }
 
-void TransmitChar(volatile char data)
+void TransmitChar(volatile uint8_t data)
 {
 #if ASYNCHRONOUS_PRINT_TO_USART
 	USART_PutChar(data);
@@ -181,7 +182,7 @@ void TransmitChar(volatile char data)
 #endif
 }
 
-void TransmitString(volatile char *data)
+void TransmitString(volatile uint8_t *data)
 {
 #if ASYNCHRONOUS_PRINT_TO_USART
 	  while(*data)
@@ -197,79 +198,5 @@ void TransmitString(volatile char *data)
 	  data++;
   }
 #endif
-}
-
-void itoa(int32_t n, uint8_t s1[])
-{
-	int32_t sign;
-	int8_t i,k;
-	uint8_t s[16];
-     if ((sign = n) < 0)
-         n = -n;
-     i = 0;
-     do {
-         s[i++] = n % 10 + '0';
-     } while ((n /= 10) > 0);
-     if (sign < 0)
-         s[i++] = '-';
-     s[i] = '\0';
-
-     k=0;
-     while (i)
-     {
-    	s1[k]=s[i-1];
-    	i--;
-    	k++;
-     }
-     s1[k] = '\0';
-
-}
-
-void itoa_koma(int32_t n, uint8_t s1[],uint8_t koma)
-{
-	int32_t sign;
-	int8_t i,k,j;
-	uint8_t s[17];
-	uint8_t sKoma[17];
-    if ((sign = n) < 0)
-    	n = -n;
-     i = 0;
-     do
-     {
-         s[i++] = n % 10 + '0';
-     } while ((n /= 10) > 0);
-     s[i] = '\0';
-     if (i<=1)
-     {
-       	 s[i] = '0';
-       	 i++;
-     }
-     if (i<=2&&koma>1)
-     {
-    	 s[i] = '0';
-    	 i++;
-     }
-     k=0;
-     j=0;
-     while (j<i)
-     {
-    	 if (k==koma)
-         {
-         	 sKoma[k]='.';
-         	 k++;
-         }
-    	 sKoma[k]=s[j];
-         j++;
-         k++;
-      }
-     if (sign < 0) sKoma[k++] = '-';
-     i=0;
-     while (k)
-     {
-    	s1[i]=sKoma[k-1];
-    	k--;
-    	i++;
-     }
-     s1[i] = '\0';
 }
 

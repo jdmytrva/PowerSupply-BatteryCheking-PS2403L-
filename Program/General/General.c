@@ -10,9 +10,9 @@ struct StructOptionValuetoSaveInEEpromAndMenu SaveData=
 		AddressFlash+8,
 		0,//BatteryCapacityDischargePreviousValue
 		AddressFlash+12,
-		105,//LowVoltage
+		1050,//LowVoltage
 		AddressFlash+16,
-		145,//MaxVoltage
+		1450,//MaxVoltage
 		AddressFlash+20,
 		10,//Swing_Chrg_time
 		AddressFlash+24,
@@ -51,9 +51,9 @@ struct StructOptionValuetoSaveInEEpromAndMenu FactorySaveData=
 		AddressFlash+8,
 		0,//BatteryCapacityDischargePreviousValue
 		AddressFlash+12,
-		105,//LowVoltage
+		1050,//LowVoltage
 		AddressFlash+16,
-		145,//MaxVoltage
+		1450,//MaxVoltage
 		AddressFlash+20,
 		10,//Swing_Chrg_time
 		AddressFlash+24,
@@ -87,15 +87,6 @@ volatile uint16_t U_OUT_ForSetResistance=0;
 volatile int16_t Current_RAW=0;
 volatile int16_t Current_load = 0;
 volatile int16_t Current_Out = 0;
-volatile int16_t Calibration0ValueForCurrent = 0;
-volatile int16_t Calibration0ValueForCurrent1 = 0;
-volatile int16_t CalibrationValueForCurrent=1250;
-volatile int16_t CalibrationValueForCurrent1=1200;
-volatile int16_t CalibrationValueForVoltage=1331;//U_PS
-volatile int16_t CalibrationValueForVoltage1=1331;//U_OUT
-volatile int16_t CalibrationValueForVoltage2=1331;//U_IN
-volatile int16_t ChargeAdapt = 5;
-volatile int16_t ResistanceComp= 1;
 
 void InfoToUARTBeforeStart(void)
 {

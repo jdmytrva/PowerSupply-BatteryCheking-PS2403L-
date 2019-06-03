@@ -61,8 +61,8 @@ void lcd_set_xy(uint8_t x, uint8_t y)  {
 }
 
 
-void lcd_out(char * txt,char TypeOfLCD) {
-	char i=0;
+void lcd_out(uint8_t * txt,uint8_t TypeOfLCD) {
+	uint8_t i=0;
 	while(*txt)
 	{
 		lcd_send(*txt,DATA);
@@ -159,7 +159,7 @@ void SetSymbols()
 
 }
 
-char russ[30]=
+uint8_t russ[30]=
 {
 		65, //À 192
 		3, //Á
@@ -195,14 +195,14 @@ char russ[30]=
 		0//ß 223
 };
 
-void LcdOutbyNumber(uint8_t num,char Line)
+void LcdOutbyNumber(uint8_t num,uint8_t Line)
 {
 	lcd_send(num,DATA);
 }
 
-void LcdOut(char * txt,char Line)
+void LcdOut(uint8_t * txt,uint8_t Line)
 {
-	//char i=0;
+	//uint8_t i=0;
 
 	while(*txt)
 	{
@@ -347,18 +347,63 @@ void lcd_send(uint8_t byte, dat_or_comm dc)  {
 }
 
 
-void PrintOnLCD_(uint8_t* str,char line )
+void PrintToLCD(uint8_t* str )
 {
-
-
-	LcdOut(str,line);
+	LcdOut(str,2);
 	//Send_String_to_UART(str);
 }
 
-void PrintOnLCD_xy_(uint8_t* str ,uint8_t x, uint8_t y)
+void PrintToLCD_xy(uint8_t* str ,uint8_t x, uint8_t y)
 {
 	lcd_set_xy(x,y);
 
 	LcdOut(str,2);
 	//Send_String_to_UART(str);
+}
+
+void PrintToLCD_int32(int32_t x)
+{
+	PrintToLCD(itoa(x));
+}
+void PrintToLCD_int32_koma(int32_t x, uint8_t k)
+
+{
+	PrintToLCD(itoa_koma(x,k));
+}
+void InitLCD()
+{
+
+	GPIOB->CRH &= ~GPIO_CRH_MODE10; //set 00 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH |= GPIO_CRH_MODE10_1;//set 10 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH &= ~GPIO_CRH_CNF10;  //set 00  Mode_Out_OD = 01
+	GPIOB->CRH |= GPIO_CRH_CNF10_0; //set 01  Mode_Out_OD = 01
+
+	GPIOB->CRH &= ~GPIO_CRH_MODE11; //set 00 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH |= GPIO_CRH_MODE11_1;//set 10 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH &= ~GPIO_CRH_CNF11;  //set 00  Mode_Out_OD = 01
+	GPIOB->CRH |= GPIO_CRH_CNF11_0; //set 01  Mode_Out_OD = 01
+
+	GPIOB->CRH &= ~GPIO_CRH_MODE12; //set 00 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH |= GPIO_CRH_MODE12_1;//set 10 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH &= ~GPIO_CRH_CNF12;  //set 00  Mode_Out_OD = 01
+	GPIOB->CRH |= GPIO_CRH_CNF12_0; //set 01  Mode_Out_OD = 01
+
+	GPIOB->CRH &= ~GPIO_CRH_MODE13; //set 00 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH |= GPIO_CRH_MODE13_1;//set 10 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH &= ~GPIO_CRH_CNF13;  //set 00  Mode_Out_OD = 01
+	GPIOB->CRH |= GPIO_CRH_CNF13_0; //set 01  Mode_Out_OD = 01
+
+	GPIOB->CRH &= ~GPIO_CRH_MODE14; //set 00 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH |= GPIO_CRH_MODE14_1;//set 10 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH &= ~GPIO_CRH_CNF14;  //set 00  Mode_Out_OD = 01
+	GPIOB->CRH |= GPIO_CRH_CNF14_0; //set 01  Mode_Out_OD = 01
+
+	GPIOB->CRH &= ~GPIO_CRH_MODE15; //set 00 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH |= GPIO_CRH_MODE15_1;//set 10 MODEy[1:0] = 10 2Mgz;
+	GPIOB->CRH &= ~GPIO_CRH_CNF15;  //set 00  Mode_Out_OD = 01
+	GPIOB->CRH |= GPIO_CRH_CNF15_0; //set 01  Mode_Out_OD = 01
+
+	lcd_init();
+	lcd_clear();
+	lcd_set_state(LCD_ENABLE, CURSOR_DISABLE, NO_BLINK);
 }

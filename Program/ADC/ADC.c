@@ -123,34 +123,34 @@ void TIM3_IRQHandler()
 		DMA_ClearFlag(DMA1_FLAG_TC1);
 		DMA_ClearITPendingBit( DMA1_IT_TC1);
 		DMA_ITConfig(DMA1_Channel1, DMA1_IT_TC1, DISABLE);
-		Ut= (RegularConvData[3] * CalibrationValueForVoltage) / RegularConvData[6];
+		Ut= (RegularConvData[3] * SaveData.CalibrationValueForVoltage) / RegularConvData[6];
 		U_PS = MedianFilter2(Ut);
 		if (U_PS < 3) U_PS = 0;
 		U_Controller = 491520 / RegularConvData[6];// Uref V/10;  1200 * 4096/ChVref
-		Ut = (RegularConvData[2] * CalibrationValueForVoltage1) / RegularConvData[6];
+		Ut = (RegularConvData[2] * SaveData.CalibrationValueForVoltage1) / RegularConvData[6];
 		U_OUT = MedianFilter(Ut);
 		U_OUT_ForSetResistance = U_OUT;
 		if (U_OUT<3) U_OUT = 0;
-		Ut = (RegularConvData[4] * CalibrationValueForVoltage2) / RegularConvData[6];
+		Ut = (RegularConvData[4] * SaveData.CalibrationValueForVoltage2) / RegularConvData[6];
 		U_IN = middle_of_3Umax(Ut);
-		Ut = (RegularConvData[1] * CalibrationValueForCurrent*10) / RegularConvData[6] ;//  Current A/10
+		Ut = (RegularConvData[1] * SaveData.CalibrationValueForCurrent*10) / RegularConvData[6] ;//  Current A/10
 		Current_Out= MedianFilter1(Ut);
 
-		Ut= (RegularConvData[0] * CalibrationValueForCurrent1*10) / RegularConvData[6] ;//  Current A/10
+		Ut= (RegularConvData[0] * SaveData.CalibrationValueForCurrent1*10) / RegularConvData[6] ;//  Current A/10
 		Current_load = middle_of_3Imax(Ut);
 		//if ( (GPIOA->IDR & 112) == 0 )
 		//Print_to_USART1_d(CalibrationValueForCurrent,"cal ",0);
 		if ((GPIOB->IDR & 0x02)==0x02)//if load on
 		{
-			Current =(Current_load-Calibration0ValueForCurrent1)*(-1) ;//2745;
+			Current =(Current_load-SaveData.Calibration0ValueForCurrent1)*(-1) ;//2745;
 		}else
 		{
-			Current = (Current_Out-Calibration0ValueForCurrent)/1 ;//2745;
+			Current = (Current_Out-SaveData.Calibration0ValueForCurrent)/1 ;//2745;
 		}
 		U_OUTtmp = U_OUT;
 		if (Current>0)
-			U_OUTtmp = U_OUTtmp - ResistanceComp*Current/10000;
-		else U_OUTtmp = U_OUTtmp - ResistanceComp*Current/10000;
+			U_OUTtmp = U_OUTtmp - SaveData.ResistanceComp*Current/10000;
+		else U_OUTtmp = U_OUTtmp - SaveData.ResistanceComp*Current/10000;
 
 		if (U_OUTtmp<3)
 			U_OUTtmp=0;

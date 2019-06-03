@@ -79,52 +79,59 @@
     <Component id="467" name="MISC" path="" type="2"/>
   </Components>
   <Files>
+    <File name="hd44780_driver" path="" type="2"/>
+    <File name="stm_lib/inc/stm32f10x_tim.h" path="stm_lib/inc/stm32f10x_tim.h" type="1"/>
+    <File name="cmsis_boot" path="" type="2"/>
+    <File name="USART/usart.c" path="USART/usart.c" type="1"/>
+    <File name="stm_lib/src/stm32f10x_tim.c" path="stm_lib/src/stm32f10x_tim.c" type="1"/>
+    <File name="ADC/ADC.c" path="ADC/ADC.c" type="1"/>
+    <File name="USART" path="" type="2"/>
+    <File name="cmsis_boot/startup" path="" type="2"/>
+    <File name="Library/Lib.c" path="Library/Lib.c" type="1"/>
+    <File name="cmsis/core_cmFunc.h" path="cmsis/core_cmFunc.h" type="1"/>
+    <File name="stm_lib/src/misc.c" path="stm_lib/src/misc.c" type="1"/>
+    <File name="Initialization/Init_.c" path="Initialization/Init_.c" type="1"/>
+    <File name="cmsis_boot/stm32f10x.h" path="cmsis_boot/stm32f10x.h" type="1"/>
+    <File name="cmsis_boot/stm32f10x_conf.h" path="cmsis_boot/stm32f10x_conf.h" type="1"/>
+    <File name="Eeprom/Eeprom.c" path="Eeprom/Eeprom.c" type="1"/>
+    <File name="hd44780_driver/hd44780_driver.h" path="hd44780_driver/hd44780_driver.h" type="1"/>
+    <File name="stm_lib/inc/stm32f10x_dma.h" path="stm_lib/inc/stm32f10x_dma.h" type="1"/>
+    <File name="stm_lib/src/stm32f10x_adc.c" path="stm_lib/src/stm32f10x_adc.c" type="1"/>
+    <File name="stm_lib/src/stm32f10x_usart.c" path="stm_lib/src/stm32f10x_usart.c" type="1"/>
+    <File name="Menu" path="" type="2"/>
+    <File name="stm_lib/src/stm32f10x_gpio.c" path="stm_lib/src/stm32f10x_gpio.c" type="1"/>
+    <File name="Eeprom" path="" type="2"/>
+    <File name="stm_lib/inc/stm32f10x_gpio.h" path="stm_lib/inc/stm32f10x_gpio.h" type="1"/>
+    <File name="General/General.h" path="General/General.h" type="1"/>
+    <File name="stm_lib/inc/stm32f10x_usart.h" path="stm_lib/inc/stm32f10x_usart.h" type="1"/>
+    <File name="General" path="" type="2"/>
+    <File name="Library/Lib.h" path="Library/Lib.h" type="1"/>
     <File name="cmsis_boot/system_stm32f10x.c" path="cmsis_boot/system_stm32f10x.c" type="1"/>
     <File name="stm_lib/inc/misc.h" path="stm_lib/inc/misc.h" type="1"/>
     <File name="ADC" path="" type="2"/>
     <File name="cmsis/core_cmInstr.h" path="cmsis/core_cmInstr.h" type="1"/>
-    <File name="hd44780_driver" path="" type="2"/>
-    <File name="stm_lib/inc/stm32f10x_tim.h" path="stm_lib/inc/stm32f10x_tim.h" type="1"/>
     <File name="cmsis/core_cm3.h" path="cmsis/core_cm3.h" type="1"/>
-    <File name="cmsis_boot" path="" type="2"/>
-    <File name="USART/usart.c" path="USART/usart.c" type="1"/>
     <File name="Menu/Menu.h" path="Menu/Menu.h" type="1"/>
     <File name="hd44780_driver/hd44780_driver.c" path="hd44780_driver/hd44780_driver.c" type="1"/>
     <File name="stm_lib/src/stm32f10x_rcc.c" path="stm_lib/src/stm32f10x_rcc.c" type="1"/>
-    <File name="ADC/ADC.c" path="ADC/ADC.c" type="1"/>
-    <File name="stm_lib/src/stm32f10x_tim.c" path="stm_lib/src/stm32f10x_tim.c" type="1"/>
-    <File name="USART" path="" type="2"/>
-    <File name="cmsis_boot/startup" path="" type="2"/>
     <File name="Eeprom/Eeprom.h" path="Eeprom/Eeprom.h" type="1"/>
-    <File name="cmsis/core_cmFunc.h" path="cmsis/core_cmFunc.h" type="1"/>
-    <File name="stm_lib/src/misc.c" path="stm_lib/src/misc.c" type="1"/>
+    <File name="Menu/MicroMenu2_1.h" path="Menu/MicroMenu2_1.h" type="1"/>
     <File name="USART/usart.h" path="USART/usart.h" type="1"/>
-    <File name="cmsis_boot/stm32f10x.h" path="cmsis_boot/stm32f10x.h" type="1"/>
     <File name="General/General.c" path="General/General.c" type="1"/>
-    <File name="cmsis_boot/stm32f10x_conf.h" path="cmsis_boot/stm32f10x_conf.h" type="1"/>
     <File name="stm_lib/src/stm32f10x_dma.c" path="stm_lib/src/stm32f10x_dma.c" type="1"/>
     <File name="stm_lib/src" path="" type="2"/>
-    <File name="Eeprom/Eeprom.c" path="Eeprom/Eeprom.c" type="1"/>
     <File name="cmsis" path="" type="2"/>
     <File name="stm_lib" path="" type="2"/>
-    <File name="hd44780_driver/hd44780_driver.h" path="hd44780_driver/hd44780_driver.h" type="1"/>
-    <File name="stm_lib/src/stm32f10x_adc.c" path="stm_lib/src/stm32f10x_adc.c" type="1"/>
-    <File name="stm_lib/inc/stm32f10x_dma.h" path="stm_lib/inc/stm32f10x_dma.h" type="1"/>
+    <File name="Initialization" path="" type="2"/>
     <File name="ADC/ADC.h" path="ADC/ADC.h" type="1"/>
-    <File name="Menu/Menu.c" path="Menu/Menu.c" type="1"/>
     <File name="stm_lib/inc/stm32f10x_adc.h" path="stm_lib/inc/stm32f10x_adc.h" type="1"/>
     <File name="cmsis_boot/system_stm32f10x.h" path="cmsis_boot/system_stm32f10x.h" type="1"/>
     <File name="stm_lib/inc/stm32f10x_rcc.h" path="stm_lib/inc/stm32f10x_rcc.h" type="1"/>
-    <File name="stm_lib/src/stm32f10x_usart.c" path="stm_lib/src/stm32f10x_usart.c" type="1"/>
+    <File name="Initialization/Init_.h" path="Initialization/Init_.h" type="1"/>
     <File name="cmsis_boot/startup/startup_stm32f10x_ld_vl.c" path="cmsis_boot/startup/startup_stm32f10x_ld_vl.c" type="1"/>
-    <File name="Menu" path="" type="2"/>
-    <File name="stm_lib/src/stm32f10x_gpio.c" path="stm_lib/src/stm32f10x_gpio.c" type="1"/>
+    <File name="Menu/MicroMenu2_1.c" path="Menu/MicroMenu2_1.c" type="1"/>
+    <File name="Library" path="" type="2"/>
     <File name="stm_lib/inc" path="" type="2"/>
-    <File name="Eeprom" path="" type="2"/>
-    <File name="General/General.h" path="General/General.h" type="1"/>
-    <File name="stm_lib/inc/stm32f10x_gpio.h" path="stm_lib/inc/stm32f10x_gpio.h" type="1"/>
-    <File name="stm_lib/inc/stm32f10x_usart.h" path="stm_lib/inc/stm32f10x_usart.h" type="1"/>
-    <File name="General" path="" type="2"/>
     <File name="main.c" path="main.c" type="1"/>
   </Files>
 </Project>

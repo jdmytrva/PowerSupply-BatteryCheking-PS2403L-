@@ -51,9 +51,6 @@ struct StructOptionValuetoSaveInEEpromAndMenu
 	uint32_t CalibrationValueForVoltage2;
 	uint32_t CalibrationValueForVoltage2_AddresInEEprom;
 
-
-
-
 	uint32_t ChargeAdapt;
 	uint32_t ChargeAdapt_AddresInEEprom;
 	uint32_t ResistanceComp;
@@ -69,17 +66,6 @@ volatile uint16_t U_OUT_ForSetResistance;
 volatile int16_t Current_RAW;
 volatile int16_t Current_load ;
 volatile int16_t Current_Out ;
-volatile int16_t Calibration0ValueForCurrent;
-volatile int16_t Calibration0ValueForCurrent1;
-volatile int16_t CalibrationValueForCurrent;
-volatile int16_t CalibrationValueForCurrent1;
-volatile int16_t CalibrationValueForVoltage;
-volatile int16_t CalibrationValueForVoltage1;
-volatile int16_t CalibrationValueForVoltage2;
-
-
-volatile int16_t ChargeAdapt;
-volatile int16_t ResistanceComp;
 
 
 void InfoToUARTBeforeStart(void);
