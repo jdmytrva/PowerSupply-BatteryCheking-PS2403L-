@@ -159,7 +159,7 @@ void SetSymbols()
 
 }
 
-char russ[30]=
+char russ[]=
 {
 		65, //À 192
 		3, //Á

@@ -1,4 +1,5 @@
 #include <stm32f10x.h>
+#include "usart.h"
 #ifndef _GENERAL_
 #define _GENERAL_
 struct StructOptionValuetoSaveInEEprom

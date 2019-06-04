@@ -31,7 +31,7 @@ typedef enum Key_Pressed {
   const struct Menu_Item *Child; /**< Pointer to the child menu item of this menu item */
   void (*EnterCallback)(void); /**< Pointer to the optional menu-specific select callback of this menu item */
   void (*SelectCallback)(Key_Pressed_t); /**< Pointer to the optional menu-specific enter callback of this menu item */
-  const uint8_t Text[]; /**< Menu item text to pass to the menu display callback function */
+  const char Text[]; /**< Menu item text to pass to the menu display callback function */
  } Menu_Item_t;
 
  /** Creates a new menu item entry with the specified links and callbacks.
@@ -85,7 +85,7 @@ typedef enum Key_Pressed {
   *
   *  \ref WriteFunc  Pointer to a callback function to execute for each selected menu item.
   */
- void Menu_SetGenericWriteCallback(void (*WriteFunc)(const uint8_t* Text));
+ void Menu_SetGenericWriteCallback(void (*WriteFunc)(char* Text));
 
  /** Enters the currently selected menu item, running its configured callback function (if any). */
  void Menu_SelectItem(Key_Pressed_t key);

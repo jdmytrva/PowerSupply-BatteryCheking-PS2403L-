@@ -21,7 +21,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 #define VOLTAGE_OFF_SYSTEM 700
 
-uint8_t Version[] = "PS 30V 3A v1.54";
+char Version[] = "PS 30V 3A v1.55";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -299,7 +299,7 @@ void MenuChargeAdapt(Key_Pressed_t key)
 		}
 	}
 
-	#define MAXITEM0 4
+	#define MAXITEM1 4
 	if (key == KEY_NEXT)
 	{
 		if (On_off == 0)
@@ -310,7 +310,7 @@ void MenuChargeAdapt(Key_Pressed_t key)
 	if (key == KEY_BACK)
 	{
 		CountShow--;
-		if (CountShow<0) CountShow=MAXITEM0-1;
+		if (CountShow<0) CountShow=MAXITEM1-1;
 	}
 	if(CountShow == 0)
 	{
@@ -906,6 +906,7 @@ void MenuCalibration_VoltageIn(Key_Pressed_t key)
 void MenuCalibration_Resist_Comp_5V1A(Key_Pressed_t key)
 {
 		static uint32_t ResistanceComp_Voltage = 470;
+		int16_t Delta;
 
 		entered_in_charge_discharge_menu=1;
 		OUT_ON();
@@ -913,11 +914,14 @@ void MenuCalibration_Resist_Comp_5V1A(Key_Pressed_t key)
 		if (key == KEY_BACK) ResistanceComp_Voltage--;
 
 		lcd_set_xy(0,0);
-		PrintToLCD(itoa(ResistanceComp_Voltage*10));
-		PrintToLCD("mV ");
-		SaveData.ResistanceComp = (U_OUT_ForSetResistance - ResistanceComp_Voltage)*10000/Current;
+		PrintToLCD(itoa_koma(ResistanceComp_Voltage,2));
+		PrintToLCD("V ");
+		Delta = U_OUT_ForSetResistance - ResistanceComp_Voltage;
+		if(Delta<0) Delta = 0;
+		if (Current == 0) SaveData.ResistanceComp = 0;
+		else SaveData.ResistanceComp = Delta*10000/Current;
 		PrintToLCD(itoa(SaveData.ResistanceComp));
-		PrintToLCD("mOm    ");
+		PrintToLCD("mOm       ");
 }
 
 void MenuCalibration_BackToFactory(Key_Pressed_t key)
@@ -1042,12 +1046,13 @@ int main(void)
 {
 	Initialization();
 	OFF();
+
+	uint8_t EEpromReadStatus;
+	EEpromReadStatus = ReadFromEEprom();
 	PrintToLCD(Version);
 	SetSymbols();
 	lcd_set_xy(0,0);
 	Delay_mSec(2000);
-	uint8_t EEpromReadStatus;
-	EEpromReadStatus = ReadFromEEprom();
 	if (EEpromReadStatus == 0)
 	{
 		PrintToLCD("EEprom Read FAIL");
@@ -1253,7 +1258,7 @@ void Stop_Timer_sec()
 
 void ClockOnLCD (uint32_t time)
 {
-	uint8_t *string;
+	char *string;
 	//(" ",1);
 	string = itoa(time/3600);
 	if (strlen1(string)<2) lcd_out("0",1);
@@ -1272,7 +1277,7 @@ void ClockOnLCD (uint32_t time)
 }
 void ClockOnLCD_noSec (uint32_t time)
 {
-	uint8_t *string;
+	char *string;
 	//(" ",1);
 	string = itoa(time/3600);
 	if (strlen1(string)<2) lcd_out("0",1);

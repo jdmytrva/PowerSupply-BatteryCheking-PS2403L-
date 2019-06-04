@@ -25,7 +25,7 @@ void Initialization(void)
 	ADC1_CH_DMA_Config();
 }
 
-Init_Out()
+void Init_Out(void)
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 	/*GPIOA->CRL &= ~GPIO_CRL_MODE4;

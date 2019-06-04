@@ -137,16 +137,6 @@ void Print_to_USART1_d(volatile int32_t value,volatile char *string,uint8_t koma
 	TransmitChar('\n');
 
 }
-
-
-uint8_t strlen(char string[])
-{
-	uint8_t i=0;
-	while(string[i]!='\0')
-		i++;
-	return i;
-}
-
 void Print_to_USART1(volatile char *data)
 {
 	#if ASYNCHRONOUS_PRINT_TO_USART

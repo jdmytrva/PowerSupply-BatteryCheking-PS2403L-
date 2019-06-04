@@ -12,7 +12,7 @@
 #define LCD_DB7 10
 ///////////////////////////////////
 
-char russ[30];
+extern char russ[];
 
 
 typedef enum {

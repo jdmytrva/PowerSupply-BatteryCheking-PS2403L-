@@ -4,7 +4,7 @@ char * itoa(int32_t n)
 	int32_t sign;
 	int8_t i,k;
 	char s[16];
-	static uint8_t s1[16];
+	static char s1[16];
      if ((sign = n) < 0)
          n = -n;
      i = 0;
@@ -24,7 +24,6 @@ char * itoa(int32_t n)
      }
      s1[k] = '\0';
      return s1;
-
 }
 
 char * itoa_koma(int32_t n,uint8_t koma)
@@ -33,7 +32,7 @@ char * itoa_koma(int32_t n,uint8_t koma)
 	int8_t i,k,j;
 	char s[17];
 	char sKoma[17];
-	static uint8_t s1[17];
+	static char s1[17];
     if ((sign = n) < 0)
     	n = -n;
      i = 0;

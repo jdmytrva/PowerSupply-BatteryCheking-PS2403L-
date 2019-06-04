@@ -110,11 +110,9 @@ void TIM3_IRQHandler()
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 		volatile int16_t U_OUTtmp = 0;
 		volatile int16_t Ut = 0;
-		volatile int32_t a = 0;
-		volatile int32_t b = 0;
 
-		a= (22+95)*1000/(1470-330);
-		b= 22 - (a*330/1000);
+		//a= (22+95)*1000/(1470-330);
+		//b= 22 - (a*330/1000);
 		// while((DMA_GetFlagStatus(DMA1_FLAG_TC1)) == RESET );
 		DMA_ClearFlag(DMA1_FLAG_TC1);
 		DMA_ClearITPendingBit( DMA1_IT_TC1);
