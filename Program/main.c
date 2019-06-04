@@ -20,7 +20,7 @@
 
 
 
-uint8_t Version[] = "PS 30V 3A v1.51";
+uint8_t Version[] = "PS 30V 3A v1.52";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -908,7 +908,7 @@ void MenuCalibration_VoltageIn(Key_Pressed_t key)
 
 void MenuCalibration_Resist_Comp_5V1A(Key_Pressed_t key)
 {
-		uint32_t ResistanceComp_Voltage = 470;
+		static uint32_t ResistanceComp_Voltage = 470;
 
 		entered_in_charge_discharge_menu=1;
 		OUT_ON();
@@ -1294,7 +1294,7 @@ void All_OUT_OFF_When_Power_OFF()
 	if (U_IN < 1400)
 	{
 		//Print_to_USART1_d(U_IN,"U2 ",0);
-//		OFF();
+		OFF();
 		if (U_12_Status == 0)
 		{
 			//OFF();
