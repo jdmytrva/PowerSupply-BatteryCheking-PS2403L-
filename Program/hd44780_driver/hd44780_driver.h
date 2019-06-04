@@ -1,5 +1,5 @@
 #include "stm32F10x.h"
-
+#include "Library/Lib.h"
 #ifndef _MN_
 #define _MN_
 /////should be defined by user /////
@@ -12,7 +12,7 @@
 #define LCD_DB7 10
 ///////////////////////////////////
 
-uint8_t russ[30];
+char russ[30];
 
 
 typedef enum {
@@ -206,25 +206,25 @@ typedef enum {
 #define LCD_PORT_CRL_C (C_DB4_L | C_DB5_L | C_DB6_L | C_DB7_L | C_LCD_EN_L | C_LCD_CD_L)
 
 
-void lcd_set_CGRAM_char(uint8_t char_num, uint8_t * char_data);
+void lcd_set_CGRAM_char(int8_t char_num, char * char_data);
 void lcd_init();
 void lcd_send(uint8_t byte, dat_or_comm dc);
 void lcd_set_4bit_mode(void);
 void lcd_set_state(lcd_state state, cursor_state cur_state, cursor_mode cur_mode);
 void lcd_clear(void);
-void lcd_out(uint8_t * txt,uint8_t TypeOfLCD);
-void LcdOut(uint8_t * txt,uint8_t TypeOfLCD);
-void LcdOutbyNumber(uint8_t num,uint8_t Line);
+void lcd_out(char * txt,uint8_t TypeOfLCD);
+void LcdOut(char * txt,uint8_t TypeOfLCD);
+void LcdOutbyNumber(int8_t num,uint8_t Line);
 void lcd_set_xy(uint8_t x, uint8_t y);
-void lcd_set_user_char(uint8_t char_num, uint8_t * char_data);
+void lcd_set_user_char(uint8_t char_num, char * char_data);
 void DelaymSec(volatile uint16_t Count);
 void DelayuSec(volatile uint16_t Count);
-void PrintToLCD(uint8_t* str);
+void PrintToLCD(char* str);
 void PrintToLCD_int32(int32_t x);
 void PrintToLCD_int32_koma(int32_t x, uint8_t k);
 void SetSymbols();
 void strobe(void);
-void PrintToLCD_xy(uint8_t* str ,uint8_t x, uint8_t y);
+void PrintToLCD_xy(char* str ,uint8_t x, uint8_t y);
 //void SetSymbolsLevel(uint8_t Level[]);
 
 void InitLCD();

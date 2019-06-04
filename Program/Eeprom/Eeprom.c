@@ -111,6 +111,7 @@ uint8_t EEpromWrite(void)
 
 	flash_lock();
 	Print_to_USART1("EEprom write ");
+	return 1;
 }
 uint8_t FactoryEEpromWrite(void)
 {
@@ -139,6 +140,7 @@ uint8_t FactoryEEpromWrite(void)
 
 	flash_lock();
 	Print_to_USART1("FactoryEEpromWrite write ");
+	return 1;
 }
 
 

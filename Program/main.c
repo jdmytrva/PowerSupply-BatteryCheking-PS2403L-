@@ -21,7 +21,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 #define VOLTAGE_OFF_SYSTEM 700
 
-uint8_t Version[] = "PS 30V 3A v1.53";
+uint8_t Version[] = "PS 30V 3A v1.54";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -105,7 +105,7 @@ uint32_t ChargeDurationSec;
 
 
 //////MENU FUNCTIONS ///////////////MENU FUNCTIONS ///////////////MENU FUNCTIONS /////////
-void Generic_Write(uint8_t* Text)
+void Generic_Write(char* Text)
 {
 	if (Text) PrintToLCD_xy(Text,0,0);
 }

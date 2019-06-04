@@ -1,9 +1,9 @@
 #include "Lib.h"
-uint8_t * itoa(int32_t n)
+char * itoa(int32_t n)
 {
 	int32_t sign;
 	int8_t i,k;
-	uint8_t s[16];
+	char s[16];
 	static uint8_t s1[16];
      if ((sign = n) < 0)
          n = -n;
@@ -27,12 +27,12 @@ uint8_t * itoa(int32_t n)
 
 }
 
-uint8_t * itoa_koma(int32_t n,uint8_t koma)
+char * itoa_koma(int32_t n,uint8_t koma)
 {
 	int32_t sign;
 	int8_t i,k,j;
-	uint8_t s[17];
-	uint8_t sKoma[17];
+	char s[17];
+	char sKoma[17];
 	static uint8_t s1[17];
     if ((sign = n) < 0)
     	n = -n;
@@ -96,7 +96,7 @@ int32_t Module32 (int32_t value)
 	if (value < 0) return (-1)*value;
 }
 
-uint8_t strlen1(uint8_t string[])
+uint8_t strlen1(char string[])
 {
 	uint8_t i=0;
 	while(string[i]!='\0')

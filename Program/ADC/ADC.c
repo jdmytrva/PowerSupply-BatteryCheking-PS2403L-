@@ -109,11 +109,7 @@ void TIM3_IRQHandler()
 	  	CurrentTimer++;
 		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
 		volatile int16_t U_OUTtmp = 0;
-		volatile int16_t Ut_m = 0;
 		volatile int16_t Ut = 0;
-		volatile uint16_t OffSet_m = 0;
-		volatile uint16_t OffSet = 0;
-
 		volatile int32_t a = 0;
 		volatile int32_t b = 0;
 

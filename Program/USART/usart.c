@@ -124,9 +124,9 @@ void USART1_IRQHandler(void)
 }
 
 
-void Print_to_USART1_d(volatile int32_t value,volatile uint8_t *string,uint8_t koma)
+void Print_to_USART1_d(volatile int32_t value,volatile char *string,uint8_t koma)
 {
-	uint8_t *str;
+	char *str;
 
 	if (koma == 0)
 		str = itoa(value);
@@ -139,7 +139,7 @@ void Print_to_USART1_d(volatile int32_t value,volatile uint8_t *string,uint8_t k
 }
 
 
-uint8_t strlen(uint8_t string[])
+uint8_t strlen(char string[])
 {
 	uint8_t i=0;
 	while(string[i]!='\0')
@@ -147,7 +147,7 @@ uint8_t strlen(uint8_t string[])
 	return i;
 }
 
-void Print_to_USART1(volatile uint8_t *data)
+void Print_to_USART1(volatile char *data)
 {
 	#if ASYNCHRONOUS_PRINT_TO_USART
 		while(*data)
@@ -172,7 +172,7 @@ void Print_to_USART1(volatile uint8_t *data)
 
 }
 
-void TransmitChar(volatile uint8_t data)
+void TransmitChar(volatile char data)
 {
 #if ASYNCHRONOUS_PRINT_TO_USART
 	USART_PutChar(data);
@@ -182,7 +182,7 @@ void TransmitChar(volatile uint8_t data)
 #endif
 }
 
-void TransmitString(volatile uint8_t *data)
+void TransmitString(volatile char *data)
 {
 #if ASYNCHRONOUS_PRINT_TO_USART
 	  while(*data)

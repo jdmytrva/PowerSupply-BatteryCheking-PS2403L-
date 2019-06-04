@@ -13,11 +13,11 @@ void USART_PutChar(uint8_t sym); //Put uint8_t to tx buffer
 
 
 void USART1Init(void);
-void Transmit(volatile uint8_t *data);
+void Transmit(volatile char *data);
 int StringMerge (volatile uint8_t * st1, volatile uint8_t*st2, volatile uint8_t res[]);
-uint8_t strlen(uint8_t string[]);
-void TransmitChar(volatile uint8_t data);
-void TransmitString(volatile uint8_t *data);
-void Print_to_USART1_d(volatile int32_t value,volatile uint8_t *string,uint8_t koma);
+uint8_t strlen(char string[]);
+void TransmitChar(volatile char data);
+void TransmitString(volatile char *data);
+void Print_to_USART1_d(volatile int32_t value,volatile char *string,uint8_t koma);
 
 #endif

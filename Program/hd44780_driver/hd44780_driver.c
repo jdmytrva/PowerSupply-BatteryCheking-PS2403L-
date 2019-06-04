@@ -32,7 +32,7 @@ void lcd_init() {
 	//lcd_send(0x06,COMMAND);
 }
 
-void lcd_set_user_char(uint8_t char_num, uint8_t * char_data) {
+void lcd_set_user_char(uint8_t char_num, char * char_data) {
 	uint8_t i;
 	lcd_send(((1<<6) | (char_num * 8) ), COMMAND);
 	for (i=0;i<=7;i++) {
@@ -41,7 +41,7 @@ void lcd_set_user_char(uint8_t char_num, uint8_t * char_data) {
 	lcd_send((1<<7), COMMAND);
 }
 
-void lcd_set_CGRAM_char(uint8_t char_num, uint8_t * char_data) {
+void lcd_set_CGRAM_char(int8_t char_num, char * char_data) {
 	uint8_t i;
 	lcd_send(((1<<6) | (char_num * 8) ), COMMAND);
 	for (i=0;i<=7;i++) {
@@ -61,7 +61,7 @@ void lcd_set_xy(uint8_t x, uint8_t y)  {
 }
 
 
-void lcd_out(uint8_t * txt,uint8_t TypeOfLCD) {
+void lcd_out(char * txt,uint8_t TypeOfLCD) {
 	uint8_t i=0;
 	while(*txt)
 	{
@@ -75,7 +75,7 @@ void lcd_out(uint8_t * txt,uint8_t TypeOfLCD) {
 
 void SetSymbols()
 {
-	uint8_t sym[8];
+	char sym[8];
 	sym[0]=0b00100;
 	sym[1]=0b10101;
 	sym[2]=0b01110;
@@ -84,7 +84,7 @@ void SetSymbols()
 	sym[5]=0b00100;
 	sym[6]=0b11111;
 	sym[7]=0b11111;
-	lcd_set_user_char(0,&sym);//charge
+	lcd_set_user_char(0,sym);//charge
 	sym[0]=0b10101;
 	sym[1]=0b01110;
 	sym[2]=0b00100;
@@ -93,7 +93,7 @@ void SetSymbols()
 	sym[5]=0b00000;
 	sym[6]=0b00100;
 	sym[7]=0b11111;
-	lcd_set_user_char(1,&sym);//charge
+	lcd_set_user_char(1,sym);//charge
 
 	sym[0]=0b00000;
 	sym[1]=0b00100;
@@ -103,7 +103,7 @@ void SetSymbols()
 	sym[5]=0b00100;
 	sym[6]=0b11111;
 	sym[7]=0b11111;
-	lcd_set_user_char(2,&sym);//discharge
+	lcd_set_user_char(2,sym);//discharge
 
 	sym[0]=0b00100;
 	sym[1]=0b01110;
@@ -113,7 +113,7 @@ void SetSymbols()
 	sym[5]=0b00000;
 	sym[6]=0b00100;
 	sym[7]=0b11111;
-	lcd_set_user_char(3,&sym);//discharge
+	lcd_set_user_char(3,sym);//discharge
 
 	sym[0]=0b00100;
 	sym[1]=0b01110;
@@ -123,7 +123,7 @@ void SetSymbols()
 	sym[5]=0b10101;
 	sym[6]=0b01110;
 	sym[7]=0b00100;
-	lcd_set_user_char(4,&sym);//training
+	lcd_set_user_char(4,sym);//training
 
 	sym[0]=0b00010;
 	sym[1]=0b00111;
@@ -133,7 +133,7 @@ void SetSymbols()
 	sym[5]=0b11100;
 	sym[6]=0b11100;
 	sym[7]=0b01000;
-	lcd_set_user_char(5,&sym);//swing
+	lcd_set_user_char(5,sym);//swing
 
 	sym[0]=0b01111;
 	sym[1]=0b00101;
@@ -143,7 +143,7 @@ void SetSymbols()
 	sym[5]=0b10101;
 	sym[6]=0b01001;
 	sym[7]=0b00000;
-	lcd_set_user_char(6,&sym);//Ë
+	lcd_set_user_char(6,sym);//Ë
 
 	sym[0]=0b10001;
 	sym[1]=0b10001;
@@ -153,13 +153,13 @@ void SetSymbols()
 	sym[5]=0b00001;
 	sym[6]=0b00001;
 	sym[7]=0b00000;
-	lcd_set_user_char(7,&sym);//×
+	lcd_set_user_char(7,sym);//×
 
 
 
 }
 
-uint8_t russ[30]=
+char russ[30]=
 {
 		65, //À 192
 		3, //Á
@@ -195,14 +195,14 @@ uint8_t russ[30]=
 		0//ß 223
 };
 
-void LcdOutbyNumber(uint8_t num,uint8_t Line)
+void LcdOutbyNumber(int8_t num,uint8_t Line)
 {
 	lcd_send(num,DATA);
 }
 
-void LcdOut(uint8_t * txt,uint8_t Line)
+void LcdOut(char * txt,uint8_t Line)
 {
-	//uint8_t i=0;
+	//char i=0;
 
 	while(*txt)
 	{
@@ -347,13 +347,13 @@ void lcd_send(uint8_t byte, dat_or_comm dc)  {
 }
 
 
-void PrintToLCD(uint8_t* str )
+void PrintToLCD(char* str )
 {
 	LcdOut(str,2);
 	//Send_String_to_UART(str);
 }
 
-void PrintToLCD_xy(uint8_t* str ,uint8_t x, uint8_t y)
+void PrintToLCD_xy(char* str ,uint8_t x, uint8_t y)
 {
 	lcd_set_xy(x,y);
 
