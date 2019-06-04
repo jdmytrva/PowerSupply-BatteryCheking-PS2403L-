@@ -100,7 +100,7 @@ uint8_t OffCurrentStatus = 0;
 uint8_t ChargedStatus = 1;
 uint8_t BATERYSTATUS = 0;
 uint32_t ChargeDurationSec;
-
+uint32_t SelectedOptionValue;
 
 
 
@@ -1036,11 +1036,83 @@ void MenuSettingsChargeAddapt(Key_Pressed_t key)
 	PrintToLCD(itoa_koma((SaveData.MaxVoltage-(SaveData.MaxVoltage * SaveData.ChargeAdapt/100))/10,1));
 	PrintToLCD("V   ");
 }
+void SelectedOption(void)
+{
 
+	if (SelectedOptionValue == SaveData.Option1)
+	{
+		lcd_set_xy(7,1);
+		lcd_send(255,DATA);
+	}
+}
+
+#define QUANTITY_OPTIONS 7
+void MenuSettingsSaveMenuPosWhenOFF(Key_Pressed_t key)
+{
+	lcd_set_xy(0,0);
+	if (key == KEY_NEXT)
+	{
+		SaveData.Option1++;
+		if (SaveData.Option1==QUANTITY_OPTIONS+1) SaveData.Option1=1;
+	}
+	if (key == KEY_BACK)
+	{
+		SaveData.Option1--;
+		if (SaveData.Option1==0) SaveData.Option1 = QUANTITY_OPTIONS;
+	}
+
+	switch (SaveData.Option1)
+	{
+		case 1:
+			PrintToLCD("PowerSupply     ");
+			SelectedOption();
+			break;
+		case 2:
+			PrintToLCD("Load Menu       ");
+			SelectedOption();
+			break;
+		case 3:
+			PrintToLCD("Charge CC CV    ");
+			SelectedOption();
+			break;
+		case 4:
+			PrintToLCD("Charge addapt   ");
+			SelectedOption();
+
+			break;
+		case 5:
+			PrintToLCD("DisCharge       ");
+			SelectedOption();
+			break;
+		case 6:
+			PrintToLCD("Training        ");
+			SelectedOption();
+			break;
+		case 7:
+			PrintToLCD("Swing           ");
+			SelectedOption();
+			break;
+		default:
+			SaveData.Option1 =1;
+			break;
+	}
+
+
+}
 void MenuEEpromWrite_Enter(Key_Pressed_t key)
 {
 	EEpromWrite();
 }
+void MenuOption_Enter(Key_Pressed_t key)
+{
+	lcd_set_xy(7,1);
+	lcd_send(255,DATA);
+	EEpromWrite();
+	SelectedOptionValue = SaveData.Option1;
+	Delay_mSec(200);
+
+}
+
 //=========================MAIN==================
 int main(void)
 {
@@ -1060,13 +1132,28 @@ int main(void)
 	}
     BatteryCapacityDischargeCurrentAfterPOwerUp = SaveData.BatteryCapacityDischargeCurrent;
     ChargeDurationSec = SaveData.Value*3600;
+    SelectedOptionValue = SaveData.Option1;
     Print_to_USART1(Version);
     InfoToUARTBeforeStart();
     //HSE_PLL();
 
     lcd_clear();
 	Menu_SetGenericWriteCallback(Generic_Write);
-	Menu_Navigate(&Menu_2_1);
+	if (SaveData.Option1 == 1)
+		Menu_Navigate(&Menu_2_1);
+	else if (SaveData.Option1 == 2)
+		Menu_Navigate(&Menu_3_1);
+	else if (SaveData.Option1 == 3)
+		Menu_Navigate(&Menu_4_1);
+	else if (SaveData.Option1 == 4)
+		Menu_Navigate(&Menu_5_1);
+	else if (SaveData.Option1 == 5)
+		Menu_Navigate(&Menu_6_1);
+	else if (SaveData.Option1 == 6)
+		Menu_Navigate(&Menu_7_1);
+	else if (SaveData.Option1 == 7)
+		Menu_Navigate(&Menu_8_1);
+	else Menu_Navigate(&Menu_2_1);
 
     while(1)
     {
@@ -1142,6 +1229,9 @@ int main(void)
 			MenuSettingsSwngDChrgTime(Button);
 		if (Menu_GetCurrentMenu() == &Menu_1_6_1)
 			MenuSettingsChargeAddapt(Button);
+		if (Menu_GetCurrentMenu() == &Menu_1_S_1)
+			MenuSettingsSaveMenuPosWhenOFF(Button);
+
 
 		if (entered_in_charge_discharge_menu == 0)
 		{

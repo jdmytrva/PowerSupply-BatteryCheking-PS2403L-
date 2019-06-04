@@ -23,8 +23,9 @@ void MenuEEpromWrite_Enter(Key_Pressed_t key);
  MENU_ITEM(Menu_1_3,   Menu_1_4,   Menu_1_2,   NULL_MENU,   Menu_1_3_1,   NULL,                NULL,               "Max Voltage     ");
  MENU_ITEM(Menu_1_4,   Menu_1_5,   Menu_1_3,   NULL_MENU,   Menu_1_4_1,   NULL,                NULL,               "Swing Charg Time");
  MENU_ITEM(Menu_1_5,   Menu_1_6,   Menu_1_4,   NULL_MENU,   Menu_1_5_1,   NULL,                NULL,               "SwngDisChrg Time");
- MENU_ITEM(Menu_1_6,   Menu_1_7,   Menu_1_5,   NULL_MENU,   Menu_1_6_1,   NULL,                NULL,               "Charge addapt, %");
- MENU_ITEM(Menu_1_7,   Menu_1_1,   Menu_1_6,   NULL_MENU,   Menu_1,      NULL,                NULL,               "OK to exit      ");
+ MENU_ITEM(Menu_1_6,   Menu_1_S,   Menu_1_5,   NULL_MENU,   Menu_1_6_1,   NULL,                NULL,               "Charge addapt, %");
+ MENU_ITEM(Menu_1_S,   Menu_1_7,   Menu_1_6,   NULL_MENU,   Menu_1_S_1,   NULL,                NULL,               "SaveMenuPos  OFF" );
+ MENU_ITEM(Menu_1_7,   Menu_1_1,   Menu_1_S,   NULL_MENU,   Menu_1,      NULL,                NULL,               "OK to exit      ");
 
  //MENU  CALIBRATION
  //       NAME          NEXT,       PREV        PARENT,       CHILD       EnterCallback        SelectCallback         Text
@@ -83,6 +84,7 @@ void MenuEEpromWrite_Enter(Key_Pressed_t key);
  void MenuSettingsSwngChrgTime_Enter(void);
  void MenuSettingsSwngDChrgTime_Enter(void);
  void MenuSettingsChargeAddapt_Enter(void);
+ void MenuOption_Enter(Key_Pressed_t key);
 
  //          NAME          NEXT,       PREV        PARENT,       CHILD      EnterCallback                    SelectCallback         Text
  //Charge time, h
@@ -97,7 +99,7 @@ void MenuEEpromWrite_Enter(Key_Pressed_t key);
  MENU_ITEM(Menu_1_5_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_5,   NULL, MenuEEpromWrite_Enter,               "                ");
  //Charge addapt, %
  MENU_ITEM(Menu_1_6_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_6,   NULL,  MenuEEpromWrite_Enter,               "                ");
-
-
+//SaveMenuPos  OFF
+ MENU_ITEM(Menu_1_S_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_S,   NULL,  MenuOption_Enter,               "                ");
 
 #endif
