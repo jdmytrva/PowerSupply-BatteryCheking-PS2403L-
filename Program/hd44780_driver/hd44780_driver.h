@@ -1,6 +1,7 @@
 #include "stm32F10x.h"
 
-
+#ifndef _MN_
+#define _MN_
 /////should be defined by user /////
 #define LCD_PORT GPIOB
 #define LCD_CD 15
@@ -10,10 +11,9 @@
 #define LCD_DB6 11
 #define LCD_DB7 10
 ///////////////////////////////////
-#ifndef _MN_
-#define _MN_
+
 uint8_t russ[30];
-#endif
+
 
 typedef enum {
 	COMMAND = 0,
@@ -228,4 +228,4 @@ void PrintToLCD_xy(uint8_t* str ,uint8_t x, uint8_t y);
 //void SetSymbolsLevel(uint8_t Level[]);
 
 void InitLCD();
-
+#endif

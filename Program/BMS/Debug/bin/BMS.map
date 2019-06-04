@@ -469,7 +469,7 @@ Linker script and memory map
 
                 0x20002000                _eram = 0x20002000
 
-.text           0x08000000     0x44bf
+.text           0x08000000     0x44c0
  *(.isr_vector)
  .isr_vector    0x08000000      0x124 ..\obj\startup_stm32f10x_ld_vl.o
                 0x08000000                g_pfnVectors
@@ -990,10 +990,10 @@ Linker script and memory map
                 0x0800429c                Menu_2
                 0x080042c8                Menu_1
  .rodata.str1.1
-                0x080042f4      0x16f ..\obj\main.o
-                                0x187 (size before relaxing)
+                0x080042f4      0x170 ..\obj\main.o
+                                0x188 (size before relaxing)
  .rodata.str1.1
-                0x08004463       0x5c ..\obj\Eeprom.o
+                0x08004464       0x5c ..\obj\Eeprom.o
  *(.eh_fram e*)
 
 .glue_7         0x080044c0        0x0
@@ -1016,9 +1016,9 @@ Linker script and memory map
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
                 0x080044c0                __exidx_end = .
                 0x080044c0                __etext = .
-                0x080044bf                _sidata = __etext
+                0x080044c0                _sidata = __etext
 
-.data           0x20000000      0x198 load address 0x080044bf
+.data           0x20000000      0x198 load address 0x080044c0
                 0x20000000                __data_start__ = .
                 0x20000000                _sdata = __data_start__
  *(vtable)
@@ -1031,10 +1031,8 @@ Linker script and memory map
                 0x20000124                russ
  *fill*         0x20000142        0x2 00
  .data          0x20000144       0x18 ..\obj\main.o
-                0x20000148                U_12_Status
                 0x20000149                Version
                 0x20000159                ChargedStatus
-                0x2000015a                ResistanceComp_Voltage
  .data          0x2000015c       0x24 ..\obj\ADC.o
  .data          0x20000180       0x14 ..\obj\stm32f10x_rcc.o
  .data          0x20000194        0x1 ..\obj\Eeprom.o
@@ -1058,7 +1056,7 @@ Linker script and memory map
                 0x20000198                __data_end__ = .
                 0x20000198                _edata = __data_end__
 
-.bss            0x20000198      0x5c8 load address 0x08004658
+.bss            0x20000198      0x5c4 load address 0x08004658
                 0x20000198                . = ALIGN (0x4)
                 0x20000198                __bss_start__ = .
                 0x20000198                _sbss = __bss_start__
@@ -1071,7 +1069,7 @@ Linker script and memory map
  .bss           0x200001a2        0x2 ..\obj\hd44780_driver.o
                 0x200001a2                pos_x
                 0x200001a3                pos_y
- .bss           0x200001a4       0x6c ..\obj\main.o
+ .bss           0x200001a4       0x68 ..\obj\main.o
                 0x200001a4                comp
                 0x200001a6                pressedKey
                 0x200001a8                PowerOffTimesec
@@ -1102,60 +1100,59 @@ Linker script and memory map
                 0x200001ed                BatteryVeryLow
                 0x200001f0                OffCurrent_Timer
                 0x200001f4                VeryLowBattery_Timer
-                0x200001f8                i
-                0x200001fc                SwingtimeSec
-                0x20000200                PopUpMessage
-                0x20000202                U_12V_Previous
-                0x20000204                time_hour
-                0x20000208                time_min
-                0x2000020c                sec
- .bss           0x20000210      0x384 ..\obj\ADC.o
-                0x20000578                CurrentTimer
-                0x2000057c                U_PS
-                0x2000057e                U_Controller
-                0x20000580                U_OUT
-                0x20000582                U_IN
-                0x20000584                Current
-                0x20000586                HighCurrentStatus
-                0x20000588                OffTimer
-                0x2000058c                U_5V
-                0x2000058e                U_5V_1Wire
-                0x20000590                U_12V
-                0x20000592                Temperature
- .bss           0x20000594       0x21 ..\obj\Lib.o
- .bss           0x200005b5        0x6 ..\obj\usart.o
-                0x200005b5                RXcount
-                0x200005b6                RXtail
-                0x200005b7                TXcount
-                0x200005b8                TXhead
-                0x200005b9                TXtail
-                0x200005ba                RXhead
+                0x200001f8                SwingtimeSec
+                0x200001fc                PopUpMessage
+                0x20000200                time_hour
+                0x20000204                time_min
+                0x20000208                sec
+ .bss           0x2000020c      0x384 ..\obj\ADC.o
+                0x20000574                CurrentTimer
+                0x20000578                U_PS
+                0x2000057a                U_Controller
+                0x2000057c                U_OUT
+                0x2000057e                U_IN
+                0x20000580                Current
+                0x20000582                HighCurrentStatus
+                0x20000584                OffTimer
+                0x20000588                U_5V
+                0x2000058a                U_5V_1Wire
+                0x2000058c                U_12V
+                0x2000058e                Temperature
+ .bss           0x20000590       0x21 ..\obj\Lib.o
+ .bss           0x200005b1        0x6 ..\obj\usart.o
+                0x200005b1                RXcount
+                0x200005b2                RXtail
+                0x200005b3                TXcount
+                0x200005b4                TXhead
+                0x200005b5                TXtail
+                0x200005b6                RXhead
  *(COMMON)
- *fill*         0x200005bb        0x1 00
- COMMON         0x200005bc       0x14 ..\obj\main.o
-                0x200005bc                ChargeDurationSec
-                0x200005c0                RegularConvData
- COMMON         0x200005d0      0x190 ..\obj\usart.o
-                0x200005d0                RXBuf
-                0x20000698                TXBuf
-                0x20000760                . = ALIGN (0x4)
-                0x20000760                __bss_end__ = .
-                0x20000760                _ebss = __bss_end__
+ *fill*         0x200005b7        0x1 00
+ COMMON         0x200005b8       0x14 ..\obj\main.o
+                0x200005b8                ChargeDurationSec
+                0x200005bc                RegularConvData
+ COMMON         0x200005cc      0x190 ..\obj\usart.o
+                0x200005cc                RXBuf
+                0x20000694                TXBuf
+                0x2000075c                . = ALIGN (0x4)
+                0x2000075c                __bss_end__ = .
+                0x2000075c                _ebss = __bss_end__
 
-.heap           0x20000760        0x0
-                0x20000760                __end__ = .
-                0x20000760                _end = __end__
-                0x20000760                end = __end__
+.heap           0x2000075c        0x0
+                0x2000075c                __end__ = .
+                0x2000075c                _end = __end__
+                0x2000075c                end = __end__
  *(.heap*)
-                0x20000760                __HeapLimit = .
+                0x2000075c                __HeapLimit = .
 
-.co_stack       0x20000760      0x400 load address 0x08004c20
+.co_stack       0x2000075c      0x404 load address 0x08004c1c
                 0x20000760                . = ALIGN (0x8)
+ *fill*         0x2000075c        0x4 00
  *(.co_stack .co_stack.*)
  .co_stack      0x20000760      0x400 ..\obj\startup_stm32f10x_ld_vl.o
                 0x20000760                pulStack
                 0x20002000                __StackTop = (ORIGIN (ram) + 0x2000)
-                0x20001c00                __StackLimit = (__StackTop - SIZEOF (.co_stack))
+                0x20001bfc                __StackLimit = (__StackTop - SIZEOF (.co_stack))
                 0x20002000                PROVIDE (__stack, __StackTop)
                 0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region ram  overflowed with stack)
 LOAD ..\obj\MicroMenu2_1.o
@@ -1183,7 +1180,7 @@ LOAD c:/program files (x86)/gnu tools arm embedded/4.6 2012q4/bin/../lib/gcc/arm
 END GROUP
 OUTPUT(BMS.elf elf32-littlearm)
 
-.debug_info     0x00000000     0xa90e
+.debug_info     0x00000000     0xa8e1
  .debug_info    0x00000000      0x288 ..\obj\MicroMenu2_1.o
  .debug_info    0x00000288     0x1eb4 ..\obj\stm32f10x_tim.o
  .debug_info    0x0000213c      0x140 ..\obj\startup_stm32f10x_ld_vl.o
@@ -1191,19 +1188,19 @@ OUTPUT(BMS.elf elf32-littlearm)
  .debug_info    0x000025ea      0x49c ..\obj\system_stm32f10x.o
  .debug_info    0x00002a86      0x6a2 ..\obj\hd44780_driver.o
  .debug_info    0x00003128      0x724 ..\obj\stm32f10x_gpio.o
- .debug_info    0x0000384c     0x1ac4 ..\obj\main.o
- .debug_info    0x00005310     0x13d1 ..\obj\ADC.o
- .debug_info    0x000066e1      0x973 ..\obj\stm32f10x_rcc.o
- .debug_info    0x00007054      0x7d1 ..\obj\Init_.o
- .debug_info    0x00007825      0xc02 ..\obj\stm32f10x_adc.o
- .debug_info    0x00008427      0xa5f ..\obj\stm32f10x_usart.o
- .debug_info    0x00008e86      0x2a6 ..\obj\Lib.o
- .debug_info    0x0000912c      0x4a0 ..\obj\stm32f10x_dma.o
- .debug_info    0x000095cc      0x594 ..\obj\misc.o
- .debug_info    0x00009b60      0x5ba ..\obj\Eeprom.o
- .debug_info    0x0000a11a      0x7f4 ..\obj\usart.o
+ .debug_info    0x0000384c     0x1a88 ..\obj\main.o
+ .debug_info    0x000052d4     0x13d1 ..\obj\ADC.o
+ .debug_info    0x000066a5      0x973 ..\obj\stm32f10x_rcc.o
+ .debug_info    0x00007018      0x7e0 ..\obj\Init_.o
+ .debug_info    0x000077f8      0xc02 ..\obj\stm32f10x_adc.o
+ .debug_info    0x000083fa      0xa5f ..\obj\stm32f10x_usart.o
+ .debug_info    0x00008e59      0x2a6 ..\obj\Lib.o
+ .debug_info    0x000090ff      0x4a0 ..\obj\stm32f10x_dma.o
+ .debug_info    0x0000959f      0x594 ..\obj\misc.o
+ .debug_info    0x00009b33      0x5ba ..\obj\Eeprom.o
+ .debug_info    0x0000a0ed      0x7f4 ..\obj\usart.o
 
-.debug_abbrev   0x00000000     0x1f6a
+.debug_abbrev   0x00000000     0x1f90
  .debug_abbrev  0x00000000      0x15f ..\obj\MicroMenu2_1.o
  .debug_abbrev  0x0000015f      0x272 ..\obj\stm32f10x_tim.o
  .debug_abbrev  0x000003d1       0xb0 ..\obj\startup_stm32f10x_ld_vl.o
@@ -1211,17 +1208,17 @@ OUTPUT(BMS.elf elf32-littlearm)
  .debug_abbrev  0x0000053d      0x17b ..\obj\system_stm32f10x.o
  .debug_abbrev  0x000006b8      0x2a2 ..\obj\hd44780_driver.o
  .debug_abbrev  0x0000095a      0x1d9 ..\obj\stm32f10x_gpio.o
- .debug_abbrev  0x00000b33      0x302 ..\obj\main.o
- .debug_abbrev  0x00000e35      0x2b7 ..\obj\ADC.o
- .debug_abbrev  0x000010ec      0x1d0 ..\obj\stm32f10x_rcc.o
- .debug_abbrev  0x000012bc      0x1b2 ..\obj\Init_.o
- .debug_abbrev  0x0000146e      0x1cf ..\obj\stm32f10x_adc.o
- .debug_abbrev  0x0000163d      0x1b8 ..\obj\stm32f10x_usart.o
- .debug_abbrev  0x000017f5       0xf6 ..\obj\Lib.o
- .debug_abbrev  0x000018eb      0x174 ..\obj\stm32f10x_dma.o
- .debug_abbrev  0x00001a5f      0x14c ..\obj\misc.o
- .debug_abbrev  0x00001bab      0x1c4 ..\obj\Eeprom.o
- .debug_abbrev  0x00001d6f      0x1fb ..\obj\usart.o
+ .debug_abbrev  0x00000b33      0x317 ..\obj\main.o
+ .debug_abbrev  0x00000e4a      0x2b7 ..\obj\ADC.o
+ .debug_abbrev  0x00001101      0x1d0 ..\obj\stm32f10x_rcc.o
+ .debug_abbrev  0x000012d1      0x1c3 ..\obj\Init_.o
+ .debug_abbrev  0x00001494      0x1cf ..\obj\stm32f10x_adc.o
+ .debug_abbrev  0x00001663      0x1b8 ..\obj\stm32f10x_usart.o
+ .debug_abbrev  0x0000181b       0xf6 ..\obj\Lib.o
+ .debug_abbrev  0x00001911      0x174 ..\obj\stm32f10x_dma.o
+ .debug_abbrev  0x00001a85      0x14c ..\obj\misc.o
+ .debug_abbrev  0x00001bd1      0x1c4 ..\obj\Eeprom.o
+ .debug_abbrev  0x00001d95      0x1fb ..\obj\usart.o
 
 .debug_loc      0x00000000     0x499c
  .debug_loc     0x00000000       0xcb ..\obj\MicroMenu2_1.o
@@ -1301,7 +1298,7 @@ OUTPUT(BMS.elf elf32-littlearm)
  .debug_ranges  0x00000b20       0x50 ..\obj\Eeprom.o
  .debug_ranges  0x00000b70       0x50 ..\obj\usart.o
 
-.debug_line     0x00000000     0x4eb7
+.debug_line     0x00000000     0x4f21
  .debug_line    0x00000000      0x22e ..\obj\MicroMenu2_1.o
  .debug_line    0x0000022e      0xb6b ..\obj\stm32f10x_tim.o
  .debug_line    0x00000d99       0xc6 ..\obj\startup_stm32f10x_ld_vl.o
@@ -1309,19 +1306,19 @@ OUTPUT(BMS.elf elf32-littlearm)
  .debug_line    0x0000104d      0x24f ..\obj\system_stm32f10x.o
  .debug_line    0x0000129c      0x4eb ..\obj\hd44780_driver.o
  .debug_line    0x00001787      0x416 ..\obj\stm32f10x_gpio.o
- .debug_line    0x00001b9d      0xb84 ..\obj\main.o
- .debug_line    0x00002721      0x562 ..\obj\ADC.o
- .debug_line    0x00002c83      0x50d ..\obj\stm32f10x_rcc.o
- .debug_line    0x00003190      0x2ea ..\obj\Init_.o
- .debug_line    0x0000347a      0x58d ..\obj\stm32f10x_adc.o
- .debug_line    0x00003a07      0x534 ..\obj\stm32f10x_usart.o
- .debug_line    0x00003f3b      0x28b ..\obj\Lib.o
- .debug_line    0x000041c6      0x35b ..\obj\stm32f10x_dma.o
- .debug_line    0x00004521      0x2a6 ..\obj\misc.o
- .debug_line    0x000047c7      0x36c ..\obj\Eeprom.o
- .debug_line    0x00004b33      0x384 ..\obj\usart.o
+ .debug_line    0x00001b9d      0xb7f ..\obj\main.o
+ .debug_line    0x0000271c      0x562 ..\obj\ADC.o
+ .debug_line    0x00002c7e      0x50d ..\obj\stm32f10x_rcc.o
+ .debug_line    0x0000318b      0x359 ..\obj\Init_.o
+ .debug_line    0x000034e4      0x58d ..\obj\stm32f10x_adc.o
+ .debug_line    0x00003a71      0x534 ..\obj\stm32f10x_usart.o
+ .debug_line    0x00003fa5      0x28b ..\obj\Lib.o
+ .debug_line    0x00004230      0x35b ..\obj\stm32f10x_dma.o
+ .debug_line    0x0000458b      0x2a6 ..\obj\misc.o
+ .debug_line    0x00004831      0x36c ..\obj\Eeprom.o
+ .debug_line    0x00004b9d      0x384 ..\obj\usart.o
 
-.debug_str      0x00000000     0x3e8e
+.debug_str      0x00000000     0x3e86
  .debug_str     0x00000000      0x1fe ..\obj\MicroMenu2_1.o
                                 0x24d (size before relaxing)
  .debug_str     0x000001fe      0xc40 ..\obj\stm32f10x_tim.o
@@ -1336,27 +1333,27 @@ OUTPUT(BMS.elf elf32-littlearm)
                                 0x363 (size before relaxing)
  .debug_str     0x00001809      0x38e ..\obj\stm32f10x_gpio.o
                                 0x4e2 (size before relaxing)
- .debug_str     0x00001b97      0x8c6 ..\obj\main.o
-                               0x1080 (size before relaxing)
- .debug_str     0x0000245d      0x698 ..\obj\ADC.o
+ .debug_str     0x00001b97      0x8be ..\obj\main.o
+                               0x1078 (size before relaxing)
+ .debug_str     0x00002455      0x698 ..\obj\ADC.o
                                 0xf62 (size before relaxing)
- .debug_str     0x00002af5      0x444 ..\obj\stm32f10x_rcc.o
+ .debug_str     0x00002aed      0x444 ..\obj\stm32f10x_rcc.o
                                 0x636 (size before relaxing)
- .debug_str     0x00002f39       0xab ..\obj\Init_.o
-                                0x670 (size before relaxing)
- .debug_str     0x00002fe4      0x493 ..\obj\stm32f10x_adc.o
+ .debug_str     0x00002f31       0xab ..\obj\Init_.o
+                                0x66d (size before relaxing)
+ .debug_str     0x00002fdc      0x493 ..\obj\stm32f10x_adc.o
                                 0x6c4 (size before relaxing)
- .debug_str     0x00003477      0x44f ..\obj\stm32f10x_usart.o
+ .debug_str     0x0000346f      0x44f ..\obj\stm32f10x_usart.o
                                 0x659 (size before relaxing)
- .debug_str     0x000038c6       0x87 ..\obj\Lib.o
+ .debug_str     0x000038be       0x87 ..\obj\Lib.o
                                 0x1a1 (size before relaxing)
- .debug_str     0x0000394d      0x166 ..\obj\stm32f10x_dma.o
+ .debug_str     0x00003945      0x166 ..\obj\stm32f10x_dma.o
                                 0x38a (size before relaxing)
- .debug_str     0x00003ab3      0x1b9 ..\obj\misc.o
+ .debug_str     0x00003aab      0x1b9 ..\obj\misc.o
                                 0x392 (size before relaxing)
- .debug_str     0x00003c6c      0x126 ..\obj\Eeprom.o
+ .debug_str     0x00003c64      0x126 ..\obj\Eeprom.o
                                 0x703 (size before relaxing)
- .debug_str     0x00003d92       0xfc ..\obj\usart.o
+ .debug_str     0x00003d8a       0xfc ..\obj\usart.o
                                 0x77d (size before relaxing)
 
 .comment        0x00000000       0x70

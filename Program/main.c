@@ -18,9 +18,10 @@
 
 #define MENUDELAY 100
 
+//#define VOLTAGE_OFF_SYSTEM 1400
+#define VOLTAGE_OFF_SYSTEM 700
 
-
-uint8_t Version[] = "PS 30V 3A v1.52";
+uint8_t Version[] = "PS 30V 3A v1.53";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -37,9 +38,6 @@ volatile uint32_t  time_hour = 0;
 volatile uint32_t BatteryCapacityDischargeCurrent = 0;
 volatile uint32_t BatteryCapacityDischargeCurrentAfterPOwerUp = 0;
 volatile uint32_t BatteryCapacityCharge = 0;
-volatile uint16_t U_12V_Previous = 0;
-volatile uint8_t U_12_Status = 1;
-volatile uint16_t ResistanceComp_Voltage = 470;
 
 
 void BUT_Debrief(void);
@@ -89,7 +87,6 @@ int8_t PopUpMessage = 0;
 uint32_t SwingtimeSec = 0;
 volatile uint8_t ChargeStatusForTimer = 0;
 volatile uint8_t DisChargeStatusForTimer = 0;
-int i = 0;
 uint8_t Blink_message_counter = 0;
 uint8_t InitiStatus = 0;
 
@@ -1290,32 +1287,23 @@ void ClockOnLCD_noSec (uint32_t time)
 }
 void All_OUT_OFF_When_Power_OFF()
 {
-	//Print_to_USART1_d(U_IN,"U1 ",0);
-	if (U_IN < 1400)
+	static uint8_t EEpromWrite_status = 1;
+	if (U_IN < VOLTAGE_OFF_SYSTEM)
 	{
-		//Print_to_USART1_d(U_IN,"U2 ",0);
 		OFF();
-		if (U_12_Status == 0)
+		if (EEpromWrite_status == 0)
 		{
-			//OFF();
-
-			U_12_Status = 1;
+			EEpromWrite_status = 1;
 			SaveData.BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent;
 			EEpromWrite();
-			Print_to_USART1_d(U_IN,"U off ",0);
+			Print_to_USART1_d(U_IN,"U off: ",2);
 		}
-		//Print_to_USART1("<9v");
-
-
-
 	}
 	else
 	{
-		U_12_Status = 0;
-
+		EEpromWrite_status = 0;
 	}
 }
-
 void charge()
 {
 	LOAD1_OFF();

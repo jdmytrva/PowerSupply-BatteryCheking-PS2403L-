@@ -3,6 +3,7 @@
 #include <stm32f10x_rcc.h>
 #include <stm32f10x_gpio.h>
 #include <stm32f10x_tim.h>
+#include "hd44780_driver/hd44780_driver.h"
 
 #ifndef _INIT_
 #define _INIT_
