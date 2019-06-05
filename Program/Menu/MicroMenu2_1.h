@@ -13,7 +13,7 @@
 #define _MICRO_MENU_H_
 
  #include <stddef.h>
-#include <stm32f10x.h>
+//#include <stm32f10x.h>
 
  /** Type define for a menu item. Menu items should be initialized via the helper
   *  macro \ref MENU_ITEM(), not created from this type directly in user-code.

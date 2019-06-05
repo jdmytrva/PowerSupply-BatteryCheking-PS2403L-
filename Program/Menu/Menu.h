@@ -18,14 +18,14 @@ void MenuEEpromWrite_Enter(Key_Pressed_t key);
 
 //MENU Settings
  //       NAME          NEXT,       PREV        PARENT,       CHILD       EnterCallback        SelectCallback         Text
- MENU_ITEM(Menu_1_1,   Menu_1_2,   Menu_1_7,   NULL_MENU,   Menu_1_1_1,   NULL,                NULL,               "Charge time, h  ");
- MENU_ITEM(Menu_1_2,   Menu_1_3,   Menu_1_1,   NULL_MENU,   Menu_1_2_1,   NULL,                NULL,               "Low Voltage     ");
- MENU_ITEM(Menu_1_3,   Menu_1_4,   Menu_1_2,   NULL_MENU,   Menu_1_3_1,   NULL,                NULL,               "Max Voltage     ");
- MENU_ITEM(Menu_1_4,   Menu_1_5,   Menu_1_3,   NULL_MENU,   Menu_1_4_1,   NULL,                NULL,               "Swing Charg Time");
- MENU_ITEM(Menu_1_5,   Menu_1_6,   Menu_1_4,   NULL_MENU,   Menu_1_5_1,   NULL,                NULL,               "SwngDisChrg Time");
- MENU_ITEM(Menu_1_6,   Menu_1_S,   Menu_1_5,   NULL_MENU,   Menu_1_6_1,   NULL,                NULL,               "Charge addapt, %");
- MENU_ITEM(Menu_1_S,   Menu_1_7,   Menu_1_6,   NULL_MENU,   Menu_1_S_1,   NULL,                NULL,               "SaveMenuPos  OFF" );
- MENU_ITEM(Menu_1_7,   Menu_1_1,   Menu_1_S,   NULL_MENU,   Menu_1,      NULL,                NULL,               "OK to exit      ");
+ MENU_ITEM(Menu_1_1,   Menu_1_2,   Menu_1_7,   NULL_MENU,   Menu_1_1_1,   NULL,                NULL,               "01:Charge time  ");
+ MENU_ITEM(Menu_1_2,   Menu_1_3,   Menu_1_1,   NULL_MENU,   Menu_1_2_1,   NULL,                NULL,               "02:Low Voltage  ");
+ MENU_ITEM(Menu_1_3,   Menu_1_4,   Menu_1_2,   NULL_MENU,   Menu_1_3_1,   NULL,                NULL,               "03:Max Voltage  ");
+ MENU_ITEM(Menu_1_4,   Menu_1_5,   Menu_1_3,   NULL_MENU,   Menu_1_4_1,   NULL,                NULL,               "04:Swing Chrg Tm");
+ MENU_ITEM(Menu_1_5,   Menu_1_6,   Menu_1_4,   NULL_MENU,   Menu_1_5_1,   NULL,                NULL,               "05:SwngDisChrg T");
+ MENU_ITEM(Menu_1_6,   Menu_1_S,   Menu_1_5,   NULL_MENU,   Menu_1_6_1,   NULL,                NULL,               "06:Charge addapt");
+ MENU_ITEM(Menu_1_S,   Menu_1_7,   Menu_1_6,   NULL_MENU,   Menu_1_S_1,   NULL,                NULL,               "07:Save Menu Pos" );
+ MENU_ITEM(Menu_1_7,   Menu_1_1,   Menu_1_S,   NULL_MENU,   Menu_1,       NULL,                NULL,               "OK to exit      ");
 
  //MENU  CALIBRATION
  //       NAME          NEXT,       PREV        PARENT,       CHILD       EnterCallback        SelectCallback         Text

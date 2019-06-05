@@ -165,7 +165,7 @@ struct pair{
 };
 
 /* Buffer of nwidth pairs */
- static struct pair buffer[MEDIAN_FILTER_SIZE] = {0};
+ static struct pair buffer[MEDIAN_FILTER_SIZE] = {{0}};
 /* Pointer into circular buffer of data */
  static struct pair *datpoint = buffer;
 /* Chain stopper */
@@ -258,7 +258,7 @@ struct pair{
 };
 
 /* buffer1 of nwidth pairs */
- static struct pair buffer1[MEDIAN_FILTER_SIZE1] = {0};
+ static struct pair buffer1[MEDIAN_FILTER_SIZE1] = {{0}};
 /* Pointer into circular buffer1 of data */
  static struct pair *datpoint1 = buffer1;
 /* Chain stopper */
@@ -351,7 +351,7 @@ struct pair{
 };
 
 /* buffer2 of nwidth pairs */
- static struct pair buffer2[MEDIAN_FILTER_SIZE2] = {0};
+ static struct pair buffer2[MEDIAN_FILTER_SIZE2] = {{0}};
 /* Pointer into circular buffer2 of data */
  static struct pair *datpoint2 = buffer2;
 /* Chain stopper */
