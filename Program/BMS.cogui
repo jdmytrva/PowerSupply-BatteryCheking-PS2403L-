@@ -37,7 +37,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/main.c" title="main.c" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/main.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="15" selectionOffset="496" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="852" selectionTopPixel="510"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="General.c" partName="General.c" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/General/General.c" title="General.c" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/General/General.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/General/General.c"/>
@@ -49,15 +49,11 @@
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="ADC.c" partName="ADC.c" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/ADC/ADC.c" title="ADC.c" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/ADC/ADC.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/ADC/ADC.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="65" selectionOffset="5547" selectionTopPixel="1860"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5919" selectionTopPixel="2310"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="Menu.h" partName="Menu.h" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Menu/Menu.h" title="Menu.h" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Menu/Menu.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/Menu/Menu.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="6" selectionOffset="8326" selectionTopPixel="941"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Menu.c" partName="Menu.c" path="C:/Users/Vasyl/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Menu/Menu.c" title="Menu.c" tooltip="C:/Users/Vasyl/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Menu/Menu.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/Menu/Menu.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="19" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1289" selectionTopPixel="570"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="usart.h" partName="usart.h" path="D:/Dropbox/Projects/RadioElectronics/Charger for battery (TPS54340)/Program/USART/usart.h" title="usart.h" tooltip="D:/Dropbox/Projects/RadioElectronics/Charger for battery (TPS54340)/Program/USART/usart.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/USART/usart.h"/>
@@ -65,15 +61,11 @@
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="MicroMenu2_1.h" partName="MicroMenu2_1.h" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Menu/MicroMenu2_1.h" title="MicroMenu2_1.h" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Menu/MicroMenu2_1.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/Menu/MicroMenu2_1.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="548" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="297" selectionTopPixel="30"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="MicroMenu2_1.c" partName="MicroMenu2_1.c" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Menu/MicroMenu2_1.c" title="MicroMenu2_1.c" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Menu/MicroMenu2_1.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/Menu/MicroMenu2_1.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="6" selectionOffset="1387" selectionTopPixel="461"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="MenuItmes.h" partName="MenuItmes.h" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Menu/MenuItmes.h" title="MenuItmes.h" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Menu/MenuItmes.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/Menu/MenuItmes.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6677" selectionTopPixel="791"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1324" selectionTopPixel="311"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="Init_.c" partName="Init_.c" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Initialization/Init_.c" title="Init_.c" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Initialization/Init_.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/Initialization/Init_.c"/>
@@ -86,6 +78,14 @@
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="usart.c" partName="usart.c" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/USART/usart.c" title="usart.c" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/USART/usart.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/USART/usart.c"/>
 <editorState selectionHorizontalPixel="0" selectionLength="63" selectionOffset="3710" selectionTopPixel="1290"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Lib.c" partName="Lib.c" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Library/Lib.c" title="Lib.c" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/Library/Lib.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/Library/Lib.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="3" selectionOffset="1353" selectionTopPixel="896"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="hd44780_driver.h" partName="hd44780_driver.h" path="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/hd44780_driver/hd44780_driver.h" title="hd44780_driver.h" tooltip="C:/Users/vasyld/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/hd44780_driver/hd44780_driver.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/hd44780_driver/hd44780_driver.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="54" selectionOffset="4537" selectionTopPixel="2865"/>
 </editor>
 </editors>
 <views>
@@ -112,7 +112,7 @@
 <viewState/>
 </view>
 <view id="org.coocox.builder.ui.views.ProjectView" partName="Project">
-<viewState CommonNavigator.LINKING_ENABLED="0" horizontalPosition="0" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0" verticalPosition="0">
+<viewState CommonNavigator.LINKING_ENABLED="0" horizontalPosition="0" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0" verticalPosition="8">
 <expanded>
 <element path="/BMS"/>
 <element path="/BMS/ADC"/>
@@ -124,7 +124,7 @@
 <element path="/BMS/USART"/>
 </expanded>
 <selection>
-<element path="/BMS/Library/Lib.h"/>
+<element path="/BMS/Library/Lib.c"/>
 </selection>
 </viewState>
 </view>
@@ -352,162 +352,166 @@
 <navigationHistory>
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/main.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Library/Lib.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Initialization/Init_.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Initialization/Init_.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Menu/MicroMenu2_1.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Library/Lib.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/USART/usart.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Library/Lib.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/ADC/ADC.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Menu/Menu.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Menu/MicroMenu2_1.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Menu/MicroMenu2_1.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/hd44780_driver/hd44780_driver.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Menu/MenuItmes.h"/>
 </editors>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1382" y="0"/>
-</item>
-<item historyLabel="Init_.h" index="3">
-<position info="not_deleted" x="290" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1344" y="0"/>
-</item>
-<item historyLabel="Init_.h" index="3">
-<position info="not_deleted" x="300" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1344" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="23172" y="17"/>
-</item>
-<item historyLabel="MicroMenu2_1.h" index="4">
-<position info="not_deleted" x="548" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="25824" y="0"/>
-</item>
-<item historyLabel="Init_.h" index="3">
-<position info="not_deleted" x="300" y="0"/>
-</item>
-<item historyLabel="Init_.h" index="3">
-<position info="not_deleted" x="181" y="14"/>
-</item>
-<item historyLabel="Init_.c" index="2">
-<position info="not_deleted" x="3308" y="0"/>
-</item>
-<item historyLabel="Init_.c" index="2">
-<position info="not_deleted" x="3308" y="0"/>
-</item>
-<item historyLabel="Lib.c" index="1">
-<position info="not_deleted" x="1753" y="0"/>
-</item>
-<item historyLabel="Init_.c" index="2">
-<position info="not_deleted" x="3308" y="0"/>
-</item>
-<item historyLabel="Init_.h" index="3">
-<position info="not_deleted" x="174" y="0"/>
-</item>
-<item historyLabel="Lib.h" index="5">
-<position info="not_deleted" x="271" y="0"/>
-</item>
-<item historyLabel="Init_.h" index="3">
-<position info="not_deleted" x="300" y="0"/>
-</item>
-<item historyLabel="Lib.h" index="5">
-<position info="not_deleted" x="271" y="0"/>
-</item>
-<item historyLabel="Init_.h" index="3">
-<position info="not_deleted" x="300" y="0"/>
-</item>
-<item historyLabel="Init_.c" index="2">
-<position info="not_deleted" x="27" y="14"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="25824" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="22414" y="0"/>
-</item>
-<item historyLabel="Init_.h" index="3">
-<position info="not_deleted" x="300" y="0"/>
-</item>
-<item historyLabel="Lib.h" index="5">
-<position info="not_deleted" x="271" y="0"/>
-</item>
-<item historyLabel="Init_.h" index="3">
-<position info="not_deleted" x="300" y="0"/>
-</item>
-<item historyLabel="Init_.c" index="2">
-<position info="not_deleted" x="463" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="22501" y="0"/>
-</item>
-<item historyLabel="Init_.c" index="2">
-<position info="not_deleted" x="463" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="25484" y="0"/>
-</item>
-<item historyLabel="Init_.c" index="2">
-<position info="not_deleted" x="480" y="0"/>
-</item>
-<item historyLabel="Init_.h" index="3">
-<position info="not_deleted" x="290" y="0"/>
-</item>
-<item historyLabel="Init_.c" index="2">
+<item historyLabel="Init_.c" index="1">
 <position info="not_deleted" x="482" y="3"/>
 </item>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="25484" y="0"/>
 </item>
-<item historyLabel="Init_.h" index="3">
+<item historyLabel="Init_.h" index="2">
 <position info="not_deleted" x="211" y="10"/>
 </item>
-<item historyLabel="Init_.c" index="2">
+<item historyLabel="Init_.c" index="1">
 <position info="not_deleted" x="480" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="26092" y="0"/>
 </item>
-<item historyLabel="Init_.c" index="2">
+<item historyLabel="Init_.c" index="1">
 <position info="not_deleted" x="1669" y="22"/>
 </item>
-<item historyLabel="Init_.h" index="3">
+<item historyLabel="Init_.h" index="2">
 <position info="not_deleted" x="290" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="26239" y="0"/>
 </item>
-<item historyLabel="Init_.c" index="2">
+<item historyLabel="Init_.c" index="1">
 <position info="not_deleted" x="3306" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="1380" y="0"/>
 </item>
-<item historyLabel="Init_.h" index="3">
+<item historyLabel="Init_.h" index="2">
 <position info="not_deleted" x="290" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="1382" y="0"/>
 </item>
-<item historyLabel="Init_.h" index="3">
+<item historyLabel="Init_.h" index="2">
 <position info="not_deleted" x="290" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
 <position info="not_deleted" x="26449" y="0"/>
 </item>
-<item historyLabel="Init_.c" index="2">
+<item historyLabel="Init_.c" index="1">
 <position info="not_deleted" x="3306" y="0"/>
 </item>
-<item historyLabel="usart.c" index="6">
+<item historyLabel="usart.c" index="3">
 <position info="not_deleted" x="3710" y="63"/>
 </item>
-<item historyLabel="Init_.h" index="3">
+<item historyLabel="Init_.h" index="2">
 <position info="not_deleted" x="290" y="0"/>
 </item>
-<item active="true" historyLabel="main.c" index="0">
+<item historyLabel="main.c" index="0">
 <position info="not_deleted" x="26449" y="0"/>
+</item>
+<item historyLabel="Lib.c" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="ADC.c" index="5">
+<position info="not_deleted" x="5547" y="65"/>
+</item>
+<item historyLabel="ADC.c" index="5">
+<position info="not_deleted" x="5866" y="57"/>
+</item>
+<item historyLabel="Menu.h" index="6">
+<position info="not_deleted" x="1289" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="1317" y="0"/>
+</item>
+<item historyLabel="ADC.c" index="5">
+<position info="not_deleted" x="8500" y="59"/>
+</item>
+<item historyLabel="MicroMenu2_1.c" index="7">
+<position info="not_deleted" x="1387" y="6"/>
+</item>
+<item historyLabel="MicroMenu2_1.c" index="7">
+<position info="not_deleted" x="1342" y="29"/>
+</item>
+<item historyLabel="ADC.c" index="5">
+<position info="not_deleted" x="5866" y="57"/>
+</item>
+<item historyLabel="ADC.c" index="5">
+<position info="not_deleted" x="11216" y="0"/>
+</item>
+<item historyLabel="ADC.c" index="5">
+<position info="not_deleted" x="5919" y="0"/>
+</item>
+<item historyLabel="Lib.c" index="4">
+<position info="not_deleted" x="1353" y="3"/>
+</item>
+<item historyLabel="MicroMenu2_1.c" index="7">
+<position info="not_deleted" x="1342" y="29"/>
+</item>
+<item historyLabel="MicroMenu2_1.h" index="8">
+<position info="not_deleted" x="685" y="0"/>
+</item>
+<item historyLabel="MicroMenu2_1.c" index="7">
+<position info="not_deleted" x="1063" y="0"/>
+</item>
+<item historyLabel="MicroMenu2_1.h" index="8">
+<position info="not_deleted" x="685" y="0"/>
+</item>
+<item historyLabel="MicroMenu2_1.h" index="8">
+<position info="not_deleted" x="4290" y="0"/>
+</item>
+<item historyLabel="MicroMenu2_1.h" index="8">
+<position info="not_deleted" x="4116" y="9"/>
+</item>
+<item historyLabel="MicroMenu2_1.c" index="7">
+<position info="not_deleted" x="1313" y="9"/>
+</item>
+<item historyLabel="Menu.h" index="6">
+<position info="not_deleted" x="1289" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="2657" y="0"/>
+</item>
+<item historyLabel="hd44780_driver.h" index="9">
+<position info="not_deleted" x="4537" y="54"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="2776" y="0"/>
+</item>
+<item historyLabel="MicroMenu2_1.c" index="7">
+<position info="not_deleted" x="1313" y="9"/>
+</item>
+<item historyLabel="MicroMenu2_1.h" index="8">
+<position info="not_deleted" x="4127" y="0"/>
+</item>
+<item historyLabel="MicroMenu2_1.c" index="7">
+<position info="not_deleted" x="945" y="0"/>
+</item>
+<item historyLabel="MicroMenu2_1.h" index="8">
+<position info="not_deleted" x="3722" y="0"/>
+</item>
+<item historyLabel="MicroMenu2_1.c" index="7">
+<position info="not_deleted" x="1117" y="41"/>
+</item>
+<item historyLabel="MenuItmes.h" index="10">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="MicroMenu2_1.c" index="7">
+<position info="not_deleted" x="1324" y="0"/>
+</item>
+<item historyLabel="MicroMenu2_1.h" index="8">
+<position info="not_deleted" x="297" y="0"/>
+</item>
+<item active="true" historyLabel="main.c" index="0">
+<position info="not_deleted" x="2776" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -516,26 +520,29 @@
 <actionBarAdvisor/>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="usart.c" tooltip="BMS/USART/usart.c">
-<persistable path="/BMS/USART/usart.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="hd44780_driver.h" tooltip="BMS/hd44780_driver/hd44780_driver.h">
+<persistable path="/BMS/hd44780_driver/hd44780_driver.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Lib.c" tooltip="BMS/Library/Lib.c">
+<persistable path="/BMS/Library/Lib.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Eeprom.c" tooltip="BMS/Eeprom/Eeprom.c">
+<persistable path="/BMS/Eeprom/Eeprom.c"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Lib.h" tooltip="BMS/Library/Lib.h">
 <persistable path="/BMS/Library/Lib.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="hd44780_driver.c" tooltip="BMS/hd44780_driver/hd44780_driver.c">
+<persistable path="/BMS/hd44780_driver/hd44780_driver.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="usart.c" tooltip="BMS/USART/usart.c">
+<persistable path="/BMS/USART/usart.c"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Init_.h" tooltip="BMS/Initialization/Init_.h">
 <persistable path="/BMS/Initialization/Init_.h"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Init_.c" tooltip="BMS/Initialization/Init_.c">
 <persistable path="/BMS/Initialization/Init_.c"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="hd44780_driver.h" tooltip="BMS/hd44780_driver/hd44780_driver.h">
-<persistable path="/BMS/hd44780_driver/hd44780_driver.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="hd44780_driver.c" tooltip="BMS/hd44780_driver/hd44780_driver.c">
-<persistable path="/BMS/hd44780_driver/hd44780_driver.c"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Lib.c" tooltip="BMS/Library/Lib.c">
-<persistable path="/BMS/Library/Lib.c"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="MicroMenu2_1.h" tooltip="BMS/Menu/MicroMenu2_1.h">
 <persistable path="/BMS/Menu/MicroMenu2_1.h"/>
@@ -551,9 +558,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Eeprom.h" tooltip="BMS/Eeprom/Eeprom.h">
 <persistable path="/BMS/Eeprom/Eeprom.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Eeprom.c" tooltip="BMS/Eeprom/Eeprom.c">
-<persistable path="/BMS/Eeprom/Eeprom.c"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="ADC.c" tooltip="BMS/ADC/ADC.c">
 <persistable path="/BMS/ADC/ADC.c"/>
