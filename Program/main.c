@@ -21,7 +21,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 #define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.58";
+char Version[] = "PS 30V 3A v1.59";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -117,23 +117,26 @@ void MenuPowerSupply(Key_Pressed_t key) //PowerSupply
 	if (On_off == 0)
 	{
 		PrintToLCD(itoa_koma(U_PS,2));
-		PrintToLCD("V ");
+		PrintToLCD("V  ");
+		lcd_set_xy(7,0);
 		PrintToLCD(itoa(Current));
-		PrintToLCD("mA ");
-		PrintToLCD("OFF   ");
+		PrintToLCD("mA   ");
+		lcd_set_xy(5,1);
+		PrintToLCD("OFF ");
 	}
 	else
 	{
 		PrintToLCD(itoa_koma(U_OUT,2));
-		PrintToLCD("V ");
+		PrintToLCD("V  ");
+		lcd_set_xy(7,0);
 		PrintToLCD(itoa(Current));
-		PrintToLCD("mA ");
-		PrintToLCD("ON   ");
+		PrintToLCD("mA    ");
+		lcd_set_xy(6,1);
+		PrintToLCD("ON ");
 	}
 
     if (key == KEY_NEXT)
     {
-    	Print_to_USART1_d(On_off,"Select:",0);
     	if (On_off == 0)
     		OUT_ON();
     	else
