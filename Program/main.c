@@ -18,10 +18,10 @@
 
 #define MENUDELAY 100
 
-//#define VOLTAGE_OFF_SYSTEM 1400
-#define VOLTAGE_OFF_SYSTEM 700
+#define VOLTAGE_OFF_SYSTEM 1400
+//#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.59";
+char Version[] = "PS 30V 3A v1.60";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -740,7 +740,6 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 
 		if (CountShow1 == 4)
 			LOAD1_ON_OFF_Toggle();
-
 	}
 	if(CountShow1 == 0)
 	{
@@ -766,7 +765,7 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("Uout ");
-		PrintToLCD(itoa_koma(U_OUT,1));
+		PrintToLCD(itoa_koma(U_OUT,2));
 		PrintToLCD("V ");
 		PrintToLCD(itoa((RegularConvData[2])));
 		PrintToLCD("      ");
@@ -774,7 +773,7 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	if(CountShow1 == 3)
 	{
 		lcd_set_xy(0,0);
-		PrintToLCD("Ips ");
+		PrintToLCD("Iout ");
 		PrintToLCD(itoa(Current));
 		PrintToLCD("mA ");
 		PrintToLCD(itoa((RegularConvData[1])));
@@ -791,10 +790,17 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	}
 	if(CountShow1 == 5)
 	{
+		OUT_ON();
+		SaveData.ResistanceComp_MOSFET= (int32_t)(U_PS-U_OUT_ForSetResistance)*10000/Current;
 		lcd_set_xy(0,0);
 		PrintToLCD("R=");
 		PrintToLCD(itoa(SaveData.ResistanceComp_Ishunt_Wires));
-		PrintToLCD("mOm                 ");
+		PrintToLCD("mOm ");
+		PrintToLCD(itoa(SaveData.ResistanceComp_MOSFET));
+		PrintToLCD("mOm    ");
+		Print_to_USART1_d(Current,"I: ",0);
+		Print_to_USART1_d(U_PS,"U_PS: ",2);
+		Print_to_USART1_d(U_OUT_ForSetResistance,"U out: ",2);
 	}
 	if(CountShow1 == 6)
 	{
@@ -920,11 +926,19 @@ void MenuCalibration_Resist_Comp_5V1A(Key_Pressed_t key)
 		PrintToLCD(itoa_koma(ResistanceComp_Voltage,2));
 		PrintToLCD("V ");
 		Delta = U_OUT_ForSetResistance - ResistanceComp_Voltage;
-		if(Delta<0) Delta = 0;
-		if (Current <= 0) SaveData.ResistanceComp_Ishunt_Wires = 0;
+		if(Delta<=0) Delta = 0;
+		if (Current <= 0) SaveData.ResistanceComp_Ishunt_Wires = 70;
 		else SaveData.ResistanceComp_Ishunt_Wires = Delta*10000/Current;
 		PrintToLCD(itoa(SaveData.ResistanceComp_Ishunt_Wires));
 		PrintToLCD("mOm       ");
+
+
+		Delta = U_PS - U_OUT_ForSetResistance;
+		if(Delta<=0) Delta = 0;
+		if (Current <= 0) SaveData.ResistanceComp_MOSFET = 10;
+		else SaveData.ResistanceComp_MOSFET = Delta*10000/Current;
+
+
 }
 
 void MenuCalibration_BackToFactory(Key_Pressed_t key)

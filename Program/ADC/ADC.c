@@ -122,9 +122,9 @@ void TIM3_IRQHandler()
 		if (U_PS < 3) U_PS = 0;
 		U_Controller = 491520 / RegularConvData[6];// Uref V/10;  1200 * 4096/ChVref
 		Ut = (RegularConvData[2] * SaveData.CalibrationValueForVoltage1) / RegularConvData[6];
-		U_OUT = MedianFilter(Ut);
-		U_OUT_ForSetResistance = U_OUT;
-		if (U_OUT<3) U_OUT = 0;
+		U_OUTtmp = MedianFilter(Ut);
+		U_OUT_ForSetResistance = U_OUTtmp;
+		if (U_OUTtmp<3) U_OUTtmp = 0;
 		Ut = (RegularConvData[4] * SaveData.CalibrationValueForVoltage2) / RegularConvData[6];
 		U_IN = middle_of_3Umax(Ut);
 		Ut = (RegularConvData[1] * SaveData.CalibrationValueForCurrent*10) / RegularConvData[6] ;//  Current A/10
@@ -143,7 +143,6 @@ void TIM3_IRQHandler()
 			Current = (Current_Out-SaveData.Calibration0ValueForCurrent)/1 ;//2745;
 		}
 		//Print_to_USART1_d(Current,"I: ",0);
-		U_OUTtmp = U_OUT;
 		if (Current>=0)
 		{
 			U_OUTtmp = U_OUTtmp - (int32_t)SaveData.ResistanceComp_Ishunt_Wires*Current/10000;
