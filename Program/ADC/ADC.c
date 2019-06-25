@@ -137,7 +137,7 @@ void TIM3_IRQHandler()
 		//Print_to_USART1_d(SaveData.Calibration0ValueForCurrent,"cal ",0);
 		if ((GPIOB->IDR & 0x02)==0x02)//if load on
 		{
-			Current =(Current_load-SaveData.Calibration0ValueForCurrent1)*(-1) ;//2745;
+			Current =(int32_t)(Current_load-SaveData.Calibration0ValueForCurrent1)*(-1) ;//2745;
 		}else
 		{
 			Current = (Current_Out-SaveData.Calibration0ValueForCurrent)/1 ;//2745;
@@ -146,13 +146,13 @@ void TIM3_IRQHandler()
 		U_OUTtmp = U_OUT;
 		if (Current>=0)
 		{
-			U_OUTtmp = U_OUTtmp - SaveData.ResistanceComp*Current/10000;
+			U_OUTtmp = U_OUTtmp - (int32_t)SaveData.ResistanceComp_Ishunt_Wires*Current/10000;
 		}
 		else
 		{
-			U_OUTtmp = U_OUTtmp - SaveData.ResistanceComp*(-1)*Current/10000;
+			U_OUTtmp = U_OUTtmp - (int32_t)SaveData.ResistanceComp_Ishunt_Wires*Current/10000;
 			//Print_to_USART1_d(Current,"I: ",0);
-			//P/rint_to_USART1_d(SaveData.ResistanceComp*(-1)*Current/10000,"ResC: ",0);
+			//P/rint_to_USART1_d(SaveData.ResistanceComp_Ishunt_Wires*(-1)*Current/10000,"ResC: ",0);
 		}
 
 		if (U_OUTtmp<3)

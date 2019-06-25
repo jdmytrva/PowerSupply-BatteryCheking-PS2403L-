@@ -107,7 +107,7 @@ uint8_t EEpromWrite(void)
 	flash_write( SaveData.CalibrationValueForVoltage1_AddresInEEprom, SaveData.CalibrationValueForVoltage1);
 	flash_write( SaveData.CalibrationValueForVoltage2_AddresInEEprom, SaveData.CalibrationValueForVoltage2);
 	flash_write( SaveData.ChargeAdapt_AddresInEEprom, SaveData.ChargeAdapt);
-	flash_write( SaveData.ResistanceComp_AddresInEEprom, SaveData.ResistanceComp);
+	flash_write( SaveData.ResistanceComp_Ishunt_Wires_AddresInEEprom, SaveData.ResistanceComp_Ishunt_Wires);
 
 	flash_lock();
 	Print_to_USART1("EEprom write ");
@@ -136,7 +136,7 @@ uint8_t FactoryEEpromWrite(void)
 	flash_write( FactorySaveData.CalibrationValueForVoltage1_AddresInEEprom, FactorySaveData.CalibrationValueForVoltage1);
 	flash_write( FactorySaveData.CalibrationValueForVoltage2_AddresInEEprom, FactorySaveData.CalibrationValueForVoltage2);
 	flash_write( FactorySaveData.ChargeAdapt_AddresInEEprom, FactorySaveData.ChargeAdapt);
-	flash_write( FactorySaveData.ResistanceComp_AddresInEEprom, FactorySaveData.ResistanceComp);
+	flash_write( FactorySaveData.ResistanceComp_Ishunt_Wires_AddresInEEprom, FactorySaveData.ResistanceComp_Ishunt_Wires);
 
 	flash_lock();
 	Print_to_USART1("FactoryEEpromWrite write ");
@@ -162,7 +162,7 @@ uint8_t ReadFromEEprom(void)
 		SaveData.CalibrationValueForVoltage1 = flash_read(SaveData.CalibrationValueForVoltage1_AddresInEEprom,10,100000);
 		SaveData.CalibrationValueForVoltage2 = flash_read(SaveData.CalibrationValueForVoltage2_AddresInEEprom,10,100000);
 		SaveData.ChargeAdapt = flash_read(SaveData.ChargeAdapt_AddresInEEprom,0,100);
-		SaveData.ResistanceComp = flash_read(SaveData.ResistanceComp_AddresInEEprom,0,10000);
+		SaveData.ResistanceComp_Ishunt_Wires = flash_read(SaveData.ResistanceComp_Ishunt_Wires_AddresInEEprom,70,200);
 		if (EEpromReadStatus == 0)
 		{
 			Print_to_USART1("Read from EEprom - FAIL ");

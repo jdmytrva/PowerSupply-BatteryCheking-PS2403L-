@@ -76,7 +76,7 @@ struct StructOptionValuetoSaveInEEprom FactorySaveData=
 
 		10,//ChargeAdapt %
 		ADDRESS_FLASH+64,
-		131,//Resistance_Comp mOm
+		131,//ResistanceComp_Ishunt_Wires mOm
 		ADDRESS_FLASH+68
 
 };
@@ -104,7 +104,7 @@ void InfoToUARTBeforeStart(void)
 	Print_to_USART1_d(SaveData.CalibrationValueForVoltage1 ,"CalibrationValueForVoltage1 =",0);
 	Print_to_USART1_d(SaveData.CalibrationValueForVoltage2 ,"CalibrationValueForVoltage2 =",0);
 	Print_to_USART1_d(SaveData.ChargeAdapt ,"ChargeAdapt =",0);
-	Print_to_USART1_d(SaveData.ResistanceComp ,"ResistanceComp =",0) ;
+	Print_to_USART1_d(SaveData.ResistanceComp_Ishunt_Wires ,"ResistanceComp_Ishunt_Wires =",0) ;
 
 
 }

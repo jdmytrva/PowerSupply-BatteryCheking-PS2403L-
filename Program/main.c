@@ -18,10 +18,10 @@
 
 #define MENUDELAY 100
 
-#define VOLTAGE_OFF_SYSTEM 1400
-//#define VOLTAGE_OFF_SYSTEM 700
+//#define VOLTAGE_OFF_SYSTEM 1400
+#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.57";
+char Version[] = "PS 30V 3A v1.58";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -790,7 +790,7 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("R=");
-		PrintToLCD(itoa(SaveData.ResistanceComp));
+		PrintToLCD(itoa(SaveData.ResistanceComp_Ishunt_Wires));
 		PrintToLCD("mOm                 ");
 	}
 	if(CountShow1 == 6)
@@ -905,7 +905,7 @@ void MenuCalibration_VoltageIn(Key_Pressed_t key)
 
 void MenuCalibration_Resist_Comp_5V1A(Key_Pressed_t key)
 {
-		static uint32_t ResistanceComp_Voltage = 470;
+		static uint16_t ResistanceComp_Voltage = 470;
 		int16_t Delta;
 
 		entered_in_charge_discharge_menu=1;
@@ -918,9 +918,9 @@ void MenuCalibration_Resist_Comp_5V1A(Key_Pressed_t key)
 		PrintToLCD("V ");
 		Delta = U_OUT_ForSetResistance - ResistanceComp_Voltage;
 		if(Delta<0) Delta = 0;
-		if (Current == 0) SaveData.ResistanceComp = 0;
-		else SaveData.ResistanceComp = Delta*10000/Current;
-		PrintToLCD(itoa(SaveData.ResistanceComp));
+		if (Current <= 0) SaveData.ResistanceComp_Ishunt_Wires = 0;
+		else SaveData.ResistanceComp_Ishunt_Wires = Delta*10000/Current;
+		PrintToLCD(itoa(SaveData.ResistanceComp_Ishunt_Wires));
 		PrintToLCD("mOm       ");
 }
 

@@ -54,8 +54,8 @@ struct StructOptionValuetoSaveInEEprom
 
 	uint32_t ChargeAdapt;
 	uint32_t ChargeAdapt_AddresInEEprom;
-	uint32_t ResistanceComp;
-	uint32_t ResistanceComp_AddresInEEprom;
+	uint32_t ResistanceComp_Ishunt_Wires;
+	uint32_t ResistanceComp_Ishunt_Wires_AddresInEEprom;
 };
 struct StructOptionValuetoSaveInEEprom SaveData;
 struct StructOptionValuetoSaveInEEprom FactorySaveData;
