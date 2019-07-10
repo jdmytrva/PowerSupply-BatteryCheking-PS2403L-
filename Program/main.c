@@ -18,10 +18,11 @@
 
 #define MENUDELAY 100
 
-#define VOLTAGE_OFF_SYSTEM 1400
+#define VOLTAGE_OFF_SYSTEM 2000
+//#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.60";
+char Version[] = "PS 30V 3A v1.61";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -645,22 +646,20 @@ void MenuSwing(Key_Pressed_t key)
        if (Timer_Sec<=SaveData.Swing_Chrg_time)
        {
     	   charge();
+           if (U_OUT>SaveData.MaxVoltage)
+           {
+        	   ReStart_Timer_sec();
+               Timer_Sec  = Timer_Sec+ SaveData.Swing_Chrg_time;
+           }
        }
        if (Timer_Sec > SaveData.Swing_Chrg_time)
        {
-    	   discharge();
+           discharge();
+           if (U_OUT<SaveData.LowVoltage)
+        	   ReStart_Timer_sec();
        }
        if (Timer_Sec > (SaveData.Swing_Chrg_time+SaveData.Swing_DChrg_time))
     	   ReStart_Timer_sec();
-       if (U_OUT<SaveData.LowVoltage)
-    	   ReStart_Timer_sec();
-
-       if (U_OUT>SaveData.MaxVoltage)
-       {
-    	   ReStart_Timer_sec();
-           Timer_Sec  = Timer_Sec+ SaveData.Swing_Chrg_time;
-       }
-
 
 		#define MAXITEM6 3
 		if (key == KEY_NEXT)
@@ -1137,11 +1136,16 @@ int main(void)
 	OFF();
 
 	uint8_t EEpromReadStatus;
-	EEpromReadStatus = ReadFromEEprom();
 	PrintToLCD(Version);
 	SetSymbols();
 	lcd_set_xy(0,0);
 	Delay_mSec(2000);
+	EEpromReadStatus = ReadFromEEprom();
+	if (EEpromReadStatus==0)
+	{
+		Delay_mSec(1000);
+		EEpromReadStatus = ReadFromEEprom();
+	}
 	if (EEpromReadStatus == 0)
 	{
 		PrintToLCD("EEprom Read FAIL");

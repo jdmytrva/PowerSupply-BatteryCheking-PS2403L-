@@ -77,9 +77,12 @@ uint32_t flash_read(uint32_t address, uint32_t MinValue, uint32_t MaxValue)
 	{
 		return EEpromValue;
 	}
-	else
+	else // fail to read
 	{
 		EEpromReadStatus = 0;
+		Print_to_USART1_d(address,"Fail to read address: ",0);
+		Print_to_USART1_d(EEpromValue,"EEpromValue is : ",0);
+		Print_to_USART1_d(FLASH_BASE+1024*124,"FLASH_BASE+1024*124 : ",0);
 		return MinValue;
 	}
 }
@@ -169,11 +172,13 @@ uint8_t ReadFromEEprom(void)
 		if (EEpromReadStatus == 0)
 		{
 			Print_to_USART1("Read from EEprom - FAIL ");
+			EEpromReadStatus = 1;
 			return 0;
 		}
 		else
 		{
 			Print_to_USART1("Read from EEprom - SUCCESS");
+			EEpromReadStatus = 1;
 			return 1;
 		}
 }
