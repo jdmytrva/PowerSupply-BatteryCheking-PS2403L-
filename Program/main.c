@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.62";
+char Version[] = "PS 30V 3A v1.63";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -1411,7 +1411,7 @@ void All_OUT_OFF_When_Power_OFF()
 		{
 			EEpromWrite_status = 1;
 			SaveData.BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent;
-			//EEpromWrite();
+			EEpromWrite();
 			Print_to_USART1_d(U_IN,"U off: ",2);
 		}
 	}

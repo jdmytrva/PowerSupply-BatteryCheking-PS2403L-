@@ -66,20 +66,20 @@ struct StructOptionValuetoSaveInEEprom FactorySaveData=
 		ADDRESS_FLASH+36,
 		0,//Calibration0ValueForCurrent1
 		ADDRESS_FLASH+40,
-		155,//CalibrationValueForCurrent
+		132,//CalibrationValueForCurrent
 		ADDRESS_FLASH+44,
-		155,//CalibrationValueForCurrent1
+		132,//CalibrationValueForCurrent1
 		ADDRESS_FLASH+48,
 		1331,//CalibrationValueForVoltage
 		ADDRESS_FLASH+52,
-		1331,//CalibrationValueForVoltage1
+		1328,//CalibrationValueForVoltage1
 		ADDRESS_FLASH+56,
 		1331,//CalibrationValueForVoltage2
 		ADDRESS_FLASH+60,
 
 		10,//ChargeAdapt %
 		ADDRESS_FLASH+64,
-		131,//ResistanceComp_Ishunt_Wires mOm
+		116,//ResistanceComp_Ishunt_Wires mOm
 		ADDRESS_FLASH+68,
 		34,//ResistanceComp_MOSFET mOm
 		ADDRESS_FLASH+72

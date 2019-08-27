@@ -89,7 +89,7 @@ uint32_t flash_read(uint32_t address, uint32_t MinValue, uint32_t MaxValue)
 
 uint8_t EEpromWrite(void)
 {
-
+	__disable_irq();
 	flash_unlock();
 	flash_erase_page( SaveData.DefaultValuesFromEEpromOrNotAfterBurning_AddresInEEprom);
 	flash_write( SaveData.DefaultValuesFromEEpromOrNotAfterBurning_AddresInEEprom, SaveData.DefaultValuesFromEEpromOrNotAfterBurning);
@@ -114,12 +114,13 @@ uint8_t EEpromWrite(void)
 	flash_write( SaveData.ResistanceComp_MOSFET_AddresInEEprom, SaveData.ResistanceComp_MOSFET);
 
 	flash_lock();
+	__enable_irq();
 	Print_to_USART1("EEprom write ");
 	return 1;
 }
 uint8_t FactoryEEpromWrite(void)
 {
-
+	__disable_irq();
 	flash_unlock();
 	flash_erase_page( FactorySaveData.DefaultValuesFromEEpromOrNotAfterBurning_AddresInEEprom);
 	flash_write( FactorySaveData.DefaultValuesFromEEpromOrNotAfterBurning_AddresInEEprom, FactorySaveData.DefaultValuesFromEEpromOrNotAfterBurning);
@@ -144,6 +145,7 @@ uint8_t FactoryEEpromWrite(void)
 	flash_write( FactorySaveData.ResistanceComp_MOSFET_AddresInEEprom, FactorySaveData.ResistanceComp_MOSFET);
 
 	flash_lock();
+	__enable_irq();
 	Print_to_USART1("FactoryEEpromWrite write ");
 	return 1;
 }
@@ -151,6 +153,7 @@ uint8_t FactoryEEpromWrite(void)
 
 uint8_t ReadFromEEprom(void)
 {
+	    __disable_irq();
 		SaveData.Option1 =  flash_read(SaveData.Option1_AddresInEEprom,1,10);
 		SaveData.Value =  flash_read(SaveData.Value_AddresInEEprom,1,1000);
 		SaveData.BatteryCapacityDischargePreviousValue =  flash_read(SaveData.BatteryCapacityDischargePrevious_AddresInEEprom,0,1000000);
@@ -169,6 +172,7 @@ uint8_t ReadFromEEprom(void)
 		SaveData.ChargeAdapt = flash_read(SaveData.ChargeAdapt_AddresInEEprom,0,100);
 		SaveData.ResistanceComp_Ishunt_Wires = flash_read(SaveData.ResistanceComp_Ishunt_Wires_AddresInEEprom,70,200);
 		SaveData.ResistanceComp_MOSFET = flash_read(SaveData.ResistanceComp_MOSFET_AddresInEEprom,10,200);
+		__enable_irq();
 		if (EEpromReadStatus == 0)
 		{
 			Print_to_USART1("Read from EEprom - FAIL ");
