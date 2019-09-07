@@ -13,5 +13,7 @@ uint32_t flash_read(uint32_t address, uint32_t MinValue, uint32_t MaxValue);
 uint8_t ReadFromEEprom(void);
 uint8_t EEpromWrite(void);
 uint8_t FactoryEEpromWrite(void);
+char CalcCRC8(char *Ptr, char Num, char CRC1);
+uint8_t ReadFromEEpromVerify(void);
 
 #endif

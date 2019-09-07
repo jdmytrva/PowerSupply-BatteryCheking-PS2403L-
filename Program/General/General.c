@@ -42,6 +42,48 @@ struct StructOptionValuetoSaveInEEprom SaveData=
 		ADDRESS_FLASH+72
 
 };
+struct StructOptionValuetoSaveInEEprom SaveDataForVerify=
+{
+		0,
+		ADDRESS_FLASH,
+		0,
+		ADDRESS_FLASH+4,
+		0,
+		ADDRESS_FLASH+8,
+		0,
+		ADDRESS_FLASH+12,
+		0,
+		ADDRESS_FLASH+16,
+		0,
+		ADDRESS_FLASH+20,
+		0,
+		ADDRESS_FLASH+24,
+		0,
+		ADDRESS_FLASH+28,
+		0,
+		ADDRESS_FLASH+32,
+		0,
+		ADDRESS_FLASH+36,
+		0,
+		ADDRESS_FLASH+40,
+		0,
+		ADDRESS_FLASH+44,
+		0,
+		ADDRESS_FLASH+48,
+		0,
+		ADDRESS_FLASH+52,
+		0,
+		ADDRESS_FLASH+56,
+		0,
+		ADDRESS_FLASH+60,
+		0,
+		ADDRESS_FLASH+64,
+		0,
+		ADDRESS_FLASH+68,
+		0,
+		ADDRESS_FLASH+72
+
+};
 struct StructOptionValuetoSaveInEEprom FactorySaveData=
 {
 		1,
@@ -92,7 +134,7 @@ volatile int16_t Current_Out = 0;
 void InfoToUARTBeforeStart(void)
 {
 
-	Print_to_USART1_d(SaveData.DefaultValuesFromEEpromOrNotAfterBurning,"DefaultValuesFromEEpromOrNotAfterBurning =",0);
+	Print_to_USART1_d(SaveData.CRC_data,"CRC =",0);
 	Print_to_USART1_d(SaveData.Option1 ,"Option1 =",0);
 	Print_to_USART1_d(SaveData.Value ,"Value =",0);
 	Print_to_USART1_d(SaveData.BatteryCapacityDischargePreviousValue ,"BatteryCapacityDischargePreviousValue =",0);

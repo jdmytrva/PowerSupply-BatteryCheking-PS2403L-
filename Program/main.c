@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.63";
+char Version[] = "PS 30V 3A v1.64";
 
 
 Key_Pressed_t pressedKey = 0;

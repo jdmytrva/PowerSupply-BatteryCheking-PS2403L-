@@ -4,8 +4,8 @@
 #define _GENERAL_
 struct StructOptionValuetoSaveInEEprom
 {
-	uint32_t DefaultValuesFromEEpromOrNotAfterBurning;
-	uint32_t DefaultValuesFromEEpromOrNotAfterBurning_AddresInEEprom;
+	uint32_t CRC_data;
+	uint32_t CRC_AddresInEEprom;
 
 	uint32_t Option1;
 	uint32_t Option1_AddresInEEprom;
@@ -62,6 +62,7 @@ struct StructOptionValuetoSaveInEEprom
 	uint32_t ResistanceComp_MOSFET_AddresInEEprom;
 };
 struct StructOptionValuetoSaveInEEprom SaveData;
+struct StructOptionValuetoSaveInEEprom SaveDataForVerify;
 struct StructOptionValuetoSaveInEEprom FactorySaveData;
 
 //ADC
