@@ -477,7 +477,7 @@ Linker script and memory map
 
                 0x20002000                _eram = 0x20002000
 
-.text           0x08000000     0x4cef
+.text           0x08000000     0x4d07
  *(.isr_vector)
  .isr_vector    0x08000000      0x124 ..\obj\startup_stm32f10x_ld_vl.o
                 0x08000000                g_pfnVectors
@@ -728,221 +728,221 @@ Linker script and memory map
                 0x08001574                OFF
  *fill*         0x08001582        0x2 00
  .text.All_OUT_OFF_When_Power_OFF
-                0x08001584       0x54 ..\obj\main.o
+                0x08001584       0x58 ..\obj\main.o
                 0x08001584                All_OUT_OFF_When_Power_OFF
  .text.TIM7_IRQHandler
-                0x080015d8       0x28 ..\obj\main.o
-                0x080015d8                TIM7_IRQHandler
+                0x080015dc       0x28 ..\obj\main.o
+                0x080015dc                TIM7_IRQHandler
  .text.MenuDisCharge
-                0x08001600      0x1f0 ..\obj\main.o
-                0x08001600                MenuDisCharge
+                0x08001604      0x1f0 ..\obj\main.o
+                0x08001604                MenuDisCharge
  .text.MenuLoad
-                0x080017f0       0xb4 ..\obj\main.o
-                0x080017f0                MenuLoad
- .text.charge   0x080018a4        0xe ..\obj\main.o
-                0x080018a4                charge
- *fill*         0x080018b2        0x2 00
+                0x080017f4       0xb4 ..\obj\main.o
+                0x080017f4                MenuLoad
+ .text.charge   0x080018a8        0xe ..\obj\main.o
+                0x080018a8                charge
+ *fill*         0x080018b6        0x2 00
  .text.MenuSwing
-                0x080018b4      0x1e8 ..\obj\main.o
-                0x080018b4                MenuSwing
+                0x080018b8      0x1e8 ..\obj\main.o
+                0x080018b8                MenuSwing
  .text.MenuTraining
-                0x08001a9c      0x310 ..\obj\main.o
-                0x08001a9c                MenuTraining
+                0x08001aa0      0x310 ..\obj\main.o
+                0x08001aa0                MenuTraining
  .text.MenuChargeAdapt
-                0x08001dac      0x268 ..\obj\main.o
-                0x08001dac                MenuChargeAdapt
+                0x08001db0      0x268 ..\obj\main.o
+                0x08001db0                MenuChargeAdapt
  .text.MenuChargeCC_CV
-                0x08002014      0x1e0 ..\obj\main.o
-                0x08002014                MenuChargeCC_CV
+                0x08002018      0x1e0 ..\obj\main.o
+                0x08002018                MenuChargeCC_CV
  .text.LOAD1_ON_OFF_Toggle
-                0x080021f4       0x14 ..\obj\main.o
-                0x080021f4                LOAD1_ON_OFF_Toggle
+                0x080021f8       0x14 ..\obj\main.o
+                0x080021f8                LOAD1_ON_OFF_Toggle
  .text.MenuDIAGNOSTIC
-                0x08002208      0x2e0 ..\obj\main.o
-                0x08002208                MenuDIAGNOSTIC
+                0x0800220c      0x2e0 ..\obj\main.o
+                0x0800220c                MenuDIAGNOSTIC
  .text.startup.main
-                0x080024e8      0x314 ..\obj\main.o
-                0x080024e8                main
+                0x080024ec      0x314 ..\obj\main.o
+                0x080024ec                main
  .text.ADC1_CH_DMA_Config
-                0x080027fc      0x144 ..\obj\ADC.o
-                0x080027fc                ADC1_CH_DMA_Config
+                0x08002800      0x144 ..\obj\ADC.o
+                0x08002800                ADC1_CH_DMA_Config
  .text.init_timer3
-                0x08002940       0x4c ..\obj\ADC.o
-                0x08002940                init_timer3
+                0x08002944       0x54 ..\obj\ADC.o
+                0x08002944                init_timer3
  .text.MedianFilter
-                0x0800298c       0x98 ..\obj\ADC.o
-                0x0800298c                MedianFilter
+                0x08002998       0x98 ..\obj\ADC.o
+                0x08002998                MedianFilter
  .text.MedianFilter1
-                0x08002a24       0x9c ..\obj\ADC.o
-                0x08002a24                MedianFilter1
+                0x08002a30       0x9c ..\obj\ADC.o
+                0x08002a30                MedianFilter1
  .text.MedianFilter2
-                0x08002ac0       0x9c ..\obj\ADC.o
-                0x08002ac0                MedianFilter2
+                0x08002acc       0x9c ..\obj\ADC.o
+                0x08002acc                MedianFilter2
  .text.middle_of_3Imax
-                0x08002b5c       0x44 ..\obj\ADC.o
-                0x08002b5c                middle_of_3Imax
+                0x08002b68       0x44 ..\obj\ADC.o
+                0x08002b68                middle_of_3Imax
  .text.middle_of_3Umax
-                0x08002ba0       0x44 ..\obj\ADC.o
-                0x08002ba0                middle_of_3Umax
+                0x08002bac       0x44 ..\obj\ADC.o
+                0x08002bac                middle_of_3Umax
  .text.TIM3_IRQHandler
-                0x08002be4      0x1f4 ..\obj\ADC.o
-                0x08002be4                TIM3_IRQHandler
+                0x08002bf0      0x1f4 ..\obj\ADC.o
+                0x08002bf0                TIM3_IRQHandler
  .text.RCC_ADCCLKConfig
-                0x08002dd8       0x14 ..\obj\stm32f10x_rcc.o
-                0x08002dd8                RCC_ADCCLKConfig
+                0x08002de4       0x14 ..\obj\stm32f10x_rcc.o
+                0x08002de4                RCC_ADCCLKConfig
  .text.RCC_GetClocksFreq
-                0x08002dec       0x90 ..\obj\stm32f10x_rcc.o
-                0x08002dec                RCC_GetClocksFreq
+                0x08002df8       0x90 ..\obj\stm32f10x_rcc.o
+                0x08002df8                RCC_GetClocksFreq
  .text.RCC_AHBPeriphClockCmd
-                0x08002e7c       0x18 ..\obj\stm32f10x_rcc.o
-                0x08002e7c                RCC_AHBPeriphClockCmd
+                0x08002e88       0x18 ..\obj\stm32f10x_rcc.o
+                0x08002e88                RCC_AHBPeriphClockCmd
  .text.RCC_APB2PeriphClockCmd
-                0x08002e94       0x18 ..\obj\stm32f10x_rcc.o
-                0x08002e94                RCC_APB2PeriphClockCmd
+                0x08002ea0       0x18 ..\obj\stm32f10x_rcc.o
+                0x08002ea0                RCC_APB2PeriphClockCmd
  .text.RCC_APB1PeriphClockCmd
-                0x08002eac       0x18 ..\obj\stm32f10x_rcc.o
-                0x08002eac                RCC_APB1PeriphClockCmd
+                0x08002eb8       0x18 ..\obj\stm32f10x_rcc.o
+                0x08002eb8                RCC_APB1PeriphClockCmd
  .text.Init_Out
-                0x08002ec4       0x98 ..\obj\Init_.o
-                0x08002ec4                Init_Out
+                0x08002ed0       0x98 ..\obj\Init_.o
+                0x08002ed0                Init_Out
  .text.Init_button
-                0x08002f5c       0x68 ..\obj\Init_.o
-                0x08002f5c                Init_button
+                0x08002f68       0x68 ..\obj\Init_.o
+                0x08002f68                Init_button
  .text.init_timer7
-                0x08002fc4       0x4c ..\obj\Init_.o
-                0x08002fc4                init_timer7
+                0x08002fd0       0x54 ..\obj\Init_.o
+                0x08002fd0                init_timer7
  .text.init_timer16
-                0x08003010       0x58 ..\obj\Init_.o
-                0x08003010                init_timer16
+                0x08003024       0x5c ..\obj\Init_.o
+                0x08003024                init_timer16
  .text.Initialization
-                0x08003068       0x42 ..\obj\Init_.o
-                0x08003068                Initialization
- *fill*         0x080030aa        0x2 00
+                0x08003080       0x42 ..\obj\Init_.o
+                0x08003080                Initialization
+ *fill*         0x080030c2        0x2 00
  .text.ADC_Init
-                0x080030ac       0x48 ..\obj\stm32f10x_adc.o
-                0x080030ac                ADC_Init
- .text.ADC_Cmd  0x080030f4       0x12 ..\obj\stm32f10x_adc.o
-                0x080030f4                ADC_Cmd
+                0x080030c4       0x48 ..\obj\stm32f10x_adc.o
+                0x080030c4                ADC_Init
+ .text.ADC_Cmd  0x0800310c       0x12 ..\obj\stm32f10x_adc.o
+                0x0800310c                ADC_Cmd
  .text.ADC_DMACmd
-                0x08003106       0x12 ..\obj\stm32f10x_adc.o
-                0x08003106                ADC_DMACmd
+                0x0800311e       0x12 ..\obj\stm32f10x_adc.o
+                0x0800311e                ADC_DMACmd
  .text.ADC_ResetCalibration
-                0x08003118        0xa ..\obj\stm32f10x_adc.o
-                0x08003118                ADC_ResetCalibration
+                0x08003130        0xa ..\obj\stm32f10x_adc.o
+                0x08003130                ADC_ResetCalibration
  .text.ADC_GetResetCalibrationStatus
-                0x08003122        0x8 ..\obj\stm32f10x_adc.o
-                0x08003122                ADC_GetResetCalibrationStatus
+                0x0800313a        0x8 ..\obj\stm32f10x_adc.o
+                0x0800313a                ADC_GetResetCalibrationStatus
  .text.ADC_StartCalibration
-                0x0800312a        0xa ..\obj\stm32f10x_adc.o
-                0x0800312a                ADC_StartCalibration
+                0x08003142        0xa ..\obj\stm32f10x_adc.o
+                0x08003142                ADC_StartCalibration
  .text.ADC_GetCalibrationStatus
-                0x08003134        0x8 ..\obj\stm32f10x_adc.o
-                0x08003134                ADC_GetCalibrationStatus
+                0x0800314c        0x8 ..\obj\stm32f10x_adc.o
+                0x0800314c                ADC_GetCalibrationStatus
  .text.ADC_SoftwareStartConvCmd
-                0x0800313c       0x12 ..\obj\stm32f10x_adc.o
-                0x0800313c                ADC_SoftwareStartConvCmd
+                0x08003154       0x12 ..\obj\stm32f10x_adc.o
+                0x08003154                ADC_SoftwareStartConvCmd
  .text.ADC_RegularChannelConfig
-                0x0800314e       0x9c ..\obj\stm32f10x_adc.o
-                0x0800314e                ADC_RegularChannelConfig
- *fill*         0x080031ea        0x2 00
+                0x08003166       0x9c ..\obj\stm32f10x_adc.o
+                0x08003166                ADC_RegularChannelConfig
+ *fill*         0x08003202        0x2 00
  .text.ADC_TempSensorVrefintCmd
-                0x080031ec       0x18 ..\obj\stm32f10x_adc.o
-                0x080031ec                ADC_TempSensorVrefintCmd
+                0x08003204       0x18 ..\obj\stm32f10x_adc.o
+                0x08003204                ADC_TempSensorVrefintCmd
  .text.USART_Init
-                0x08003204       0xb0 ..\obj\stm32f10x_usart.o
-                0x08003204                USART_Init
+                0x0800321c       0xb0 ..\obj\stm32f10x_usart.o
+                0x0800321c                USART_Init
  .text.USART_Cmd
-                0x080032b4       0x18 ..\obj\stm32f10x_usart.o
-                0x080032b4                USART_Cmd
+                0x080032cc       0x18 ..\obj\stm32f10x_usart.o
+                0x080032cc                USART_Cmd
  .text.USART_ITConfig
-                0x080032cc       0x32 ..\obj\stm32f10x_usart.o
-                0x080032cc                USART_ITConfig
+                0x080032e4       0x32 ..\obj\stm32f10x_usart.o
+                0x080032e4                USART_ITConfig
  .text.USART_SendData
-                0x080032fe        0x8 ..\obj\stm32f10x_usart.o
-                0x080032fe                USART_SendData
+                0x08003316        0x8 ..\obj\stm32f10x_usart.o
+                0x08003316                USART_SendData
  .text.USART_GetFlagStatus
-                0x08003306        0xc ..\obj\stm32f10x_usart.o
-                0x08003306                USART_GetFlagStatus
- *fill*         0x08003312        0x2 00
- .text.itoa     0x08003314       0x74 ..\obj\Lib.o
-                0x08003314                itoa
+                0x0800331e        0xc ..\obj\stm32f10x_usart.o
+                0x0800331e                USART_GetFlagStatus
+ *fill*         0x0800332a        0x2 00
+ .text.itoa     0x0800332c       0x74 ..\obj\Lib.o
+                0x0800332c                itoa
  .text.itoa_koma
-                0x08003388       0xd4 ..\obj\Lib.o
-                0x08003388                itoa_koma
+                0x080033a0       0xd4 ..\obj\Lib.o
+                0x080033a0                itoa_koma
  .text.Module16
-                0x0800345c        0xc ..\obj\Lib.o
-                0x0800345c                Module16
- .text.strlen1  0x08003468       0x12 ..\obj\Lib.o
-                0x08003468                strlen1
+                0x08003474        0xc ..\obj\Lib.o
+                0x08003474                Module16
+ .text.strlen1  0x08003480       0x12 ..\obj\Lib.o
+                0x08003480                strlen1
  .text.DMA_Init
-                0x0800347a       0x3c ..\obj\stm32f10x_dma.o
-                0x0800347a                DMA_Init
- .text.DMA_Cmd  0x080034b6       0x16 ..\obj\stm32f10x_dma.o
-                0x080034b6                DMA_Cmd
+                0x08003492       0x3c ..\obj\stm32f10x_dma.o
+                0x08003492                DMA_Init
+ .text.DMA_Cmd  0x080034ce       0x16 ..\obj\stm32f10x_dma.o
+                0x080034ce                DMA_Cmd
  .text.DMA_ITConfig
-                0x080034cc       0x10 ..\obj\stm32f10x_dma.o
-                0x080034cc                DMA_ITConfig
+                0x080034e4       0x10 ..\obj\stm32f10x_dma.o
+                0x080034e4                DMA_ITConfig
  .text.DMA_ClearFlag
-                0x080034dc       0x14 ..\obj\stm32f10x_dma.o
-                0x080034dc                DMA_ClearFlag
+                0x080034f4       0x14 ..\obj\stm32f10x_dma.o
+                0x080034f4                DMA_ClearFlag
  .text.DMA_ClearITPendingBit
-                0x080034f0       0x14 ..\obj\stm32f10x_dma.o
-                0x080034f0                DMA_ClearITPendingBit
+                0x08003508       0x14 ..\obj\stm32f10x_dma.o
+                0x08003508                DMA_ClearITPendingBit
  .text.NVIC_Init
-                0x08003504       0x64 ..\obj\misc.o
-                0x08003504                NVIC_Init
+                0x0800351c       0x64 ..\obj\misc.o
+                0x0800351c                NVIC_Init
  .text.flash_erase_page
-                0x08003568       0x44 ..\obj\Eeprom.o
-                0x08003568                flash_erase_page
+                0x08003580       0x44 ..\obj\Eeprom.o
+                0x08003580                flash_erase_page
  .text.flash_unlock
-                0x080035ac       0x18 ..\obj\Eeprom.o
-                0x080035ac                flash_unlock
+                0x080035c4       0x18 ..\obj\Eeprom.o
+                0x080035c4                flash_unlock
  .text.flash_lock
-                0x080035c4       0x10 ..\obj\Eeprom.o
-                0x080035c4                flash_lock
+                0x080035dc       0x10 ..\obj\Eeprom.o
+                0x080035dc                flash_lock
  .text.flash_write
-                0x080035d4       0x50 ..\obj\Eeprom.o
-                0x080035d4                flash_write
+                0x080035ec       0x50 ..\obj\Eeprom.o
+                0x080035ec                flash_write
  .text.flash_read
-                0x08003624       0x4c ..\obj\Eeprom.o
-                0x08003624                flash_read
+                0x0800363c       0x4c ..\obj\Eeprom.o
+                0x0800363c                flash_read
  .text.ReadFromEEpromVerify
-                0x08003670      0x118 ..\obj\Eeprom.o
-                0x08003670                ReadFromEEpromVerify
+                0x08003688      0x118 ..\obj\Eeprom.o
+                0x08003688                ReadFromEEpromVerify
  .text.CalcCRC8
-                0x08003788       0x34 ..\obj\Eeprom.o
-                0x08003788                CalcCRC8
+                0x080037a0       0x34 ..\obj\Eeprom.o
+                0x080037a0                CalcCRC8
  .text.ReadFromEEprom
-                0x080037bc      0x170 ..\obj\Eeprom.o
-                0x080037bc                ReadFromEEprom
+                0x080037d4      0x170 ..\obj\Eeprom.o
+                0x080037d4                ReadFromEEprom
  .text.FactoryEEpromWrite
-                0x0800392c      0x100 ..\obj\Eeprom.o
-                0x0800392c                FactoryEEpromWrite
+                0x08003944      0x100 ..\obj\Eeprom.o
+                0x08003944                FactoryEEpromWrite
  .text.EEpromWrite
-                0x08003a2c      0x1ec ..\obj\Eeprom.o
-                0x08003a2c                EEpromWrite
+                0x08003a44      0x1ec ..\obj\Eeprom.o
+                0x08003a44                EEpromWrite
  .text.USART1Init
-                0x08003c18       0x98 ..\obj\usart.o
-                0x08003c18                USART1Init
- .text.PutChar  0x08003cb0       0x34 ..\obj\usart.o
-                0x08003cb0                PutChar
+                0x08003c30       0x98 ..\obj\usart.o
+                0x08003c30                USART1Init
+ .text.PutChar  0x08003cc8       0x34 ..\obj\usart.o
+                0x08003cc8                PutChar
  .text.USART1_IRQHandler
-                0x08003ce4       0x74 ..\obj\usart.o
-                0x08003ce4                USART1_IRQHandler
+                0x08003cfc       0x74 ..\obj\usart.o
+                0x08003cfc                USART1_IRQHandler
  .text.Print_to_USART1
-                0x08003d58       0x40 ..\obj\usart.o
-                0x08003d58                Print_to_USART1
+                0x08003d70       0x40 ..\obj\usart.o
+                0x08003d70                Print_to_USART1
  .text.TransmitChar
-                0x08003d98       0x20 ..\obj\usart.o
-                0x08003d98                TransmitChar
+                0x08003db0       0x20 ..\obj\usart.o
+                0x08003db0                TransmitChar
  .text.TransmitString
-                0x08003db8       0x20 ..\obj\usart.o
-                0x08003db8                TransmitString
+                0x08003dd0       0x20 ..\obj\usart.o
+                0x08003dd0                TransmitString
  .text.Print_to_USART1_d
-                0x08003dd8       0x30 ..\obj\usart.o
-                0x08003dd8                Print_to_USART1_d
- .text.memcpy   0x08003e08       0x84 c:/program files (x86)/gnu tools arm embedded/4.6 2012q4/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcpy.o)
-                0x08003e08                memcpy
+                0x08003df0       0x30 ..\obj\usart.o
+                0x08003df0                Print_to_USART1_d
+ .text.memcpy   0x08003e20       0x84 c:/program files (x86)/gnu tools arm embedded/4.6 2012q4/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv7-m\libg.a(lib_a-memcpy.o)
+                0x08003e20                memcpy
  *(.init)
  *(.fini)
  *crtbegin.o(.ctors)
@@ -956,96 +956,96 @@ Linker script and memory map
  *(SORT(.dtors.*))
  *(.dtors)
  *(.rodata*)
- .rodata        0x08003e8c       0x18 ..\obj\MicroMenu2_1.o
-                0x08003e8c                NULL_MENU
+ .rodata        0x08003ea4       0x18 ..\obj\MicroMenu2_1.o
+                0x08003ea4                NULL_MENU
  .rodata.str1.1
-                0x08003ea4      0x1ae ..\obj\General.o
+                0x08003ebc      0x1ae ..\obj\General.o
                                 0x1b6 (size before relaxing)
- *fill*         0x08004052        0x2 00
- .rodata        0x08004054      0x8c0 ..\obj\main.o
-                0x08004054                Menu_2_1
-                0x08004080                Menu_3_1
-                0x080040ac                Menu_4_1
-                0x080040d8                Menu_5_1
-                0x08004104                Menu_6_1
-                0x08004130                Menu_7_1
-                0x0800415c                Menu_8_1
-                0x08004188                Menu_9_1
-                0x080041b4                Menu_10_2_1
-                0x080041e0                Menu_10_1_1
-                0x0800420c                Menu_10_4_1
-                0x08004238                Menu_10_3_1
-                0x08004264                Menu_10_7_1
-                0x08004280                Menu_10_6_1
-                0x080042ac                Menu_10_5_1
-                0x080042d8                Menu_10_8_1
-                0x080042f4                Menu_10_9_1
-                0x08004310                Menu_1_1_1
-                0x0800433c                Menu_1_2_1
-                0x08004368                Menu_1_3_1
-                0x08004394                Menu_1_4_1
-                0x080043c0                Menu_1_5_1
-                0x080043ec                Menu_1_6_1
-                0x08004418                Menu_1_S_1
-                0x08004444                Menu_10_10
-                0x08004470                Menu_10_9
-                0x0800449c                Menu_10_8
-                0x080044c8                Menu_10_7
-                0x080044f4                Menu_10_6
-                0x08004520                Menu_10_5
-                0x0800454c                Menu_10_4
-                0x08004578                Menu_10_3
-                0x080045a4                Menu_10_2
-                0x080045d0                Menu_10_1
-                0x080045fc                Menu_1_7
-                0x08004628                Menu_1_S
-                0x08004654                Menu_1_6
-                0x08004680                Menu_1_5
-                0x080046ac                Menu_1_4
-                0x080046d8                Menu_1_3
-                0x08004704                Menu_1_2
-                0x08004730                Menu_1_1
-                0x0800475c                Menu_10
-                0x08004788                Menu_9
-                0x080047b4                Menu_8
-                0x080047e0                Menu_7
-                0x0800480c                Menu_6
-                0x08004838                Menu_5
-                0x08004864                Menu_4
-                0x08004890                Menu_3
-                0x080048bc                Menu_2
-                0x080048e8                Menu_1
+ *fill*         0x0800406a        0x2 00
+ .rodata        0x0800406c      0x8c0 ..\obj\main.o
+                0x0800406c                Menu_2_1
+                0x08004098                Menu_3_1
+                0x080040c4                Menu_4_1
+                0x080040f0                Menu_5_1
+                0x0800411c                Menu_6_1
+                0x08004148                Menu_7_1
+                0x08004174                Menu_8_1
+                0x080041a0                Menu_9_1
+                0x080041cc                Menu_10_2_1
+                0x080041f8                Menu_10_1_1
+                0x08004224                Menu_10_4_1
+                0x08004250                Menu_10_3_1
+                0x0800427c                Menu_10_7_1
+                0x08004298                Menu_10_6_1
+                0x080042c4                Menu_10_5_1
+                0x080042f0                Menu_10_8_1
+                0x0800430c                Menu_10_9_1
+                0x08004328                Menu_1_1_1
+                0x08004354                Menu_1_2_1
+                0x08004380                Menu_1_3_1
+                0x080043ac                Menu_1_4_1
+                0x080043d8                Menu_1_5_1
+                0x08004404                Menu_1_6_1
+                0x08004430                Menu_1_S_1
+                0x0800445c                Menu_10_10
+                0x08004488                Menu_10_9
+                0x080044b4                Menu_10_8
+                0x080044e0                Menu_10_7
+                0x0800450c                Menu_10_6
+                0x08004538                Menu_10_5
+                0x08004564                Menu_10_4
+                0x08004590                Menu_10_3
+                0x080045bc                Menu_10_2
+                0x080045e8                Menu_10_1
+                0x08004614                Menu_1_7
+                0x08004640                Menu_1_S
+                0x0800466c                Menu_1_6
+                0x08004698                Menu_1_5
+                0x080046c4                Menu_1_4
+                0x080046f0                Menu_1_3
+                0x0800471c                Menu_1_2
+                0x08004748                Menu_1_1
+                0x08004774                Menu_10
+                0x080047a0                Menu_9
+                0x080047cc                Menu_8
+                0x080047f8                Menu_7
+                0x08004824                Menu_6
+                0x08004850                Menu_5
+                0x0800487c                Menu_4
+                0x080048a8                Menu_3
+                0x080048d4                Menu_2
+                0x08004900                Menu_1
  .rodata.str1.1
-                0x08004914      0x1ec ..\obj\main.o
+                0x0800492c      0x1ec ..\obj\main.o
                                 0x204 (size before relaxing)
- .rodata        0x08004b00      0x100 ..\obj\Eeprom.o
+ .rodata        0x08004b18      0x100 ..\obj\Eeprom.o
  .rodata.str1.1
-                0x08004c00       0xef ..\obj\Eeprom.o
+                0x08004c18       0xef ..\obj\Eeprom.o
  *(.eh_fram e*)
 
-.glue_7         0x08004cf0        0x0
+.glue_7         0x08004d08        0x0
  .glue_7        0x00000000        0x0 linker stubs
 
-.glue_7t        0x08004cf0        0x0
+.glue_7t        0x08004d08        0x0
  .glue_7t       0x00000000        0x0 linker stubs
 
-.vfp11_veneer   0x08004cf0        0x0
+.vfp11_veneer   0x08004d08        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x08004cf0        0x0
+.v4_bx          0x08004d08        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x08004cf0                __exidx_start = .
+                0x08004d08                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x08004cf0                __exidx_end = .
-                0x08004cf0                __etext = .
-                0x08004cef                _sidata = __etext
+                0x08004d08                __exidx_end = .
+                0x08004d08                __etext = .
+                0x08004d07                _sidata = __etext
 
-.data           0x20000000      0x23c load address 0x08004cef
+.data           0x20000000      0x23c load address 0x08004d07
                 0x20000000                __data_start__ = .
                 0x20000000                _sdata = __data_start__
  *(vtable)
@@ -1083,7 +1083,7 @@ Linker script and memory map
                 0x2000023c                __data_end__ = .
                 0x2000023c                _edata = __data_end__
 
-.bss            0x2000023c      0x5c8 load address 0x08004f2c
+.bss            0x2000023c      0x5c8 load address 0x08004f44
                 0x2000023c                . = ALIGN (0x4)
                 0x2000023c                __bss_start__ = .
                 0x2000023c                _sbss = __bss_start__
@@ -1173,7 +1173,7 @@ Linker script and memory map
  *(.heap*)
                 0x20000804                __HeapLimit = .
 
-.co_stack       0x20000804      0x404 load address 0x080054f4
+.co_stack       0x20000804      0x404 load address 0x0800550c
                 0x20000808                . = ALIGN (0x8)
  *fill*         0x20000804        0x4 00
  *(.co_stack .co_stack.*)
@@ -1208,7 +1208,7 @@ LOAD c:/program files (x86)/gnu tools arm embedded/4.6 2012q4/bin/../lib/gcc/arm
 END GROUP
 OUTPUT(BMS.elf elf32-littlearm)
 
-.debug_info     0x00000000     0xab45
+.debug_info     0x00000000     0xaf67
  .debug_info    0x00000000      0x238 ..\obj\MicroMenu2_1.o
  .debug_info    0x00000238     0x1eb4 ..\obj\stm32f10x_tim.o
  .debug_info    0x000020ec      0x140 ..\obj\startup_stm32f10x_ld_vl.o
@@ -1217,18 +1217,18 @@ OUTPUT(BMS.elf elf32-littlearm)
  .debug_info    0x00002a52      0x694 ..\obj\hd44780_driver.o
  .debug_info    0x000030e6      0x724 ..\obj\stm32f10x_gpio.o
  .debug_info    0x0000380a     0x1b74 ..\obj\main.o
- .debug_info    0x0000537e     0x13ba ..\obj\ADC.o
- .debug_info    0x00006738      0x973 ..\obj\stm32f10x_rcc.o
- .debug_info    0x000070ab      0x85e ..\obj\Init_.o
- .debug_info    0x00007909      0xc02 ..\obj\stm32f10x_adc.o
- .debug_info    0x0000850b      0xa5f ..\obj\stm32f10x_usart.o
- .debug_info    0x00008f6a      0x2ad ..\obj\Lib.o
- .debug_info    0x00009217      0x4a0 ..\obj\stm32f10x_dma.o
- .debug_info    0x000096b7      0x594 ..\obj\misc.o
- .debug_info    0x00009c4b      0x733 ..\obj\Eeprom.o
- .debug_info    0x0000a37e      0x7c7 ..\obj\usart.o
+ .debug_info    0x0000537e     0x15bb ..\obj\ADC.o
+ .debug_info    0x00006939      0x973 ..\obj\stm32f10x_rcc.o
+ .debug_info    0x000072ac      0xa7f ..\obj\Init_.o
+ .debug_info    0x00007d2b      0xc02 ..\obj\stm32f10x_adc.o
+ .debug_info    0x0000892d      0xa5f ..\obj\stm32f10x_usart.o
+ .debug_info    0x0000938c      0x2ad ..\obj\Lib.o
+ .debug_info    0x00009639      0x4a0 ..\obj\stm32f10x_dma.o
+ .debug_info    0x00009ad9      0x594 ..\obj\misc.o
+ .debug_info    0x0000a06d      0x733 ..\obj\Eeprom.o
+ .debug_info    0x0000a7a0      0x7c7 ..\obj\usart.o
 
-.debug_abbrev   0x00000000     0x1f58
+.debug_abbrev   0x00000000     0x1f88
  .debug_abbrev  0x00000000      0x147 ..\obj\MicroMenu2_1.o
  .debug_abbrev  0x00000147      0x272 ..\obj\stm32f10x_tim.o
  .debug_abbrev  0x000003b9       0xb0 ..\obj\startup_stm32f10x_ld_vl.o
@@ -1237,16 +1237,16 @@ OUTPUT(BMS.elf elf32-littlearm)
  .debug_abbrev  0x00000688      0x28c ..\obj\hd44780_driver.o
  .debug_abbrev  0x00000914      0x1d9 ..\obj\stm32f10x_gpio.o
  .debug_abbrev  0x00000aed      0x337 ..\obj\main.o
- .debug_abbrev  0x00000e24      0x2b7 ..\obj\ADC.o
- .debug_abbrev  0x000010db      0x1d0 ..\obj\stm32f10x_rcc.o
- .debug_abbrev  0x000012ab      0x170 ..\obj\Init_.o
- .debug_abbrev  0x0000141b      0x1cf ..\obj\stm32f10x_adc.o
- .debug_abbrev  0x000015ea      0x1b8 ..\obj\stm32f10x_usart.o
- .debug_abbrev  0x000017a2       0xf6 ..\obj\Lib.o
- .debug_abbrev  0x00001898      0x174 ..\obj\stm32f10x_dma.o
- .debug_abbrev  0x00001a0c      0x14c ..\obj\misc.o
- .debug_abbrev  0x00001b58      0x21e ..\obj\Eeprom.o
- .debug_abbrev  0x00001d76      0x1e2 ..\obj\usart.o
+ .debug_abbrev  0x00000e24      0x2cf ..\obj\ADC.o
+ .debug_abbrev  0x000010f3      0x1d0 ..\obj\stm32f10x_rcc.o
+ .debug_abbrev  0x000012c3      0x188 ..\obj\Init_.o
+ .debug_abbrev  0x0000144b      0x1cf ..\obj\stm32f10x_adc.o
+ .debug_abbrev  0x0000161a      0x1b8 ..\obj\stm32f10x_usart.o
+ .debug_abbrev  0x000017d2       0xf6 ..\obj\Lib.o
+ .debug_abbrev  0x000018c8      0x174 ..\obj\stm32f10x_dma.o
+ .debug_abbrev  0x00001a3c      0x14c ..\obj\misc.o
+ .debug_abbrev  0x00001b88      0x21e ..\obj\Eeprom.o
+ .debug_abbrev  0x00001da6      0x1e2 ..\obj\usart.o
 
 .debug_loc      0x00000000     0x4b25
  .debug_loc     0x00000000       0xcb ..\obj\MicroMenu2_1.o
@@ -1326,7 +1326,7 @@ OUTPUT(BMS.elf elf32-littlearm)
  .debug_ranges  0x00000b50       0x60 ..\obj\Eeprom.o
  .debug_ranges  0x00000bb0       0x48 ..\obj\usart.o
 
-.debug_line     0x00000000     0x4f4e
+.debug_line     0x00000000     0x4f5f
  .debug_line    0x00000000      0x142 ..\obj\MicroMenu2_1.o
  .debug_line    0x00000142      0xb67 ..\obj\stm32f10x_tim.o
  .debug_line    0x00000ca9       0xc5 ..\obj\startup_stm32f10x_ld_vl.o
@@ -1334,19 +1334,19 @@ OUTPUT(BMS.elf elf32-littlearm)
  .debug_line    0x00000f5a      0x24c ..\obj\system_stm32f10x.o
  .debug_line    0x000011a6      0x4e7 ..\obj\hd44780_driver.o
  .debug_line    0x0000168d      0x412 ..\obj\stm32f10x_gpio.o
- .debug_line    0x00001a9f      0xc19 ..\obj\main.o
- .debug_line    0x000026b8      0x550 ..\obj\ADC.o
- .debug_line    0x00002c08      0x509 ..\obj\stm32f10x_rcc.o
- .debug_line    0x00003111      0x33e ..\obj\Init_.o
- .debug_line    0x0000344f      0x589 ..\obj\stm32f10x_adc.o
- .debug_line    0x000039d8      0x530 ..\obj\stm32f10x_usart.o
- .debug_line    0x00003f08      0x289 ..\obj\Lib.o
- .debug_line    0x00004191      0x357 ..\obj\stm32f10x_dma.o
- .debug_line    0x000044e8      0x2a2 ..\obj\misc.o
- .debug_line    0x0000478a      0x45e ..\obj\Eeprom.o
- .debug_line    0x00004be8      0x366 ..\obj\usart.o
+ .debug_line    0x00001a9f      0xc1e ..\obj\main.o
+ .debug_line    0x000026bd      0x554 ..\obj\ADC.o
+ .debug_line    0x00002c11      0x509 ..\obj\stm32f10x_rcc.o
+ .debug_line    0x0000311a      0x346 ..\obj\Init_.o
+ .debug_line    0x00003460      0x589 ..\obj\stm32f10x_adc.o
+ .debug_line    0x000039e9      0x530 ..\obj\stm32f10x_usart.o
+ .debug_line    0x00003f19      0x289 ..\obj\Lib.o
+ .debug_line    0x000041a2      0x357 ..\obj\stm32f10x_dma.o
+ .debug_line    0x000044f9      0x2a2 ..\obj\misc.o
+ .debug_line    0x0000479b      0x45e ..\obj\Eeprom.o
+ .debug_line    0x00004bf9      0x366 ..\obj\usart.o
 
-.debug_str      0x00000000     0x3f47
+.debug_str      0x00000000     0x3f58
  .debug_str     0x00000000      0x198 ..\obj\MicroMenu2_1.o
                                 0x1bd (size before relaxing)
  .debug_str     0x00000198      0xca4 ..\obj\stm32f10x_tim.o
@@ -1363,25 +1363,25 @@ OUTPUT(BMS.elf elf32-littlearm)
                                 0x4e1 (size before relaxing)
  .debug_str     0x00001b91      0x91a ..\obj\main.o
                                0x1103 (size before relaxing)
- .debug_str     0x000024ab      0x682 ..\obj\ADC.o
-                                0xf6e (size before relaxing)
- .debug_str     0x00002b2d      0x443 ..\obj\stm32f10x_rcc.o
+ .debug_str     0x000024ab      0x693 ..\obj\ADC.o
+                                0xfdc (size before relaxing)
+ .debug_str     0x00002b3e      0x443 ..\obj\stm32f10x_rcc.o
                                 0x635 (size before relaxing)
- .debug_str     0x00002f70       0x9f ..\obj\Init_.o
-                                0x69c (size before relaxing)
- .debug_str     0x0000300f      0x492 ..\obj\stm32f10x_adc.o
+ .debug_str     0x00002f81       0x9f ..\obj\Init_.o
+                                0x70a (size before relaxing)
+ .debug_str     0x00003020      0x492 ..\obj\stm32f10x_adc.o
                                 0x6c3 (size before relaxing)
- .debug_str     0x000034a1      0x44e ..\obj\stm32f10x_usart.o
+ .debug_str     0x000034b2      0x44e ..\obj\stm32f10x_usart.o
                                 0x658 (size before relaxing)
- .debug_str     0x000038ef       0x95 ..\obj\Lib.o
+ .debug_str     0x00003900       0x95 ..\obj\Lib.o
                                 0x1a5 (size before relaxing)
- .debug_str     0x00003984      0x165 ..\obj\stm32f10x_dma.o
+ .debug_str     0x00003995      0x165 ..\obj\stm32f10x_dma.o
                                 0x389 (size before relaxing)
- .debug_str     0x00003ae9      0x1b8 ..\obj\misc.o
+ .debug_str     0x00003afa      0x1b8 ..\obj\misc.o
                                 0x391 (size before relaxing)
- .debug_str     0x00003ca1      0x185 ..\obj\Eeprom.o
+ .debug_str     0x00003cb2      0x185 ..\obj\Eeprom.o
                                 0x77e (size before relaxing)
- .debug_str     0x00003e26      0x121 ..\obj\usart.o
+ .debug_str     0x00003e37      0x121 ..\obj\usart.o
                                 0x77a (size before relaxing)
 
 .comment        0x00000000       0x70

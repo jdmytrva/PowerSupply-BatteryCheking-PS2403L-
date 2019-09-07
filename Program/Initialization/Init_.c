@@ -117,6 +117,7 @@ void init_timer7()
 
 
   NVIC_EnableIRQ(TIM7_IRQn);
+  NVIC_SetPriority(TIM7_IRQn, 5);
 }
 void init_timer16()
 {
@@ -138,5 +139,6 @@ void init_timer16()
 
 
   NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
+  NVIC_SetPriority(TIM1_UP_TIM16_IRQn, 1);
 }
 
