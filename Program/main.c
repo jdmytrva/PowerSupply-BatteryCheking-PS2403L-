@@ -195,7 +195,7 @@ void MenuChargeCC_CV(Key_Pressed_t key)
     	ChargeTimeSec = 0;
 	}
 
-	if ((ChargeTimeSec > ChargeDurationSec)|| (U_OUT> SaveData.MaxVoltage))
+	if ((ChargeTimeSec > ChargeDurationSec)|| (U_OUT> SettingsData.MaxVoltage))
 	{
 		OFF();
 		ChargeStatusForTimer = 0;
@@ -258,9 +258,9 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("T:");
-		PrintToLCD(itoa(SaveData.Value));
+		PrintToLCD(itoa(SettingsData.ChargeTime));
 		PrintToLCD("h MaxV:");
-		PrintToLCD(itoa_koma(SaveData.MaxVoltage/10,1));
+		PrintToLCD(itoa_koma(SettingsData.MaxVoltage/10,1));
 		PrintToLCD("V   ");
 	}
 	if(CountShow == 2)
@@ -293,12 +293,12 @@ void MenuChargeAdapt(Key_Pressed_t key)
 
 	}else
 	{
-		if (U_OUT> SaveData.MaxVoltage)
+		if (U_OUT> SettingsData.MaxVoltage)
 		{
 			OFF();
 		}else
 		{
-			if (U_OUT< (SaveData.MaxVoltage-(SaveData.MaxVoltage*SaveData.ChargeAdapt/100))   )
+			if (U_OUT< (SettingsData.MaxVoltage-(SettingsData.MaxVoltage*SettingsData.ChargeAdapt/100))   )
 				charge();
 		}
 	}
@@ -357,19 +357,19 @@ void MenuChargeAdapt(Key_Pressed_t key)
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("T:");
-		PrintToLCD(itoa(SaveData.Value));
+		PrintToLCD(itoa(SettingsData.ChargeTime));
 		PrintToLCD("h MaxV:");
-		PrintToLCD(itoa_koma(SaveData.MaxVoltage/10,1));
+		PrintToLCD(itoa_koma(SettingsData.MaxVoltage/10,1));
 		PrintToLCD("V   ");
 	}
 	if(CountShow == 2)
 	{
 		lcd_set_xy(0,0);
-		PrintToLCD(itoa(SaveData.ChargeAdapt));
+		PrintToLCD(itoa(SettingsData.ChargeAdapt));
 		PrintToLCD("% ");
-		PrintToLCD(itoa_koma(SaveData.MaxVoltage/10,1));
+		PrintToLCD(itoa_koma(SettingsData.MaxVoltage/10,1));
 		PrintToLCD("V ");
-		PrintToLCD(itoa_koma((SaveData.MaxVoltage-(SaveData.MaxVoltage*SaveData.ChargeAdapt/100))/10,1));
+		PrintToLCD(itoa_koma((SettingsData.MaxVoltage-(SettingsData.MaxVoltage*SettingsData.ChargeAdapt/100))/10,1));
 		PrintToLCD("V   ");
 	}
 	if(CountShow == 3)
@@ -399,8 +399,8 @@ void MenuDisCharge(Key_Pressed_t key)
 
 	U_BatteryTmp = U_OUT;
 	//low bat
-	if (U_BatteryTmp >=SaveData.LowVoltage) BatteryLow=0;
-	if (U_BatteryTmp < SaveData.LowVoltage)
+	if (U_BatteryTmp >=SettingsData.LowVoltage) BatteryLow=0;
+	if (U_BatteryTmp < SettingsData.LowVoltage)
 	{
 		if (BatteryLow == 0) U_Battery_Timer = time_sec;
 		BatteryLow = 1;
@@ -455,7 +455,7 @@ void MenuDisCharge(Key_Pressed_t key)
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("OffWhen Vb<");
-		PrintToLCD(itoa_koma(SaveData.LowVoltage/10 ,1));
+		PrintToLCD(itoa_koma(SettingsData.LowVoltage/10 ,1));
 		PrintToLCD("V   ");
 
 	}
@@ -463,7 +463,7 @@ void MenuDisCharge(Key_Pressed_t key)
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("P ");
-		PrintToLCD(itoa(SaveData.BatteryCapacityDischargePreviousValue/3600 ));
+		PrintToLCD(itoa(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue/3600 ));
 		PrintToLCD("mAh     ");
 		lcd_set_xy(3,1);
 		ClockOnLCD_noSec(DischargeTimeSec_Previous);
@@ -487,7 +487,7 @@ void MenuTraining(Key_Pressed_t key)
 	if (InitiStatus==0)
 	{
 		//InitiStatus
-		if (U_OUT >=SaveData.LowVoltage)
+		if (U_OUT >=SettingsData.LowVoltage)
 		{
 			BATERYSTATUS = 1;//1 discahrge
 			discharge();
@@ -514,8 +514,8 @@ void MenuTraining(Key_Pressed_t key)
 		DisChargeStatusForTimer = 1;
 		U_BatteryTmp = U_OUT;
 		//low bat
-		if (U_BatteryTmp >=SaveData.LowVoltage) BatteryLow=0;
-		if (U_BatteryTmp < SaveData.LowVoltage)
+		if (U_BatteryTmp >=SettingsData.LowVoltage) BatteryLow=0;
+		if (U_BatteryTmp < SettingsData.LowVoltage)
 		{
 			if (BatteryLow == 0) U_Battery_Timer = time_sec;
 			BatteryLow = 1;
@@ -532,15 +532,15 @@ void MenuTraining(Key_Pressed_t key)
 	{
     	DisChargeStatusForTimer = 0;
     	ChargeStatusForTimer = 1;
-    	if ((ChargeTimeSec > ChargeDurationSec)|| (U_OUT> SaveData.MaxVoltage))
+    	if ((ChargeTimeSec > ChargeDurationSec)|| (U_OUT> SettingsData.MaxVoltage))
 		{
 			discharge();
 			BATERYSTATUS = 1;
 			BatteryLow=0;
 			DischargeTimeSec_Previous = DischargeTimeSec;
 			DischargeTimeSec = 0;
-			SaveData.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
-			//SaveData.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
+			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
+			//SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
 			//EEpromWrite();
 			BatteryCapacityDischargeCurrent = 0;
 
@@ -584,11 +584,11 @@ void MenuTraining(Key_Pressed_t key)
 	if(CountShow == 1)
 	{
 		lcd_set_xy(0,0);
-		PrintToLCD(itoa(SaveData.Value));
+		PrintToLCD(itoa(SettingsData.ChargeTime));
 		PrintToLCD("h ");
-		PrintToLCD(itoa_koma(SaveData.LowVoltage/10,1));
+		PrintToLCD(itoa_koma(SettingsData.LowVoltage/10,1));
 		PrintToLCD("V ");
-		PrintToLCD(itoa_koma(SaveData.MaxVoltage/10,1));
+		PrintToLCD(itoa_koma(SettingsData.MaxVoltage/10,1));
 		PrintToLCD("V     ");
 
 
@@ -610,7 +610,7 @@ void MenuTraining(Key_Pressed_t key)
 		LcdOutbyNumber(2,1);//discharge
 		lcd_set_xy(1,0);
 		PrintToLCD("P ");
-		PrintToLCD(itoa(SaveData.BatteryCapacityDischargePreviousValue/3600));
+		PrintToLCD(itoa(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue/3600));
 		PrintToLCD("mAH     ");
 		lcd_set_xy(3,1);
 		ClockOnLCD_noSec(DischargeTimeSec_Previous);
@@ -643,22 +643,22 @@ void MenuSwing(Key_Pressed_t key)
        		Start_Timer_sec();
         }
 
-       if (Timer_Sec<=SaveData.Swing_Chrg_time)
+       if (Timer_Sec<=SettingsData.Swing_Chrg_time)
        {
     	   charge();
-           if (U_OUT>SaveData.MaxVoltage)
+           if (U_OUT>SettingsData.MaxVoltage)
            {
         	   ReStart_Timer_sec();
-               Timer_Sec  = Timer_Sec+ SaveData.Swing_Chrg_time;
+               Timer_Sec  = Timer_Sec+ SettingsData.Swing_Chrg_time;
            }
        }
-       if (Timer_Sec > SaveData.Swing_Chrg_time)
+       if (Timer_Sec > SettingsData.Swing_Chrg_time)
        {
            discharge();
-           if (U_OUT<SaveData.LowVoltage)
+           if (U_OUT<SettingsData.LowVoltage)
         	   ReStart_Timer_sec();
        }
-       if (Timer_Sec > (SaveData.Swing_Chrg_time+SaveData.Swing_DChrg_time))
+       if (Timer_Sec > (SettingsData.Swing_Chrg_time+SettingsData.Swing_DChrg_time))
     	   ReStart_Timer_sec();
 
 		#define MAXITEM6 3
@@ -696,21 +696,21 @@ void MenuSwing(Key_Pressed_t key)
 		if(CountShow == 1)
 		{
 			lcd_set_xy(0,0);
-			PrintToLCD(itoa(SaveData.Value));
+			PrintToLCD(itoa(SettingsData.ChargeTime));
 			PrintToLCD("h ");
-			PrintToLCD(itoa_koma(SaveData.LowVoltage/10,1));
+			PrintToLCD(itoa_koma(SettingsData.LowVoltage/10,1));
 			PrintToLCD("V ");
-			PrintToLCD(itoa_koma(SaveData.MaxVoltage/10,1));
+			PrintToLCD(itoa_koma(SettingsData.MaxVoltage/10,1));
 			PrintToLCD("V     ");
 
 		}
 		if(CountShow == 2)
 		{
 			lcd_set_xy(0,0);
-			PrintToLCD(itoa(SaveData.Swing_Chrg_time));
+			PrintToLCD(itoa(SettingsData.Swing_Chrg_time));
 			PrintToLCD("s ");
 
-			PrintToLCD(itoa(SaveData.Swing_DChrg_time));
+			PrintToLCD(itoa(SettingsData.Swing_DChrg_time));
 			PrintToLCD("s   ");
 
 
@@ -790,12 +790,12 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	if(CountShow1 == 5)
 	{
 		OUT_ON();
-		SaveData.ResistanceComp_MOSFET= (int32_t)(U_PS-U_OUT_ForSetResistance)*10000/Current;
+		CalibrationData.ResistanceComp_MOSFET= (int32_t)(U_PS-U_OUT_ForSetResistance)*10000/Current;
 		lcd_set_xy(0,0);
 		PrintToLCD("R=");
-		PrintToLCD(itoa(SaveData.ResistanceComp_Ishunt_Wires));
+		PrintToLCD(itoa(CalibrationData.ResistanceComp_Ishunt_Wires));
 		PrintToLCD("mOm ");
-		PrintToLCD(itoa(SaveData.ResistanceComp_MOSFET));
+		PrintToLCD(itoa(CalibrationData.ResistanceComp_MOSFET));
 		PrintToLCD("mOm    ");
 		Print_to_USART1_d(Current,"I: ",0);
 		Print_to_USART1_d(U_PS,"U_PS: ",2);
@@ -824,7 +824,7 @@ void MenuCalibration_CURRENT_Out_to_0(Key_Pressed_t key)
 		PrintToLCD("mA >> set 0   ");
 		if (key == KEY_NEXT)
 		{
-			SaveData.Calibration0ValueForCurrent = Current_Out;
+			CalibrationData.Calibration0ValueForCurrent = Current_Out;
 			EEpromWrite();
 		}
 }
@@ -836,7 +836,7 @@ void MenuCalibration_CURRENT_Load_to_0(Key_Pressed_t key)
 	PrintToLCD("mA >> set 0   ");
 	if (key == KEY_NEXT)
 	{
-		SaveData.Calibration0ValueForCurrent1 = Current_load;
+		CalibrationData.Calibration0ValueForCurrent1 = Current_load;
 		EEpromWrite();
 	}
 }
@@ -844,11 +844,11 @@ void MenuCalibration_CURRENT_Out(Key_Pressed_t key)
 {
 	entered_in_charge_discharge_menu=1;
 	OUT_ON();
-	if (key == KEY_NEXT) SaveData.CalibrationValueForCurrent++;
-	if (key == KEY_BACK) SaveData.CalibrationValueForCurrent--;
+	if (key == KEY_NEXT) CalibrationData.CalibrationValueForCurrent++;
+	if (key == KEY_BACK) CalibrationData.CalibrationValueForCurrent--;
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa(SaveData.CalibrationValueForCurrent));
+	PrintToLCD(itoa(CalibrationData.CalibrationValueForCurrent));
 	PrintToLCD("   ");
 	lcd_set_xy(0,1);
 	PrintToLCD(itoa(Current));
@@ -858,11 +858,11 @@ void MenuCalibration_CURRENT_Load(Key_Pressed_t key)
 {
 	entered_in_charge_discharge_menu=1;
 	discharge();
-	if (key == KEY_NEXT) SaveData.CalibrationValueForCurrent1++;
-	if (key == KEY_BACK) SaveData.CalibrationValueForCurrent1--;
+	if (key == KEY_NEXT) CalibrationData.CalibrationValueForCurrent1++;
+	if (key == KEY_BACK) CalibrationData.CalibrationValueForCurrent1--;
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa(SaveData.CalibrationValueForCurrent1));
+	PrintToLCD(itoa(CalibrationData.CalibrationValueForCurrent1));
 	PrintToLCD("   ");
 	lcd_set_xy(0,1);
 	PrintToLCD(itoa(Current));
@@ -872,11 +872,11 @@ void MenuCalibration_VoltagePS(Key_Pressed_t key)
 {
 	entered_in_charge_discharge_menu=1;
 	OUT_ON();
-	if (key == KEY_NEXT) SaveData.CalibrationValueForVoltage++;
-	if (key == KEY_BACK) SaveData.CalibrationValueForVoltage--;
+	if (key == KEY_NEXT) CalibrationData.CalibrationValueForVoltage++;
+	if (key == KEY_BACK) CalibrationData.CalibrationValueForVoltage--;
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa(SaveData.CalibrationValueForVoltage));
+	PrintToLCD(itoa(CalibrationData.CalibrationValueForVoltage));
 	PrintToLCD("   ");
 	lcd_set_xy(0,1);
 	PrintToLCD(itoa_koma(U_PS,2));
@@ -886,11 +886,11 @@ void MenuCalibration_VoltageOut(Key_Pressed_t key)
 {
 	entered_in_charge_discharge_menu=1;
 	OUT_ON();
-	if (key == KEY_NEXT) SaveData.CalibrationValueForVoltage1++;
-	if (key == KEY_BACK) SaveData.CalibrationValueForVoltage1--;
+	if (key == KEY_NEXT) CalibrationData.CalibrationValueForVoltage1++;
+	if (key == KEY_BACK) CalibrationData.CalibrationValueForVoltage1--;
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa(SaveData.CalibrationValueForVoltage1));
+	PrintToLCD(itoa(CalibrationData.CalibrationValueForVoltage1));
 	PrintToLCD("   ");
 	lcd_set_xy(0,1);
 	PrintToLCD(itoa_koma(U_OUT,2));
@@ -900,11 +900,11 @@ void MenuCalibration_VoltageIn(Key_Pressed_t key)
 {
 	entered_in_charge_discharge_menu=1;
 	OUT_ON();
-	if (key == KEY_NEXT) SaveData.CalibrationValueForVoltage2++;
-	if (key == KEY_BACK) SaveData.CalibrationValueForVoltage2--;
+	if (key == KEY_NEXT) CalibrationData.CalibrationValueForVoltage2++;
+	if (key == KEY_BACK) CalibrationData.CalibrationValueForVoltage2--;
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa(SaveData.CalibrationValueForVoltage2));
+	PrintToLCD(itoa(CalibrationData.CalibrationValueForVoltage2));
 	PrintToLCD("   ");
 	lcd_set_xy(0,1);
 	PrintToLCD(itoa_koma(U_IN,2));
@@ -926,16 +926,16 @@ void MenuCalibration_Resist_Comp_5V1A(Key_Pressed_t key)
 		PrintToLCD("V ");
 		Delta = U_OUT_ForSetResistance - ResistanceComp_Voltage;
 		if(Delta<=0) Delta = 0;
-		if (Current <= 0) SaveData.ResistanceComp_Ishunt_Wires = 70;
-		else SaveData.ResistanceComp_Ishunt_Wires = Delta*10000/Current;
-		PrintToLCD(itoa(SaveData.ResistanceComp_Ishunt_Wires));
+		if (Current <= 0) CalibrationData.ResistanceComp_Ishunt_Wires = 70;
+		else CalibrationData.ResistanceComp_Ishunt_Wires = Delta*10000/Current;
+		PrintToLCD(itoa(CalibrationData.ResistanceComp_Ishunt_Wires));
 		PrintToLCD("mOm       ");
 
 
 		Delta = U_PS - U_OUT_ForSetResistance;
 		if(Delta<=0) Delta = 0;
-		if (Current <= 0) SaveData.ResistanceComp_MOSFET = 10;
-		else SaveData.ResistanceComp_MOSFET = Delta*10000/Current;
+		if (Current <= 0) CalibrationData.ResistanceComp_MOSFET = 10;
+		else CalibrationData.ResistanceComp_MOSFET = Delta*10000/Current;
 
 
 }
@@ -973,13 +973,13 @@ void MenuSettingsChargeTime_Enter(void)
 }
 void MenuSettingsChargeTime(Key_Pressed_t key)
 {
-	if (key == KEY_NEXT) SaveData.Value++;
-	if (key == KEY_BACK) SaveData.Value--;
+	if (key == KEY_NEXT) SettingsData.ChargeTime++;
+	if (key == KEY_BACK) SettingsData.ChargeTime--;
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa(SaveData.Value));
+	PrintToLCD(itoa(SettingsData.ChargeTime));
 	PrintToLCD("h   ");
-    ChargeDurationSec = SaveData.Value*3600;
+    ChargeDurationSec = SettingsData.ChargeTime*3600;
 }
 void MenuSettingsLowVolt_Enter(void)
 {
@@ -987,11 +987,11 @@ void MenuSettingsLowVolt_Enter(void)
 }
 void MenuSettingsLowVolt(Key_Pressed_t key)
 {
-	if (key == KEY_NEXT) SaveData.LowVoltage = SaveData.LowVoltage + 10;
-	if (key == KEY_BACK) SaveData.LowVoltage = SaveData.LowVoltage - 10;
+	if (key == KEY_NEXT) SettingsData.LowVoltage = SettingsData.LowVoltage + 10;
+	if (key == KEY_BACK) SettingsData.LowVoltage = SettingsData.LowVoltage - 10;
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa_koma(SaveData.LowVoltage/10,1));
+	PrintToLCD(itoa_koma(SettingsData.LowVoltage/10,1));
 	PrintToLCD("V   ");
 }
 void MenuSettingsMaxVolt_Enter(void)
@@ -1000,11 +1000,11 @@ void MenuSettingsMaxVolt_Enter(void)
 }
 void MenuSettingsMaxVolt(Key_Pressed_t key)
 {
-	if (key == KEY_NEXT) SaveData.MaxVoltage = SaveData.MaxVoltage + 10;
-	if (key == KEY_BACK) SaveData.MaxVoltage = SaveData.MaxVoltage - 10;
+	if (key == KEY_NEXT) SettingsData.MaxVoltage = SettingsData.MaxVoltage + 10;
+	if (key == KEY_BACK) SettingsData.MaxVoltage = SettingsData.MaxVoltage - 10;
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa_koma(SaveData.MaxVoltage/10,1));
+	PrintToLCD(itoa_koma(SettingsData.MaxVoltage/10,1));
 	PrintToLCD("V   ");
 
 }
@@ -1014,11 +1014,11 @@ void MenuSettingsSwngChrgTime_Enter(void)
 }
 void MenuSettingsSwngChrgTime(Key_Pressed_t key)
 {
-	if (key == KEY_NEXT)  SaveData.Swing_Chrg_time++;
-	if (key == KEY_BACK)  SaveData.Swing_Chrg_time--;
+	if (key == KEY_NEXT)  SettingsData.Swing_Chrg_time++;
+	if (key == KEY_BACK)  SettingsData.Swing_Chrg_time--;
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa(SaveData.Swing_Chrg_time));
+	PrintToLCD(itoa(SettingsData.Swing_Chrg_time));
 	PrintToLCD(" sec.   ");
 }
 void MenuSettingsSwngDChrgTime_Enter(void)
@@ -1027,11 +1027,11 @@ void MenuSettingsSwngDChrgTime_Enter(void)
 }
 void MenuSettingsSwngDChrgTime(Key_Pressed_t key)
 {
-	if (key == KEY_NEXT)  SaveData.Swing_DChrg_time++;
-	if (key == KEY_BACK)  SaveData.Swing_DChrg_time--;
+	if (key == KEY_NEXT)  SettingsData.Swing_DChrg_time++;
+	if (key == KEY_BACK)  SettingsData.Swing_DChrg_time--;
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa(SaveData.Swing_DChrg_time));
+	PrintToLCD(itoa(SettingsData.Swing_DChrg_time));
 	PrintToLCD(" sec.   ");
 }
 void MenuSettingsChargeAddapt_Enter(void)
@@ -1040,22 +1040,22 @@ void MenuSettingsChargeAddapt_Enter(void)
 }
 void MenuSettingsChargeAddapt(Key_Pressed_t key)
 {
-	if (key == KEY_NEXT)  SaveData.ChargeAdapt++;
-	if (key == KEY_BACK)  SaveData.ChargeAdapt--;
+	if (key == KEY_NEXT)  SettingsData.ChargeAdapt++;
+	if (key == KEY_BACK)  SettingsData.ChargeAdapt--;
 
 
 	lcd_set_xy(0,0);
-	PrintToLCD(itoa(SaveData.ChargeAdapt));
+	PrintToLCD(itoa(SettingsData.ChargeAdapt));
 	PrintToLCD("% ");
-	PrintToLCD(itoa_koma(SaveData.MaxVoltage/10,1));
+	PrintToLCD(itoa_koma(SettingsData.MaxVoltage/10,1));
 	PrintToLCD("V ");
-	PrintToLCD(itoa_koma((SaveData.MaxVoltage-(SaveData.MaxVoltage * SaveData.ChargeAdapt/100))/10,1));
+	PrintToLCD(itoa_koma((SettingsData.MaxVoltage-(SettingsData.MaxVoltage * SettingsData.ChargeAdapt/100))/10,1));
 	PrintToLCD("V   ");
 }
 void SelectedOption(void)
 {
 
-	if (SelectedOptionValue == SaveData.Option1)
+	if (SelectedOptionValue == SettingsData.Option1)
 	{
 		lcd_set_xy(7,1);
 		lcd_send(255,DATA);
@@ -1068,16 +1068,16 @@ void MenuSettingsSaveMenuPosWhenOFF(Key_Pressed_t key)
 	lcd_set_xy(0,0);
 	if (key == KEY_NEXT)
 	{
-		SaveData.Option1++;
-		if (SaveData.Option1==QUANTITY_OPTIONS+1) SaveData.Option1=1;
+		SettingsData.Option1++;
+		if (SettingsData.Option1==QUANTITY_OPTIONS+1) SettingsData.Option1=1;
 	}
 	if (key == KEY_BACK)
 	{
-		SaveData.Option1--;
-		if (SaveData.Option1==0) SaveData.Option1 = QUANTITY_OPTIONS;
+		SettingsData.Option1--;
+		if (SettingsData.Option1==0) SettingsData.Option1 = QUANTITY_OPTIONS;
 	}
 
-	switch (SaveData.Option1)
+	switch (SettingsData.Option1)
 	{
 		case 1:
 			PrintToLCD("PowerSupply     ");
@@ -1109,7 +1109,7 @@ void MenuSettingsSaveMenuPosWhenOFF(Key_Pressed_t key)
 			SelectedOption();
 			break;
 		default:
-			SaveData.Option1 =1;
+			SettingsData.Option1 =1;
 			break;
 	}
 
@@ -1124,7 +1124,7 @@ void MenuOption_Enter(Key_Pressed_t key)
 	lcd_set_xy(7,1);
 	lcd_send(255,DATA);
 	EEpromWrite();
-	SelectedOptionValue = SaveData.Option1;
+	SelectedOptionValue = SettingsData.Option1;
 	Delay_mSec(200);
 
 }
@@ -1151,28 +1151,28 @@ int main(void)
 		PrintToLCD("EEprom Read FAIL");
 		Delay_mSec(4000);
 	}
-    BatteryCapacityDischargeCurrentAfterPOwerUp = SaveData.BatteryCapacityDischargeCurrent;
-    ChargeDurationSec = SaveData.Value*3600;
-    SelectedOptionValue = SaveData.Option1;
+    BatteryCapacityDischargeCurrentAfterPOwerUp = SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent;
+    ChargeDurationSec = SettingsData.ChargeTime*3600;
+    SelectedOptionValue = SettingsData.Option1;
     Print_to_USART1(Version);
     InfoToUARTBeforeStart();
     //HSE_PLL();
 
     lcd_clear();
 	Menu_SetGenericWriteCallback(Generic_Write);
-	if (SaveData.Option1 == 1)
+	if (SettingsData.Option1 == 1)
 		Menu_Navigate(&Menu_2_1);
-	else if (SaveData.Option1 == 2)
+	else if (SettingsData.Option1 == 2)
 		Menu_Navigate(&Menu_3_1);
-	else if (SaveData.Option1 == 3)
+	else if (SettingsData.Option1 == 3)
 		Menu_Navigate(&Menu_4_1);
-	else if (SaveData.Option1 == 4)
+	else if (SettingsData.Option1 == 4)
 		Menu_Navigate(&Menu_5_1);
-	else if (SaveData.Option1 == 5)
+	else if (SettingsData.Option1 == 5)
 		Menu_Navigate(&Menu_6_1);
-	else if (SaveData.Option1 == 6)
+	else if (SettingsData.Option1 == 6)
 		Menu_Navigate(&Menu_7_1);
-	else if (SaveData.Option1 == 7)
+	else if (SettingsData.Option1 == 7)
 		Menu_Navigate(&Menu_8_1);
 	else Menu_Navigate(&Menu_2_1);
 
@@ -1259,7 +1259,7 @@ int main(void)
 			OFF();
 			InitiStatus = 0;
 			CountShow = 0;
-			SaveData.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
+			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
 			DischargeTimeSec_Previous = DischargeTimeSec;
 		}
 
@@ -1410,7 +1410,7 @@ void All_OUT_OFF_When_Power_OFF()
 		if (EEpromWrite_status == 0)
 		{
 			EEpromWrite_status = 1;
-			SaveData.BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent;
+			SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent;
 			EEpromWrite();
 			while (1)
 			{

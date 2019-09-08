@@ -16,4 +16,30 @@ uint8_t FactoryEEpromWrite(void);
 char CalcCRC8(char *Ptr, char Num, char CRC1);
 uint8_t ReadFromEEpromVerify(void);
 
+
+
+uint8_t CalibrationWriteToFlash(void);
+uint8_t CalibrationFactoryWriteToFlash(void);
+uint8_t CalibrationReadFromFlash(void);
+uint8_t CalibrationReadFromFlashForVerify(void);
+uint8_t SettingsWriteToFlash(void);
+uint8_t SettingsFactoryWriteToFlash(void);
+uint8_t SettingsReadFromFlash(void);
+uint8_t SettingsReadFromFlashForVerify(void);
+uint8_t DataWhenPowerOffWriteToFlash(void);
+uint8_t DataWhenPowerOff_Factory_WriteToFlash(void);
+uint8_t DataWhenPowerOffReadFromFlash(void);
+uint8_t DataWhenPowerOffReadFromFlashForVerify(void);
+
+
+
+
+
+
+
+
+
+
+
+
 #endif

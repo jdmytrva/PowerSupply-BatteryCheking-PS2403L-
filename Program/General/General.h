@@ -2,34 +2,10 @@
 #include "usart.h"
 #ifndef _GENERAL_
 #define _GENERAL_
-struct StructOptionValuetoSaveInEEprom
+struct StructCalibrationValuetoSaveInFlash
 {
 	uint32_t CRC_data;
 	uint32_t CRC_AddresInEEprom;
-
-	uint32_t Option1;
-	uint32_t Option1_AddresInEEprom;
-//
-	uint32_t Value;
-	uint32_t Value_AddresInEEprom;
-
-	uint32_t BatteryCapacityDischargePreviousValue;
-	uint32_t BatteryCapacityDischargePrevious_AddresInEEprom;
-
-	uint32_t LowVoltage;
-	uint32_t LowVoltage_AddresInEEprom;
-
-	uint32_t MaxVoltage;
-	uint32_t MaxVoltage_AddresInEEprom;
-
-	uint32_t Swing_Chrg_time;
-	uint32_t Swing_Chrg_time_AddresInEEprom;
-
-	uint32_t Swing_DChrg_time;
-	uint32_t Swing_DChrg_time_AddresInEEprom;
-
-	uint32_t BatteryCapacityDischargeCurrent;
-	uint32_t BatteryCapacityDischargeCurrent_AddresInEEprom;
 
 	uint32_t Calibration0ValueForCurrent;
 	uint32_t Calibration0ValueForCurrent_AddresInEEprom;
@@ -52,18 +28,64 @@ struct StructOptionValuetoSaveInEEprom
 	uint32_t CalibrationValueForVoltage2;
 	uint32_t CalibrationValueForVoltage2_AddresInEEprom;
 
-	uint32_t ChargeAdapt;
-	uint32_t ChargeAdapt_AddresInEEprom;
-
 	uint32_t ResistanceComp_Ishunt_Wires;
 	uint32_t ResistanceComp_Ishunt_Wires_AddresInEEprom;
 
 	uint32_t ResistanceComp_MOSFET;
 	uint32_t ResistanceComp_MOSFET_AddresInEEprom;
 };
-struct StructOptionValuetoSaveInEEprom SaveData;
-struct StructOptionValuetoSaveInEEprom SaveDataForVerify;
-struct StructOptionValuetoSaveInEEprom FactorySaveData;
+
+struct StructSettingsValuetoSaveInFlash
+{
+	uint32_t CRC_data;
+	uint32_t CRC_AddresInEEprom;
+
+	uint32_t Option1;
+	uint32_t Option1_AddresInEEprom;
+//
+	uint32_t ChargeTime;
+	uint32_t ChargeTime_AddresInEEprom;
+
+	uint32_t LowVoltage;
+	uint32_t LowVoltage_AddresInEEprom;
+
+	uint32_t MaxVoltage;
+	uint32_t MaxVoltage_AddresInEEprom;
+
+	uint32_t Swing_Chrg_time;
+	uint32_t Swing_Chrg_time_AddresInEEprom;
+
+	uint32_t Swing_DChrg_time;
+	uint32_t Swing_DChrg_time_AddresInEEprom;
+
+	uint32_t ChargeAdapt;
+	uint32_t ChargeAdapt_AddresInEEprom;
+};
+struct StructValuetoSaveInFlashWhenPowerOFF
+{
+	uint32_t CRC_data;
+	uint32_t CRC_AddresInEEprom;
+
+	uint32_t BatteryCapacityDischargePreviousValue;
+	uint32_t BatteryCapacityDischargePrevious_AddresInEEprom;
+
+	uint32_t BatteryCapacityDischargeCurrent;
+	uint32_t BatteryCapacityDischargeCurrent_AddresInEEprom;
+};
+
+
+struct StructCalibrationValuetoSaveInFlash CalibrationData;
+struct StructCalibrationValuetoSaveInFlash CalibrationDataForVerify;
+struct StructCalibrationValuetoSaveInFlash CalibrationDataFactory;
+
+struct StructSettingsValuetoSaveInFlash SettingsData;
+struct StructSettingsValuetoSaveInFlash SettingsDataForVerify;
+struct StructSettingsValuetoSaveInFlash SettingsDataFactory;
+
+struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOff;
+struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffForVerify;
+struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffFactory;
+
 
 //ADC
 volatile uint16_t U_OUT_ForSetResistance;
