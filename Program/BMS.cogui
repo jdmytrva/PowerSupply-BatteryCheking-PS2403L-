@@ -3,8 +3,8 @@
 <workbenchAdvisor/>
 <window>
 <fastViewData fastViewLocation="1024">
-<orientation position="512" view="org.eclipse.ui.views.ContentOutline"/>
 <orientation position="512" view="org.coocox.component.ui.Help"/>
+<orientation position="512" view="org.eclipse.ui.views.ContentOutline"/>
 </fastViewData>
 <perspectiveBar/>
 <page aggregateWorkingSetId="Aggregate for window 1467808153988" focus="true" label="Workspace - CooCox CoBuilder">
@@ -36,15 +36,15 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="C:/Users/Vasyl/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/main.c" title="main.c" tooltip="C:/Users/Vasyl/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/main.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="395" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="608" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="General.c" partName="General.c" path="C:/Users/Vasyl/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/General/General.c" title="General.c" tooltip="C:/Users/Vasyl/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/General/General.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/General/General.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4799" selectionTopPixel="8275"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4829" selectionTopPixel="9099"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="General.h" partName="General.h" path="C:/Users/Vasyl/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/General/General.h" title="General.h" tooltip="C:/Users/Vasyl/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/General/General.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/General/General.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2707" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2707" selectionTopPixel="3769"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="ADC.c" partName="ADC.c" path="C:/Users/Vasyl/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/ADC/ADC.c" title="ADC.c" tooltip="C:/Users/Vasyl/Documents/GitHub/PowerSupply-Charger-Load--TPS54340/Program/ADC/ADC.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/BMS/ADC/ADC.c"/>
@@ -86,8 +86,7 @@
 <views>
 <view id="org.eclipse.search.ui.views.SearchView" partName="Search">
 <viewState isPinned="false">
-<view IMemento.internal.id="org.eclipse.cdt.ui.pdomSearchViewPage" definitionColumnWidth="150" locationColumnWidth="300" matchColumnWidth="300" org.eclipse.search.lastActivation="2" org.eclipse.search.resultpage.layout="2" showEnclosingDefinitions="true"/>
-<view IMemento.internal.id="org.eclipse.search.text.FileSearchResultPage" org.eclipse.search.lastActivation="3" org.eclipse.search.resultpage.layout="2" org.eclipse.search.resultpage.limit="1000" org.eclipse.search.resultpage.sorting="2"/>
+<view IMemento.internal.id="org.eclipse.cdt.ui.pdomSearchViewPage" definitionColumnWidth="150" locationColumnWidth="300" matchColumnWidth="300" org.eclipse.search.lastActivation="1" org.eclipse.search.resultpage.layout="2" showEnclosingDefinitions="true"/>
 <view IMemento.internal.id="" org.eclipse.search.lastActivation="0"/>
 </viewState>
 </view>
@@ -207,7 +206,7 @@
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@1678ddf" ratio="0.674482" ratioLeft="1237" ratioRight="597" relationship="4" relative="org.eclipse.ui.internal.ViewStack@1b09579">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@1678ddf" ratio="0.761723" ratioLeft="1397" ratioRight="437" relationship="4" relative="org.eclipse.ui.internal.ViewStack@1b09579">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.cdt.ui.callHierarchy" label="Call Hierarchy"/>
@@ -356,70 +355,9 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Eeprom/Eeprom.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Eeprom/Eeprom.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/Library/Lib.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/General/General.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/BMS/General/General.h"/>
 </editors>
-<item historyLabel="Eeprom.h" index="4">
-<position info="not_deleted" x="82" y="0"/>
-</item>
-<item historyLabel="Eeprom.c" index="3">
-<position info="not_deleted" x="1573" y="31"/>
-</item>
-<item historyLabel="General.c" index="1">
-<position/>
-</item>
-<item historyLabel="Eeprom.c" index="3">
-<position info="not_deleted" x="1602" y="0"/>
-</item>
-<item historyLabel="Eeprom.c" index="3">
-<position info="not_deleted" x="1654" y="47"/>
-</item>
-<item historyLabel="Eeprom.c" index="3">
-<position info="not_deleted" x="1652" y="0"/>
-</item>
-<item historyLabel="Eeprom.c" index="3">
-<position info="not_deleted" x="1741" y="50"/>
-</item>
-<item historyLabel="General.c" index="1">
-<position info="not_deleted" x="190" y="0"/>
-</item>
-<item historyLabel="Eeprom.c" index="3">
-<position info="not_deleted" x="1469" y="0"/>
-</item>
-<item historyLabel="General.c" index="1">
-<position info="not_deleted" x="190" y="0"/>
-</item>
-<item historyLabel="General.h" index="2">
-<position info="not_deleted" x="2707" y="0"/>
-</item>
-<item historyLabel="Eeprom.c" index="3">
-<position info="not_deleted" x="1469" y="0"/>
-</item>
-<item historyLabel="General.c" index="1">
-<position info="not_deleted" x="4833" y="0"/>
-</item>
-<item historyLabel="Eeprom.h" index="4">
-<position info="not_deleted" x="82" y="0"/>
-</item>
-<item historyLabel="Eeprom.c" index="3">
-<position info="not_deleted" x="1789" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="26370" y="0"/>
-</item>
-<item historyLabel="General.c" index="1">
-<position info="not_deleted" x="4833" y="0"/>
-</item>
-<item historyLabel="Eeprom.c" index="3">
-<position info="not_deleted" x="1848" y="0"/>
-</item>
-<item historyLabel="General.c" index="1">
-<position info="not_deleted" x="4833" y="0"/>
-</item>
-<item historyLabel="General.h" index="2">
-<position info="not_deleted" x="2883" y="0"/>
-</item>
-<item historyLabel="Eeprom.c" index="3">
-<position info="not_deleted" x="1848" y="0"/>
-</item>
 <item historyLabel="General.c" index="1">
 <position info="not_deleted" x="4833" y="0"/>
 </item>
@@ -504,8 +442,71 @@
 <item historyLabel="Lib.c" index="5">
 <position info="not_deleted" x="304" y="0"/>
 </item>
-<item active="true" historyLabel="main.c" index="0">
+<item historyLabel="main.c" index="0">
 <position info="not_deleted" x="32813" y="0"/>
+</item>
+<item historyLabel="General.c" index="6">
+<position/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="395" y="0"/>
+</item>
+<item historyLabel="General.h" index="7">
+<position info="not_deleted" x="2707" y="0"/>
+</item>
+<item historyLabel="General.c" index="6">
+<position info="not_deleted" x="4831" y="0"/>
+</item>
+<item historyLabel="General.h" index="7">
+<position info="not_deleted" x="2766" y="0"/>
+</item>
+<item historyLabel="General.c" index="6">
+<position info="not_deleted" x="4770" y="56"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="15716" y="0"/>
+</item>
+<item historyLabel="General.c" index="6">
+<position/>
+</item>
+<item historyLabel="General.h" index="7">
+<position info="not_deleted" x="2766" y="0"/>
+</item>
+<item historyLabel="General.c" index="6">
+<position/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="15820" y="0"/>
+</item>
+<item historyLabel="General.c" index="6">
+<position/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="15706" y="0"/>
+</item>
+<item historyLabel="General.c" index="6">
+<position info="not_deleted" x="4770" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="15706" y="0"/>
+</item>
+<item historyLabel="General.c" index="6">
+<position/>
+</item>
+<item historyLabel="General.c" index="6">
+<position info="not_deleted" x="4829" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="15706" y="0"/>
+</item>
+<item historyLabel="General.h" index="7">
+<position info="not_deleted" x="2707" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="15706" y="0"/>
+</item>
+<item active="true" historyLabel="main.c" index="0">
+<position info="not_deleted" x="120" y="15"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>

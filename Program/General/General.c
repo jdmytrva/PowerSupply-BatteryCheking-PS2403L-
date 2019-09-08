@@ -180,8 +180,8 @@ void WriteInLOG(char  str [17])
 
 	char *number;
 	number = itoa(LoggingData.RecordsQuantity);
-	Print_to_USART1_d(LoggingData.RecordsQuantity,"Q: ",0);
-	Print_to_USART1(number);
+
+
 	for(i=0;number[i]!='\0';i++)
 	{
 		LoggingData.Records[LoggingData.RecordsQuantity][i] = number[i];
@@ -205,10 +205,10 @@ void WriteInLOG(char  str [17])
 	Print_to_USART1_d(i,"ii: ",0);
 	LoggingData.Records[LoggingData.RecordsQuantity][i] = '\0';
 
-
 	LoggingData.RecordsQuantity++;
-	if (LoggingData.RecordsQuantity>=(MAX_LOG_ITEMS-1))LoggingData.RecordsQuantity=0;
+	if (LoggingData.RecordsQuantity>=(MAX_LOG_ITEMS))LoggingData.RecordsQuantity=0;
 	flash_write_block();
+	Print_to_USART1_d(LoggingData.RecordsQuantity,"Q: ",0);
 }
 
 void InfoToUARTBeforeStart(void)

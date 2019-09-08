@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.67";
+char Version[] = "PS 30V 3A v1.68";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -730,10 +730,13 @@ void MenuLog(Key_Pressed_t key)
 	if (key == KEY_BACK)
 	{
 		i_LogItems--;
-		if (i_LogItems<0) i_LogItems=LoggingData.RecordsQuantity;
+		if (i_LogItems<0) i_LogItems=LoggingData.RecordsQuantity-1;
+		if (i_LogItems<0) i_LogItems=0;
 	}
 	lcd_set_xy(0,0);
 	PrintToLCD(LoggingData.Records[i_LogItems]);
+	Print_to_USART1_d(i_LogItems,"i_LogItems: ",0);
+	Print_to_USART1_d(LoggingData.RecordsQuantity,"MRecordsQuantity: ",0);
 
 
 
