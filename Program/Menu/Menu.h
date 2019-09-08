@@ -14,8 +14,11 @@ void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key);
  MENU_ITEM(Menu_6,     Menu_7,     Menu_5,     NULL_MENU,   Menu_6_1,   NULL,                NULL,               "DisCharge       ");
  MENU_ITEM(Menu_7,     Menu_8,     Menu_6,     NULL_MENU,   Menu_7_1,   NULL,                NULL,               "Training        ");
  MENU_ITEM(Menu_8,     Menu_9,     Menu_7,     NULL_MENU,   Menu_8_1,   NULL,                NULL,               "Swing           ");
- MENU_ITEM(Menu_9,     Menu_10,    Menu_8,     NULL_MENU,   Menu_9_1,   NULL,                NULL,               "DIAGNOSTIC      ");
- MENU_ITEM(Menu_10,    Menu_1,     Menu_9,     NULL_MENU,   Menu_10_1,  NULL,                NULL,               "CALIBRATION     ");
+ MENU_ITEM(Menu_9,     Menu_11,    Menu_8,     NULL_MENU,   Menu_9_1,   NULL,                NULL,               "DIAGNOSTIC      ");
+
+ MENU_ITEM(Menu_11,     Menu_10,    Menu_9,     NULL_MENU,   Menu_11_1, NULL,                NULL,               "LOG             ");
+
+ MENU_ITEM(Menu_10,    Menu_1,     Menu_11,     NULL_MENU,   Menu_10_1,  NULL,                NULL,               "CALIBRATION     ");
 
 //MENU Settings
  //       NAME          NEXT,       PREV        PARENT,       CHILD       EnterCallback        SelectCallback         Text
@@ -57,6 +60,10 @@ void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key);
  MENU_ITEM(Menu_8_1,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_8,   NULL,                NULL,               "                ");
  //DIAGNOSTIC
  MENU_ITEM(Menu_9_1,     NULL_MENU,    NULL_MENU,     NULL_MENU,   Menu_9,   NULL,                NULL,               "                ");
+
+ //LOG
+ MENU_ITEM(Menu_11_1,     NULL_MENU,    NULL_MENU,     NULL_MENU,   Menu_11,   NULL,                NULL,             "                ");
+
 
 
  //CURRENT Out to 0

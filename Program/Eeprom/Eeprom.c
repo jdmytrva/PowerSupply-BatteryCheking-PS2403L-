@@ -68,6 +68,48 @@ void flash_write(uint32_t address,uint32_t data)
     FLASH->CR &= ~(FLASH_CR_PG);
 
 }
+#define ADDRESS_FLASH_LOG          FLASH_BASE+1024*121
+void flash_write_block()
+{
+	__disable_irq();
+	flash_unlock();
+	uint32_t i=0;
+	uint32_t pageAdr;
+	pageAdr = ADDRESS_FLASH_LOG;
+	uint32_t size =  (uint32_t)sizeof(LoggingData);
+	uint32_t *source_adr = (void *)&LoggingData;
+
+	Print_to_USART1_d(size,"size: ",0);
+	Print_to_USART1_d(*(source_adr + 0),"val: ",0);
+
+
+	flash_erase_page(pageAdr );
+	for (i = 0; i < size/4; ++i)
+	{
+		flash_write((uint32_t)(pageAdr + i*4), *(source_adr + i));        // Запишем новое значение памяти
+    }
+
+	flash_lock();
+	__enable_irq();
+	return 1;
+}
+uint8_t flash_read_block()
+{
+	uint32_t i=0;
+
+
+	uint32_t size =  (uint32_t)sizeof(LoggingData);
+	uint32_t *source_adr = ADDRESS_FLASH_LOG;   // Определяем адрес, откуда будем читать
+	uint32_t *dest_adr = (void *)&LoggingData;                                           // Определяем адрес, куда будем писать
+
+	for (i=0; i < size/4; ++i)
+	{                                  // В цикле производим чтение
+		*(dest_adr + i) = *(__IO uint32_t*)(source_adr + i);                    // Само чтение
+	}
+
+	return 1;
+
+}
 
 uint32_t flash_read(uint32_t address, uint32_t MinValue, uint32_t MaxValue)
 {

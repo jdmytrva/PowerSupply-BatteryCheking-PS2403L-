@@ -1,7 +1,8 @@
 #include "General.h"
 #define ADDRESS_FLASH_CALIBRATTION FLASH_BASE+1024*124
-#define ADDRESS_FLASH_SETTINGS FLASH_BASE+1024*123
-#define ADDRESS_FLASH_WHEN_OFF FLASH_BASE+1024*122
+#define ADDRESS_FLASH_SETTINGS     FLASH_BASE+1024*123
+#define ADDRESS_FLASH_WHEN_OFF     FLASH_BASE+1024*122
+
 
 struct StructCalibrationValuetoSaveInFlash CalibrationData=
 {
@@ -170,8 +171,49 @@ volatile uint16_t U_OUT_ForSetResistance=0;
 volatile int16_t Current_load = 0;
 volatile int16_t Current_Out = 0;
 
+
+void WriteInLOG(char  str [17])
+{
+	static uint16_t i_log=0;
+	uint8_t i;
+	uint8_t j;
+
+	char *number;
+	number = itoa(LoggingData.RecordsQuantity);
+	Print_to_USART1_d(LoggingData.RecordsQuantity,"Q: ",0);
+	Print_to_USART1(number);
+	for(i=0;number[i]!='\0';i++)
+	{
+		LoggingData.Records[LoggingData.RecordsQuantity][i] = number[i];
+	}
+	LoggingData.Records[LoggingData.RecordsQuantity][i] = ':';
+	i++;
+
+	for(j=0;str[j]!='\0';i++,j++)
+	{
+		if (i<16) LoggingData.Records[LoggingData.RecordsQuantity][i] = str[j];
+		else
+		{
+			LoggingData.Records[LoggingData.RecordsQuantity][i] = '\0';
+			break;
+		}
+	}
+	for (;i<16;i++)
+	{
+		LoggingData.Records[LoggingData.RecordsQuantity][i] = ' ';
+	}
+	Print_to_USART1_d(i,"ii: ",0);
+	LoggingData.Records[LoggingData.RecordsQuantity][i] = '\0';
+
+
+	LoggingData.RecordsQuantity++;
+	if (LoggingData.RecordsQuantity>=(MAX_LOG_ITEMS-1))LoggingData.RecordsQuantity=0;
+	flash_write_block();
+}
+
 void InfoToUARTBeforeStart(void)
 {
+
 	Print_to_USART1_d(CalibrationData.CRC_data,"CRC(Calibration) =",0);
 	Print_to_USART1_d(CalibrationData.Calibration0ValueForCurrent ,"Calibration0ValueForCurrent =",0);
 	Print_to_USART1_d(CalibrationData.Calibration0ValueForCurrent1 ,"Calibration0ValueForCurrent1 =",0);

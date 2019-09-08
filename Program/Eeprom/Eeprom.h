@@ -33,8 +33,8 @@ uint8_t DataWhenPowerOff_Factory_WriteToFlash(void);
 uint8_t DataWhenPowerOffReadFromFlash(void);
 uint8_t DataWhenPowerOffReadFromFlashForVerify(void);
 
-
-
+void flash_write_block();
+uint8_t flash_read_block();
 
 
 

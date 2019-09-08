@@ -92,6 +92,16 @@ volatile uint16_t U_OUT_ForSetResistance;
 volatile int16_t Current_RAW;
 volatile int16_t Current_load ;
 volatile int16_t Current_Out ;
+#define MAX_LOG_ITEMS 55
+
+struct StructLoggingData
+{
+	uint32_t RecordsQuantity;
+	char Records[MAX_LOG_ITEMS][17];
+
+};
+struct StructLoggingData LoggingData;
+void WriteInLOG(char  str[17]);
 
 
 void InfoToUARTBeforeStart(void);

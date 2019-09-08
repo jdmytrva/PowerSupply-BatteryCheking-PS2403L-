@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.66";
+char Version[] = "PS 30V 3A v1.67";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -39,7 +39,7 @@ volatile uint32_t  time_hour = 0;
 volatile uint32_t BatteryCapacityDischargeCurrent = 0;
 volatile uint32_t BatteryCapacityDischargeCurrentAfterPOwerUp = 0;
 volatile uint32_t BatteryCapacityCharge = 0;
-
+int16_t i_LogItems=0;
 
 void BUT_Debrief(void);
 void init_timer6();
@@ -719,9 +719,29 @@ void MenuSwing(Key_Pressed_t key)
 		}
 
 }
+void MenuLog(Key_Pressed_t key)
+{
 
+	if (key == KEY_NEXT)
+	{
+		i_LogItems++;
+		if (i_LogItems>=LoggingData.RecordsQuantity) i_LogItems=0;
+	}
+	if (key == KEY_BACK)
+	{
+		i_LogItems--;
+		if (i_LogItems<0) i_LogItems=LoggingData.RecordsQuantity;
+	}
+	lcd_set_xy(0,0);
+	PrintToLCD(LoggingData.Records[i_LogItems]);
+
+
+
+
+}
 void MenuDIAGNOSTIC(Key_Pressed_t key)
 {
+
 	entered_in_charge_discharge_menu=1;
 
 	//discharge();
@@ -730,6 +750,7 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	{
 		CountShow1++;
 		if (CountShow1==MAXITEM) CountShow1=0;
+
 	}
 	if (key == KEY_BACK)
 	{
@@ -1116,11 +1137,14 @@ void MenuSettingsSaveMenuPosWhenOFF(Key_Pressed_t key)
 void MenuCalibrationWriteToFlash_Enter(Key_Pressed_t key)
 {
 	CalibrationWriteToFlash_CRC();
+	WriteInLOG("qwer1234567890zxcvbnm");
 }
 
 void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key)
 {
 	SettingsWriteToFlash_CRC();
+	WriteInLOG("Seet");
+
 }
 
 void MenuOption_Enter(Key_Pressed_t key)
@@ -1137,7 +1161,7 @@ int main(void)
 {
 	Initialization();
 	OFF();
-
+	LoggingData.RecordsQuantity= 0;
 	uint8_t EEpromReadStatus;
 	PrintToLCD(Version);
 	SetSymbols();
@@ -1154,6 +1178,10 @@ int main(void)
 		PrintToLCD("EEprom Read FAIL");
 		Delay_mSec(4000);
 	}
+
+	flash_read_block();
+	if (LoggingData.RecordsQuantity>50) LoggingData.RecordsQuantity = 0;
+	WriteInLOG("Power ON");
     BatteryCapacityDischargeCurrentAfterPOwerUp = SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent;
     ChargeDurationSec = SettingsData.ChargeTime*3600;
     SelectedOptionValue = SettingsData.Option1;
@@ -1220,7 +1248,8 @@ int main(void)
 			MenuSwing(Button);
 		if (Menu_GetCurrentMenu() == &Menu_9_1)
 			MenuDIAGNOSTIC(Button);
-
+		if (Menu_GetCurrentMenu() == &Menu_11_1)
+			MenuLog(Button);
 		if (Menu_GetCurrentMenu() == &Menu_10_2_1)
 			MenuCalibration_CURRENT_Load_to_0(Button);
 		if (Menu_GetCurrentMenu() == &Menu_10_1_1)
@@ -1415,6 +1444,8 @@ void All_OUT_OFF_When_Power_OFF()
 			EEpromWrite_status = 1;
 			SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent;
 			DataWhenPowerOffWriteToFlash_CRC();
+			WriteInLOG(itoa(BatteryCapacityDischargeCurrent));
+			WriteInLOG("Power OFF");
 			while (1)
 			{
 				Print_to_USART1_d(U_IN,"U off: ",2);
