@@ -119,50 +119,50 @@ struct StructSettingsValuetoSaveInFlash SettingsDataFactory=
 {
 		0,//CRC
 		ADDRESS_FLASH_SETTINGS,
-		0,//option1 -  Menu Position
+		1,//option1 -  Menu Position
 		ADDRESS_FLASH_SETTINGS+4,
-		0,//Charge time
+		15,//Charge time
 		ADDRESS_FLASH_SETTINGS+8,
 		1050,//LowVoltage
-		ADDRESS_FLASH_SETTINGS+16,
+		ADDRESS_FLASH_SETTINGS+12,
 		1450,//MaxVoltage
-		ADDRESS_FLASH_SETTINGS+20,
+		ADDRESS_FLASH_SETTINGS+16,
 		10,//Swing_Chrg_time
-		ADDRESS_FLASH_SETTINGS+24,
+		ADDRESS_FLASH_SETTINGS+20,
 		10,//Swing_DChrg_time
-		ADDRESS_FLASH_SETTINGS+28,
-		0,//ChargeAdapt %
-		ADDRESS_FLASH_SETTINGS+24
+		ADDRESS_FLASH_SETTINGS+24,
+		6,//ChargeAdapt %
+		ADDRESS_FLASH_SETTINGS+28
 };
 //=====================================
 struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOff=
 {
 		0,
-		ADDRESS_FLASH_SETTINGS,
+		ADDRESS_FLASH_WHEN_OFF,
 		0,
-		ADDRESS_FLASH_SETTINGS+4,
+		ADDRESS_FLASH_WHEN_OFF+4,
 		0,
-		ADDRESS_FLASH_SETTINGS+8
+		ADDRESS_FLASH_WHEN_OFF+8
 };
 
 struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffForVerify=
 {
 		0,
-		ADDRESS_FLASH_SETTINGS,
+		ADDRESS_FLASH_WHEN_OFF,
 		0,
-		ADDRESS_FLASH_SETTINGS+4,
+		ADDRESS_FLASH_WHEN_OFF+4,
 		0,
-		ADDRESS_FLASH_SETTINGS+8
+		ADDRESS_FLASH_WHEN_OFF+8
 };
 
 struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffFactory=
 {
 		0,//CRC
-		ADDRESS_FLASH_SETTINGS,
+		ADDRESS_FLASH_WHEN_OFF,
 		0,//BatteryCapacityDischargePreviousValue
-		ADDRESS_FLASH_SETTINGS+4,
+		ADDRESS_FLASH_WHEN_OFF+4,
 		0,//BatteryCapacityDischargeCurrent
-		ADDRESS_FLASH_SETTINGS+8
+		ADDRESS_FLASH_WHEN_OFF+8
 };
 
 

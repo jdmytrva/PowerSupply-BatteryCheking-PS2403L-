@@ -82,61 +82,169 @@ uint32_t flash_read(uint32_t address, uint32_t MinValue, uint32_t MaxValue)
 		EEpromReadStatus = 0;
 		Print_to_USART1_d(address,"Fail to read address: ",0);
 		Print_to_USART1_d(EEpromValue,"EEpromValue is : ",0);
-		Print_to_USART1_d(FLASH_BASE+1024*124,"FLASH_BASE+1024*124 : ",0);
+		Print_to_USART1_d(FLASH_BASE+1024*123,"FLASH_BASE+1024*123 : ",0);
 		return MinValue;
 	}
 }
 
-uint8_t EEpromWrite(void)
+
+uint8_t CalibrationWriteToFlash_CRC(void)
 {
 	__disable_irq();
 	char CRC_Calibration=0;
 	char CRC_CalibrationVerify=0;
-	char *Data_Calibration = (unsigned char *) &CalibrationData;
-	Data_Calibration = Data_Calibration+4;
-	CRC_Calibration = CalcCRC8(Data_Calibration,((unsigned char)sizeof(CalibrationData))-4,0);
-	Print_to_USART1_d(CRC_Calibration,"CRC is : ",0);
-	Print_to_USART1_d(((unsigned char)sizeof(CalibrationData))-4,"Size is : ",0);
-	SaveData.CRC_data = DaCRC_Calibrationta_crc;
+
+	CRC_Calibration = CalcCRC8(((unsigned char *) &CalibrationData)+4,((unsigned char)sizeof(CalibrationData))-4,0);
+	CalibrationData.CRC_data = CRC_Calibration;
 
 	flash_unlock();
 	CalibrationWriteToFlash();
 	CalibrationReadFromFlashForVerify();
-	char CRC_CalibrationVerify=0;
-	char *Data_CalibrationVerify = (unsigned char *) &CalibrationDataForVerify;
-	Data_CalibrationVerify = Data_CalibrationVerify+4;
-	CRC_CalibrationVerify = CalcCRC8(Data_CalibrationVerify,((unsigned char)sizeof(CalibrationDataForVerify))-4,0);
-	Print_to_USART1_d(CRC_CalibrationVerify,"CRC is : ",0);
-	Print_to_USART1_d(((unsigned char)sizeof(CalibrationDataForVerify))-4,"Size is : ",0);
+	CRC_CalibrationVerify = CalcCRC8(((unsigned char *) &CalibrationDataForVerify)+4,((unsigned char)sizeof(CalibrationDataForVerify))-4,0);
 
-
-
-	flash_lock();
-	Print_to_USART1("EEprom write Verify ");
-	ReadFromEEpromVerify();
-
-	char *Data1 = (unsigned char *) &CalibrationDataForVerify;
-	Data1 = Data1+4;
-	Data_crc1 = CalcCRC8(Data1,((unsigned char)sizeof(CalibrationDataForVerify))-4,0);
-	Print_to_USART1_d(Data_crc1,"CRC is : ",0);
-	Print_to_USART1_d(((unsigned char)sizeof(CalibrationDataForVerify))-4,"Size is : ",0);
-
-	if (Data_crc == Data_crc1 )
+	if (CRC_Calibration == CRC_CalibrationVerify )
 	{
-		Print_to_USART1("EEprom write success ");
+		Print_to_USART1("Calibration write to Flash success ");
 	}else
 	{
-		Print_to_USART1("EEprom write Fail, try again... ");
-		flash_unlock();
-
-
-		flash_lock();
+		Print_to_USART1("Calibration write to Flash Fail, try again... ");
+		CalibrationWriteToFlash();
 	}
-
+	flash_lock();
 	__enable_irq();
-
 	return 1;
 }
+
+uint8_t SettingsWriteToFlash_CRC(void)
+{
+	__disable_irq();
+	char CRC_Settings=0;
+	char CRC_SettingsVerify=0;
+
+	CRC_Settings = CalcCRC8(((unsigned char *) &SettingsData)+4,((unsigned char)sizeof(SettingsData))-4,0);
+	Print_to_USART1_d(CRC_Settings,"CRC is : ",0);
+	Print_to_USART1_d(((unsigned char)sizeof(SettingsData))-4,"Size is : ",0);
+	SettingsData.CRC_data = CRC_Settings;
+
+	flash_unlock();
+	SettingsWriteToFlash();
+	SettingsReadFromFlashForVerify();
+	CRC_SettingsVerify = CalcCRC8(((unsigned char *) &SettingsDataForVerify)+4,((unsigned char)sizeof(SettingsDataForVerify))-4,0);
+	Print_to_USART1_d(CRC_SettingsVerify,"CRC is : ",0);
+	Print_to_USART1_d(((unsigned char)sizeof(SettingsDataForVerify))-4,"Size is : ",0);
+
+	if (CRC_Settings == CRC_SettingsVerify )
+	{
+		Print_to_USART1("Settings write to Flash success ");
+	}else
+	{
+		Print_to_USART1("Settings write to Flash Fail, try again... ");
+		SettingsWriteToFlash();
+	}
+	flash_lock();
+	__enable_irq();
+	return 1;
+}
+
+uint8_t DataWhenPowerOffWriteToFlash_CRC(void)
+{
+	__disable_irq();
+	char CRC_DataWhenPowerOff=0;
+	char CRC_DataWhenPowerOffVerify=0;
+
+	CRC_DataWhenPowerOff = CalcCRC8(((unsigned char *) &SaveDataWhenPowerOff)+4,((unsigned char)sizeof(SaveDataWhenPowerOff))-4,0);
+	SaveDataWhenPowerOff.CRC_data = CRC_DataWhenPowerOff;
+
+	flash_unlock();
+	DataWhenPowerOffWriteToFlash();
+	DataWhenPowerOffReadFromFlashForVerify();
+	CRC_DataWhenPowerOffVerify = CalcCRC8(((unsigned char *) &SaveDataWhenPowerOffForVerify)+4,((unsigned char)sizeof(SaveDataWhenPowerOffForVerify))-4,0);
+
+	if (CRC_DataWhenPowerOff == CRC_DataWhenPowerOffVerify )
+	{
+		Print_to_USART1("DataWhenPowerOff write to Flash success ");
+	}else
+	{
+		Print_to_USART1("DataWhenPowerOff write to Flash Fail, try again... ");
+		DataWhenPowerOffWriteToFlash();
+	}
+	flash_lock();
+	__enable_irq();
+	return 1;
+}
+uint8_t FactoryWriteToFlash_CRC()
+{
+	__disable_irq();
+	flash_unlock();
+	char CRC_Calibration=0;
+	char CRC_CalibrationVerify=0;
+
+	CRC_Calibration = CalcCRC8(((unsigned char *) &CalibrationDataFactory)+4,((unsigned char)sizeof(CalibrationDataFactory))-4,0);
+	CalibrationDataFactory.CRC_data = CRC_Calibration;
+
+
+	CalibrationFactoryWriteToFlash();
+	CalibrationReadFromFlashForVerify();
+	CRC_CalibrationVerify = CalcCRC8(((unsigned char *) &CalibrationDataForVerify)+4,((unsigned char)sizeof(CalibrationDataForVerify))-4,0);
+
+	if (CRC_Calibration == CRC_CalibrationVerify )
+	{
+		Print_to_USART1("FCalibration write to Flash success ");
+	}else
+	{
+		Print_to_USART1("FCalibration write to Flash Fail, try again... ");
+		CalibrationFactoryWriteToFlash();
+	}
+
+	char CRC_Settings=0;
+	char CRC_SettingsVerify=0;
+
+	CRC_Settings = CalcCRC8(((unsigned char *) &SettingsDataFactory)+4,((unsigned char)sizeof(SettingsDataFactory))-4,0);
+	Print_to_USART1_d(CRC_Settings,"FCRC is : ",0);
+	Print_to_USART1_d(((unsigned char)sizeof(SettingsDataFactory))-4,"FSize is : ",0);
+	SettingsDataFactory.CRC_data = CRC_Settings;
+
+
+	SettingsFactoryWriteToFlash();
+	SettingsReadFromFlashForVerify();
+	CRC_SettingsVerify = CalcCRC8(((unsigned char *) &SettingsDataForVerify)+4,((unsigned char)sizeof(SettingsDataForVerify))-4,0);
+	Print_to_USART1_d(CRC_SettingsVerify,"FCRC is : ",0);
+	Print_to_USART1_d(((unsigned char)sizeof(SettingsDataForVerify))-4,"FSize is : ",0);
+
+	if (CRC_Settings == CRC_SettingsVerify )
+	{
+		Print_to_USART1("FSettings write to Flash success ");
+	}else
+	{
+		Print_to_USART1("FSettings write to Flash Fail, try again... ");
+		SettingsFactoryWriteToFlash();
+	}
+
+	char CRC_DataWhenPowerOff=0;
+	char CRC_DataWhenPowerOffVerify=0;
+
+	CRC_DataWhenPowerOff = CalcCRC8(((unsigned char *) &SaveDataWhenPowerOffFactory)+4,((unsigned char)sizeof(SaveDataWhenPowerOffFactory))-4,0);
+	SaveDataWhenPowerOffFactory.CRC_data = CRC_DataWhenPowerOff;
+
+
+	DataWhenPowerOff_Factory_WriteToFlash();
+	DataWhenPowerOffReadFromFlashForVerify();
+	CRC_DataWhenPowerOffVerify = CalcCRC8(((unsigned char *) &SaveDataWhenPowerOffForVerify)+4,((unsigned char)sizeof(SaveDataWhenPowerOffForVerify))-4,0);
+
+	if (CRC_DataWhenPowerOff == CRC_DataWhenPowerOffVerify )
+	{
+		Print_to_USART1("FDataWhenPowerOff write to Flash success ");
+	}else
+	{
+		Print_to_USART1("FDataWhenPowerOff write to Flash Fail, try again... ");
+		DataWhenPowerOff_Factory_WriteToFlash();
+	}
+
+	flash_lock();
+	__enable_irq();
+
+}
+
 uint8_t CalibrationWriteToFlash(void)
 {
 	flash_erase_page( CalibrationData.CRC_AddresInEEprom);
@@ -269,7 +377,7 @@ uint8_t DataWhenPowerOffReadFromFlash(void)
 	SaveDataWhenPowerOff.CRC_data = flash_read(SaveDataWhenPowerOff.CRC_AddresInEEprom,0,256);
 	SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue =  flash_read(SaveDataWhenPowerOff.BatteryCapacityDischargePrevious_AddresInEEprom,0,1000000);
 	SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent = flash_read(SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent_AddresInEEprom,0,1000000);
-	Print_to_USART1("CalibrationDataWhenPowerOffReadFromFlash ");
+	Print_to_USART1("DataWhenPowerOffReadFromFlash ");
 }
 uint8_t DataWhenPowerOffReadFromFlashForVerify(void)
 {
@@ -282,78 +390,16 @@ uint8_t DataWhenPowerOffReadFromFlashForVerify(void)
 
 
 
-uint8_t FactoryEEpromWrite(void)
+
+
+uint8_t ReadFromFlash(void)
 {
-	__disable_irq();
-	char Data_crc=0;
-	char *Data = (unsigned char *) &SaveData;
-	Data = Data+4;
-	Data_crc = CalcCRC8(Data,((unsigned char)sizeof(SaveData))-4,0);
-	Print_to_USART1_d(Data_crc,"CRC is : ",0);
-	Print_to_USART1_d(((unsigned char)sizeof(SaveData))-4,"Size is : ",0);
-	SaveData.CRC_data = Data_crc;
-	flash_unlock();
-	flash_erase_page( FactorySaveData.CRC_AddresInEEprom);
-	flash_write( FactorySaveData.CRC_AddresInEEprom, FactorySaveData.CRC_data);
-	flash_write( FactorySettingsData.Option1_AddresInEEprom, FactorySettingsData.Option1);
-	flash_write( FactorySettingsData.ChargeTime_AddresInEEprom, FactorySettingsData.ChargeTime);
-	flash_write( FactorySaveData.BatteryCapacityDischargePrevious_AddresInEEprom, FactorySaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue);
-	flash_write( FactorySettingsData.LowVoltage_AddresInEEprom, FactorySettingsData.LowVoltage);
-	flash_write( FactorySettingsData.MaxVoltage_AddresInEEprom, FactorySettingsData.MaxVoltage);
-	flash_write( FactorySettingsData.Swing_Chrg_time_AddresInEEprom, FactorySettingsData.Swing_Chrg_time);
-	flash_write( FactorySettingsData.Swing_DChrg_time_AddresInEEprom, FactorySettingsData.Swing_DChrg_time);
-	flash_write( FactorySaveDataWhenPowerOff.BatteryCapacityDischargeCurrent_AddresInEEprom, FactorySaveDataWhenPowerOff.BatteryCapacityDischargeCurrent);
-
-	flash_write( FactoryCalibrationData.Calibration0ValueForCurrent_AddresInEEprom, FactoryCalibrationData.Calibration0ValueForCurrent);
-	flash_write( FactoryCalibrationData.Calibration0ValueForCurrent1_AddresInEEprom, FactoryCalibrationData.Calibration0ValueForCurrent1);
-	flash_write( FactoryCalibrationData.CalibrationValueForCurrent_AddresInEEprom, FactoryCalibrationData.CalibrationValueForCurrent);
-	flash_write( FactoryCalibrationData.CalibrationValueForCurrent1_AddresInEEprom, FactoryCalibrationData.CalibrationValueForCurrent1);
-	flash_write( FactoryCalibrationData.CalibrationValueForVoltage_AddresInEEprom, FactoryCalibrationData.CalibrationValueForVoltage);
-	flash_write( FactoryCalibrationData.CalibrationValueForVoltage1_AddresInEEprom, FactoryCalibrationData.CalibrationValueForVoltage1);
-	flash_write( FactoryCalibrationData.CalibrationValueForVoltage2_AddresInEEprom, FactoryCalibrationData.CalibrationValueForVoltage2);
-	flash_write( FactorySettingsData.ChargeAdapt_AddresInEEprom, FactorySettingsData.ChargeAdapt);
-	flash_write( FactoryCalibrationData.ResistanceComp_Ishunt_Wires_AddresInEEprom, FactoryCalibrationData.ResistanceComp_Ishunt_Wires);
-	flash_write( FactoryCalibrationData.ResistanceComp_MOSFET_AddresInEEprom, FactoryCalibrationData.ResistanceComp_MOSFET);
-
-	flash_lock();
-	__enable_irq();
-
-	Print_to_USART1("FactoryEEpromWrite write ");
-	return 1;
-}
-
-
-uint8_t ReadFromEEprom(void)
-{
+		EEpromReadStatus = 1;
 	    __disable_irq();
-	    SaveData.CRC_data = flash_read(SaveData.CRC_AddresInEEprom,0,256);
-		SettingsData.Option1 =  flash_read(SettingsData.Option1_AddresInEEprom,1,10);
-		SettingsData.ChargeTime =  flash_read(SettingsData.ChargeTime_AddresInEEprom,1,1000);
-		SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue =  flash_read(SaveData.BatteryCapacityDischargePrevious_AddresInEEprom,0,1000000);
-		SettingsData.LowVoltage =  flash_read(SettingsData.LowVoltage_AddresInEEprom,1,4000);
-		SettingsData.MaxVoltage =  flash_read(SettingsData.MaxVoltage_AddresInEEprom,1,4000);
-		SettingsData.Swing_Chrg_time =  flash_read(SettingsData.Swing_Chrg_time_AddresInEEprom,0,10000);
-		SettingsData.Swing_DChrg_time =  flash_read(SettingsData.Swing_DChrg_time_AddresInEEprom,0,10000);
-		SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent = flash_read(SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent_AddresInEEprom,0,1000000);
-		CalibrationData.Calibration0ValueForCurrent = flash_read(CalibrationData.Calibration0ValueForCurrent_AddresInEEprom,0,1000);
-		CalibrationData.Calibration0ValueForCurrent1 = flash_read(CalibrationData.Calibration0ValueForCurrent1_AddresInEEprom,0,1000);
-		CalibrationData.CalibrationValueForCurrent = flash_read(CalibrationData.CalibrationValueForCurrent_AddresInEEprom,10,100000);
-		CalibrationData.CalibrationValueForCurrent1 = flash_read(CalibrationData.CalibrationValueForCurrent1_AddresInEEprom,10,100000);
-		CalibrationData.CalibrationValueForVoltage = flash_read(CalibrationData.CalibrationValueForVoltage_AddresInEEprom,10,100000);
-		CalibrationData.CalibrationValueForVoltage1 = flash_read(CalibrationData.CalibrationValueForVoltage1_AddresInEEprom,10,100000);
-		CalibrationData.CalibrationValueForVoltage2 = flash_read(CalibrationData.CalibrationValueForVoltage2_AddresInEEprom,10,100000);
-		SettingsData.ChargeAdapt = flash_read(SettingsData.ChargeAdapt_AddresInEEprom,0,100);
-		CalibrationData.ResistanceComp_Ishunt_Wires = flash_read(CalibrationData.ResistanceComp_Ishunt_Wires_AddresInEEprom,70,200);
-		CalibrationData.ResistanceComp_MOSFET = flash_read(CalibrationData.ResistanceComp_MOSFET_AddresInEEprom,10,200);
-		char Data_crc=0;
-		char *Data = (unsigned char *) &SaveData;
-		Data = Data+4;
-		Data_crc = CalcCRC8(Data,((unsigned char)sizeof(SaveData))-4,0);
-		Print_to_USART1_d(Data_crc,"CRC is : ",0);
-		Print_to_USART1_d(((unsigned char)sizeof(SaveData))-4,"Size is : ",0);
 
-
-		Print_to_USART1_d(Data_crc,"CRC is : ",0);
+	    DataWhenPowerOffReadFromFlash();
+	    SettingsReadFromFlash();
+	    CalibrationReadFromFlash();
 
 
 		__enable_irq();
@@ -371,29 +417,7 @@ uint8_t ReadFromEEprom(void)
 		}
 }
 
-uint8_t ReadFromEEpromVerify(void)
-{
 
-	    SaveDataForVerify.CRC_data = flash_read(SaveDataForVerify.CRC_AddresInEEprom,0,256);
-		SaveDataForVerify.Option1 =  flash_read(SaveDataForVerify.Option1_AddresInEEprom,1,10);
-		SaveDataForVerify.Value =  flash_read(SaveDataForVerify.Value_AddresInEEprom,1,1000);
-		SaveDataForVerify.BatteryCapacityDischargePreviousValue =  flash_read(SaveDataForVerify.BatteryCapacityDischargePrevious_AddresInEEprom,0,1000000);
-		SaveDataForVerify.LowVoltage =  flash_read(SaveDataForVerify.LowVoltage_AddresInEEprom,1,4000);
-		SaveDataForVerify.MaxVoltage =  flash_read(SaveDataForVerify.MaxVoltage_AddresInEEprom,1,4000);
-		SaveDataForVerify.Swing_Chrg_time =  flash_read(SaveDataForVerify.Swing_Chrg_time_AddresInEEprom,0,10000);
-		SaveDataForVerify.Swing_DChrg_time =  flash_read(SaveDataForVerify.Swing_DChrg_time_AddresInEEprom,0,10000);
-		SaveDataForVerify.BatteryCapacityDischargeCurrent = flash_read(SaveDataForVerify.BatteryCapacityDischargeCurrent_AddresInEEprom,0,1000000);
-		SaveDataForVerify.Calibration0ValueForCurrent = flash_read(SaveDataForVerify.Calibration0ValueForCurrent_AddresInEEprom,0,1000);
-		SaveDataForVerify.Calibration0ValueForCurrent1 = flash_read(SaveDataForVerify.Calibration0ValueForCurrent1_AddresInEEprom,0,1000);
-		SaveDataForVerify.CalibrationValueForCurrent = flash_read(SaveDataForVerify.CalibrationValueForCurrent_AddresInEEprom,10,100000);
-		SaveDataForVerify.CalibrationValueForCurrent1 = flash_read(SaveDataForVerify.CalibrationValueForCurrent1_AddresInEEprom,10,100000);
-		SaveDataForVerify.CalibrationValueForVoltage = flash_read(SaveDataForVerify.CalibrationValueForVoltage_AddresInEEprom,10,100000);
-		SaveDataForVerify.CalibrationValueForVoltage1 = flash_read(SaveDataForVerify.CalibrationValueForVoltage1_AddresInEEprom,10,100000);
-		SaveDataForVerify.CalibrationValueForVoltage2 = flash_read(SaveDataForVerify.CalibrationValueForVoltage2_AddresInEEprom,10,100000);
-		SaveDataForVerify.ChargeAdapt = flash_read(SaveDataForVerify.ChargeAdapt_AddresInEEprom,0,100);
-		SaveDataForVerify.ResistanceComp_Ishunt_Wires = flash_read(SaveDataForVerify.ResistanceComp_Ishunt_Wires_AddresInEEprom,70,200);
-		SaveDataForVerify.ResistanceComp_MOSFET = flash_read(SaveDataForVerify.ResistanceComp_MOSFET_AddresInEEprom,10,200);
-}
 
 char CalcCRC8(char *Ptr, char Num, char CRC1)
 {

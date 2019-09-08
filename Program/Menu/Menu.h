@@ -2,7 +2,8 @@
 #ifndef _MNU_
 #define _MNU_
 
-void MenuEEpromWrite_Enter(Key_Pressed_t key);
+void MenuCalibrationWriteToFlash_Enter(Key_Pressed_t key);
+void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key);
 
  //       NAME          NEXT,       PREV        PARENT,       CHILD       EnterCallback        SelectCallback         Text
  MENU_ITEM(Menu_1,     Menu_2,     Menu_10,    NULL_MENU,   Menu_1_1,   NULL,                NULL,               "Settings        ");
@@ -59,21 +60,21 @@ void MenuEEpromWrite_Enter(Key_Pressed_t key);
 
 
  //CURRENT Out to 0
- MENU_ITEM(Menu_10_1_1,  NULL_MENU,  NULL_MENU, NULL_MENU,   Menu_10_1,   NULL,                MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_10_1_1,  NULL_MENU,  NULL_MENU, NULL_MENU,   Menu_10_1,   NULL,                MenuCalibrationWriteToFlash_Enter,               "                ");
  //CURRENT Load to0
- MENU_ITEM(Menu_10_2_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_2,   NULL,                MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_10_2_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_2,   NULL,                MenuCalibrationWriteToFlash_Enter,               "                ");
  //CURRENT Out
- MENU_ITEM(Menu_10_3_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_3,   NULL,                MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_10_3_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_3,   NULL,                MenuCalibrationWriteToFlash_Enter,               "                ");
  //CURRENT Load
- MENU_ITEM(Menu_10_4_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_4,   NULL,                MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_10_4_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_4,   NULL,                MenuCalibrationWriteToFlash_Enter,               "                ");
  //Voltage PS
- MENU_ITEM(Menu_10_5_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_5,   NULL,                MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_10_5_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_5,   NULL,                MenuCalibrationWriteToFlash_Enter,               "                ");
  //Voltage Out
- MENU_ITEM(Menu_10_6_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_6,   NULL,                MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_10_6_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_6,   NULL,                MenuCalibrationWriteToFlash_Enter,               "                ");
  //Voltage In
- MENU_ITEM(Menu_10_7_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_7,   NULL,                MenuEEpromWrite_Enter,               "");
+ MENU_ITEM(Menu_10_7_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_7,   NULL,                MenuCalibrationWriteToFlash_Enter,               "");
  //Resist comp 5V1A
- MENU_ITEM(Menu_10_8_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_8,   NULL,                MenuEEpromWrite_Enter,               "");
+ MENU_ITEM(Menu_10_8_1,  NULL_MENU,  NULL_MENU,  NULL_MENU,   Menu_10_8,   NULL,                MenuCalibrationWriteToFlash_Enter,               "");
 //Back to Factory
  MENU_ITEM(Menu_10_9_1,  NULL_MENU, NULL_MENU,  NULL_MENU,   Menu_10_9,   NULL,                NULL,               "");
 
@@ -88,17 +89,17 @@ void MenuEEpromWrite_Enter(Key_Pressed_t key);
 
  //          NAME          NEXT,       PREV        PARENT,       CHILD      EnterCallback                    SelectCallback         Text
  //Charge time, h
- MENU_ITEM(Menu_1_1_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_1,   NULL,    MenuEEpromWrite_Enter,                   "                ");
+ MENU_ITEM(Menu_1_1_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_1,   NULL,    MenuSettingsWriteToFlash_Enter,                   "                ");
  //Low Volt, mV*10
- MENU_ITEM(Menu_1_2_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_2,   NULL,       MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_1_2_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_2,   NULL,       MenuSettingsWriteToFlash_Enter,               "                ");
  //Max Volt, mV*10
- MENU_ITEM(Menu_1_3_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_3,   NULL,       MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_1_3_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_3,   NULL,       MenuSettingsWriteToFlash_Enter,               "                ");
  //Swng Chrg Time,s
- MENU_ITEM(Menu_1_4_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_4,   NULL,  MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_1_4_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_4,   NULL,  MenuSettingsWriteToFlash_Enter,               "                ");
  //SwngDChrg Time,s
- MENU_ITEM(Menu_1_5_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_5,   NULL, MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_1_5_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_5,   NULL, MenuSettingsWriteToFlash_Enter,               "                ");
  //Charge addapt, %
- MENU_ITEM(Menu_1_6_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_6,   NULL,  MenuEEpromWrite_Enter,               "                ");
+ MENU_ITEM(Menu_1_6_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_6,   NULL,  MenuSettingsWriteToFlash_Enter,               "                ");
 //SaveMenuPos  OFF
  MENU_ITEM(Menu_1_S_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_S,   NULL,  MenuOption_Enter,               "                ");
 

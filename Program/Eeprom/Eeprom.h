@@ -10,11 +10,13 @@ void flash_lock();
 void flash_write(uint32_t address,uint32_t data);
 uint32_t flash_read(uint32_t address, uint32_t MinValue, uint32_t MaxValue);
 
-uint8_t ReadFromEEprom(void);
-uint8_t EEpromWrite(void);
-uint8_t FactoryEEpromWrite(void);
+uint8_t ReadFromFlash(void);
+uint8_t DataWhenPowerOffWriteToFlash_CRC(void);
+uint8_t SettingsWriteToFlash_CRC(void);
+uint8_t CalibrationWriteToFlash_CRC(void);
+uint8_t FactoryWriteToFlash_CRC(void);
 char CalcCRC8(char *Ptr, char Num, char CRC1);
-uint8_t ReadFromEEpromVerify(void);
+
 
 
 

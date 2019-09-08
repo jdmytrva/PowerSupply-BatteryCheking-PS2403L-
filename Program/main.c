@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.65";
+char Version[] = "PS 30V 3A v1.66";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -541,7 +541,7 @@ void MenuTraining(Key_Pressed_t key)
 			DischargeTimeSec = 0;
 			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
 			//SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
-			//EEpromWrite();
+			//DataWhenPowerOffWriteToFlash_CRC();
 			BatteryCapacityDischargeCurrent = 0;
 
 		}
@@ -825,7 +825,7 @@ void MenuCalibration_CURRENT_Out_to_0(Key_Pressed_t key)
 		if (key == KEY_NEXT)
 		{
 			CalibrationData.Calibration0ValueForCurrent = Current_Out;
-			EEpromWrite();
+			CalibrationWriteToFlash_CRC();
 		}
 }
 
@@ -837,7 +837,7 @@ void MenuCalibration_CURRENT_Load_to_0(Key_Pressed_t key)
 	if (key == KEY_NEXT)
 	{
 		CalibrationData.Calibration0ValueForCurrent1 = Current_load;
-		EEpromWrite();
+		CalibrationWriteToFlash_CRC();
 	}
 }
 void MenuCalibration_CURRENT_Out(Key_Pressed_t key)
@@ -947,8 +947,8 @@ void MenuCalibration_BackToFactory(Key_Pressed_t key)
 	if (key == KEY_NEXT)
 	{
 		uint8_t EEpromReadStatus;
-		FactoryEEpromWrite();
-		EEpromReadStatus = ReadFromEEprom();
+		FactoryWriteToFlash_CRC();
+		EEpromReadStatus = ReadFromFlash();
 		lcd_set_xy(0,0);
 		PrintToLCD("In Proccess ....");
 		Delay_mSec(2000);
@@ -1112,21 +1112,24 @@ void MenuSettingsSaveMenuPosWhenOFF(Key_Pressed_t key)
 			SettingsData.Option1 =1;
 			break;
 	}
-
-
 }
-void MenuEEpromWrite_Enter(Key_Pressed_t key)
+void MenuCalibrationWriteToFlash_Enter(Key_Pressed_t key)
 {
-	EEpromWrite();
+	CalibrationWriteToFlash_CRC();
 }
+
+void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key)
+{
+	SettingsWriteToFlash_CRC();
+}
+
 void MenuOption_Enter(Key_Pressed_t key)
 {
 	lcd_set_xy(7,1);
 	lcd_send(255,DATA);
-	EEpromWrite();
+	SettingsWriteToFlash_CRC();
 	SelectedOptionValue = SettingsData.Option1;
 	Delay_mSec(200);
-
 }
 
 //=========================MAIN==================
@@ -1140,11 +1143,11 @@ int main(void)
 	SetSymbols();
 	lcd_set_xy(0,0);
 	Delay_mSec(2000);
-	EEpromReadStatus = ReadFromEEprom();
+	EEpromReadStatus = ReadFromFlash();
 	if (EEpromReadStatus==0)
 	{
 		Delay_mSec(1000);
-		EEpromReadStatus = ReadFromEEprom();
+		EEpromReadStatus = ReadFromFlash();
 	}
 	if (EEpromReadStatus == 0)
 	{
@@ -1411,7 +1414,7 @@ void All_OUT_OFF_When_Power_OFF()
 		{
 			EEpromWrite_status = 1;
 			SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent;
-			EEpromWrite();
+			DataWhenPowerOffWriteToFlash_CRC();
 			while (1)
 			{
 				Print_to_USART1_d(U_IN,"U off: ",2);
