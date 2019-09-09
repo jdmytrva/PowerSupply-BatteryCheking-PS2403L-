@@ -16,8 +16,8 @@
 <attrib name="registered" value="true"/>
 <attrib name="path" value="/BMS/Eeprom/Eeprom.c"/>
 <attrib name="org.eclipse.cdt.debug.core.sourceHandle" value="C:\Users\Vasyl\Documents\GitHub\PowerSupply-Charger-Load--TPS54340\Program\Eeprom\Eeprom.c"/>
-<attrib name="org.eclipse.debug.core.enabled" value="true"/>
 <attrib name="org.eclipse.cdt.debug.core.ignoreCount" value="0"/>
+<attrib name="org.eclipse.debug.core.enabled" value="true"/>
 </marker>
 </breakpoint>
 </breakpoints>

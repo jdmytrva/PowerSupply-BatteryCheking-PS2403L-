@@ -206,7 +206,26 @@ void WriteInLOG(char  str [17])
 	LoggingData.Records[LoggingData.RecordsQuantity][i] = '\0';
 
 	LoggingData.RecordsQuantity++;
-	if (LoggingData.RecordsQuantity>=(MAX_LOG_ITEMS))LoggingData.RecordsQuantity=0;
+	if (LoggingData.RecordsQuantity>=(MAX_LOG_ITEMS))
+	{
+		for (i=0;i<MAX_LOG_ITEMS-10;i++)
+		{
+			number = itoa(i);
+			uint8_t k;
+			for(k=0;number[k]!='\0';k++)
+			{
+				LoggingData.Records[i][k] = number[k];
+			}
+			LoggingData.Records[i][k] = ':';
+			k++;
+			if (i<10) k++;
+			for (j=k;LoggingData.Records[i][j]!='\0';j++)
+			{
+				LoggingData.Records[i][j] = LoggingData.Records[i+10][j];
+			}
+		}
+		LoggingData.RecordsQuantity=MAX_LOG_ITEMS-10;
+	}
 	flash_write_block();
 	Print_to_USART1_d(LoggingData.RecordsQuantity,"Q: ",0);
 }
