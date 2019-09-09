@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.68";
+char Version[] = "PS 30V 3A v1.70";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -980,6 +980,7 @@ void MenuCalibration_BackToFactory(Key_Pressed_t key)
 		if (EEpromReadStatus == 1)
 		{
 			PrintToLCD("Factory are OK  ");
+			WriteInLOG("Factory are OK");
 			Delay_mSec(2000);
 		}
 		else
@@ -1140,13 +1141,13 @@ void MenuSettingsSaveMenuPosWhenOFF(Key_Pressed_t key)
 void MenuCalibrationWriteToFlash_Enter(Key_Pressed_t key)
 {
 	CalibrationWriteToFlash_CRC();
-	WriteInLOG("qwer1234567890zxcvbnm");
+	WriteInLOG("Calibration");
 }
 
 void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key)
 {
 	SettingsWriteToFlash_CRC();
-	WriteInLOG("Seet");
+	//WriteInLOG("Seet");
 
 }
 
@@ -1170,6 +1171,9 @@ int main(void)
 	SetSymbols();
 	lcd_set_xy(0,0);
 	Delay_mSec(2000);
+	flash_read_block();
+	if (LoggingData.RecordsQuantity>=MAX_LOG_ITEMS) LoggingData.RecordsQuantity = 0;
+	//WriteInLOG("Power ON");
 	EEpromReadStatus = ReadFromFlash();
 	if (EEpromReadStatus==0)
 	{
@@ -1180,11 +1184,10 @@ int main(void)
 	{
 		PrintToLCD("EEprom Read FAIL");
 		Delay_mSec(4000);
+		WriteInLOG("EEprmReadFAIL");
 	}
 
-	flash_read_block();
-	if (LoggingData.RecordsQuantity>50) LoggingData.RecordsQuantity = 0;
-	WriteInLOG("Power ON");
+
     BatteryCapacityDischargeCurrentAfterPOwerUp = SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent;
     ChargeDurationSec = SettingsData.ChargeTime*3600;
     SelectedOptionValue = SettingsData.Option1;
@@ -1295,6 +1298,8 @@ int main(void)
 			InitiStatus = 0;
 			CountShow = 0;
 			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
+			//Print_to_USART1_d(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue,"Menu C maH : ",0);
+
 			DischargeTimeSec_Previous = DischargeTimeSec;
 		}
 
