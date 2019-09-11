@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.71";
+char Version[] = "PS 30V 3A v1.72";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -1452,8 +1452,23 @@ void All_OUT_OFF_When_Power_OFF()
 			EEpromWrite_status = 1;
 			SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent;
 			DataWhenPowerOffWriteToFlash_CRC();
-			WriteInLOG(itoa(BatteryCapacityDischargeCurrent/3600));
-			WriteInLOG("Power OFF");
+			Print_to_USART1_d(SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent,"dc: ",2);
+			char str[17];
+			char strout[17];
+			char strout1[17];
+			char s_clock[17];
+			ClockStringNoSec(DischargeTimeSec,s_clock);
+			Merge3Strings(itoaP(SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent/3600,str),"mAh",s_clock,strout);
+
+			char mode[2];
+			mode[0] = 3;
+			mode[1] = '\0';
+
+			Merge2Strings(mode,strout,strout1);
+			WriteInLOG(strout1);
+
+
+			WriteInLOG(Merge2Strings("PowerOFF ",itoa_komaP(U_IN/10,str,1),strout));
 			while (1)
 			{
 				Print_to_USART1_d(U_IN,"U off: ",2);
