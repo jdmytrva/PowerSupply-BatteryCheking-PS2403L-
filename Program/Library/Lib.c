@@ -214,44 +214,48 @@ char * Merge3Strings(char * str1in, char * str2in,char * str3in, char * strout)
 
 char *ClockStringWithSec(uint32_t time, char *OutStr)
 {
-
-	int8_t i, j;
+	int8_t i, j,k;
 	char s[17];
 	itoaP(time/3600,s);
-	for (i=0; s[i]!='\0'; i++)
-	{
-		OutStr[i] = s[i];
-	}
+	i=0;
 	if (strlen1(s)<2)
 	{
 		OutStr[i] = '0';
 		i++;
 	}
+
+	for (k=0; s[k]!='\0';k++, i++)
+	{
+		OutStr[i] = s[k];
+	}
+
 	OutStr[i] = ':';
 	i++;
 	itoaP((time/60)%60,s);
+	if (strlen1(s)<2)
+	{
+		OutStr[i] = '0';
+		i++;
+	}
 	for (j=0; s[j]!='\0'; i++,j++)
 	{
 		OutStr[i] = s[j];
 	}
-	if (strlen1(s)<2)
-	{
-		OutStr[i] = '0';
-		i++;
-	}
+
 	OutStr[i] = ':';
 	i++;
 
 	itoaP(time%60,s);
-	for (j=0; s[j]!='\0'; i++,j++)
-	{
-		OutStr[i] = s[j];
-	}
 	if (strlen1(s)<2)
 	{
 		OutStr[i] = '0';
 		i++;
 	}
+	for (j=0; s[j]!='\0'; i++,j++)
+	{
+		OutStr[i] = s[j];
+	}
+
 	OutStr[i] = '\0';
 	return OutStr;
 }
@@ -259,30 +263,34 @@ char *ClockStringWithSec(uint32_t time, char *OutStr)
 char *ClockStringNoSec(uint32_t time, char *OutStr)
 {
 
-	int8_t i, j;
+	int8_t i, j,k;
 	char s[17];
 	itoaP(time/3600,s);
-	for (i=0; s[i]!='\0'; i++)
-	{
-		OutStr[i] = s[i];
-	}
+	i=0;
 	if (strlen1(s)<2)
 	{
 		OutStr[i] = '0';
 		i++;
 	}
+
+	for (k=0; s[k]!='\0';k++, i++)
+	{
+		OutStr[i] = s[k];
+	}
+
 	OutStr[i] = ':';
 	i++;
 	itoaP((time/60)%60,s);
+	if (strlen1(s)<2)
+	{
+		OutStr[i] = '0';
+		i++;
+	}
 	for (j=0; s[j]!='\0'; i++,j++)
 	{
 		OutStr[i] = s[j];
 	}
-	if (strlen1(s)<2)
-	{
-		OutStr[i] = '0';
-		i++;
-	}
+
 
 	OutStr[i] = '\0';
 	return OutStr;

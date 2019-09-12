@@ -35,7 +35,13 @@ typedef enum {
 	BLINK = !NO_BLINK
 } cursor_mode;
 
+typedef enum SpecialSymbols {
+    CHARGE_L=0,
+    CHARGE_H=1,
+    DISCHARGE_l=2,
+    DISCHARGE_H=3
 
+}SpecialChars ;
 
 #define LCD_EN_BS (1 << LCD_EN)
 #define LCD_CD_BS (1 << LCD_CD)

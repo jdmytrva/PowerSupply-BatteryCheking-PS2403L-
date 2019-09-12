@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.72";
+char Version[] = "PS 30V 3A v1.73";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -188,7 +188,7 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 	entered_in_charge_discharge_menu = 1;
 	if (InitiStatus==0)
 	{
-		ChargeStatusForTimer = 1;
+		ChargeStatusForTimer = 0;
 		DisChargeStatusForTimer = 0;
 		BatteryCapacityCharge = 0;
 		InitiStatus = 1;
@@ -207,9 +207,15 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 	if (key == KEY_NEXT)
 	{
     	if (On_off == 0)
+    	{
     		charge();
+    		ChargeStatusForTimer = 1;
+    	}
     	else
+    	{
     		OFF();
+    		ChargeStatusForTimer = 0;
+    	}
 	}
 	if (key == KEY_BACK)
 	{
@@ -270,17 +276,25 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 		lcd_set_xy(0,0);
 		PrintToLCD("C ");
 		PrintToLCD(itoa(BatteryCapacityCharge/3600));
-		PrintToLCD("mAH    ");
+		PrintToLCD("mAh     ");
 		lcd_set_xy(3,1);
 		ClockOnLCD_noSec(ChargeTimeSec);
 	}
+	Print_to_USART1_d(InitiStatus,"Init status: ",0);
+	Print_to_USART1_d(entered_in_charge_discharge_menu,"entered_in_charge_discharge_menu: ",0);
+
+	Print_to_USART1_d(ChargeStatusForTimer,"Chargestatus timer: ",0);
+	Print_to_USART1_d(ChargeTimeSec,"ChargeTimeSec: ",0);
+	Print_to_USART1_d(DisChargeStatusForTimer,"Dischargestatus timer: ",0);
+	Print_to_USART1_d(DischargeTimeSec,"DischargeTimeSec: ",0);
+
 }
 void MenuChargeAdapt(Key_Pressed_t key)
 {
 	entered_in_charge_discharge_menu = 1;
 	if (InitiStatus==0)
 	{
-		ChargeStatusForTimer = 1;
+		ChargeStatusForTimer = 0;
 		DisChargeStatusForTimer = 0;
 		BatteryCapacityCharge = 0;
 		InitiStatus = 1;
@@ -296,10 +310,14 @@ void MenuChargeAdapt(Key_Pressed_t key)
 		if (U_OUT> SettingsData.MaxVoltage)
 		{
 			OFF();
+			ChargeStatusForTimer = 0;
 		}else
 		{
 			if (U_OUT< (SettingsData.MaxVoltage-(SettingsData.MaxVoltage*SettingsData.ChargeAdapt/100))   )
+			{
 				charge();
+				ChargeStatusForTimer = 1;
+			}
 		}
 	}
 
@@ -307,9 +325,15 @@ void MenuChargeAdapt(Key_Pressed_t key)
 	if (key == KEY_NEXT)
 	{
 		if (On_off == 0)
+		{
 			charge();
+			ChargeStatusForTimer = 1;
+		}
 		else
+		{
 			OFF();
+			ChargeStatusForTimer = 0;
+		}
 	}
 	if (key == KEY_BACK)
 	{
@@ -382,6 +406,15 @@ void MenuChargeAdapt(Key_Pressed_t key)
 		ClockOnLCD_noSec(ChargeTimeSec);
 	}
 	Delay_mSec(MENUDELAY);
+
+	Print_to_USART1_d(InitiStatus,"Init status: ",0);
+	Print_to_USART1_d(entered_in_charge_discharge_menu,"entered_in_charge_discharge_menu: ",0);
+
+	Print_to_USART1_d(ChargeStatusForTimer,"Chargestatus timer: ",0);
+	Print_to_USART1_d(ChargeTimeSec,"ChargeTimeSec: ",0);
+	Print_to_USART1_d(DisChargeStatusForTimer,"Dischargestatus timer: ",0);
+	Print_to_USART1_d(DischargeTimeSec,"DischargeTimeSec: ",0);
+
 }
 void MenuDisCharge(Key_Pressed_t key)
 {
@@ -390,7 +423,7 @@ void MenuDisCharge(Key_Pressed_t key)
 	{
 		InitiStatus = 1;
 		ChargeStatusForTimer = 0;
-		DisChargeStatusForTimer = 1;
+		DisChargeStatusForTimer = 0;
 		BatteryCapacityDischargeCurrent = 0;
 		DischargeTimeSec = 0;
 		BatteryLow=0;
@@ -415,9 +448,15 @@ void MenuDisCharge(Key_Pressed_t key)
 	if (key == KEY_NEXT)
 	{
     	if (On_off == 0)
+    	{
     		discharge();
+    		DisChargeStatusForTimer = 1;
+    	}
     	else
+    	{
     		OFF();
+    		DisChargeStatusForTimer = 0;
+    	}
 	}
 	if (key == KEY_BACK)
 	{
@@ -478,6 +517,13 @@ void MenuDisCharge(Key_Pressed_t key)
 		lcd_set_xy(3,1);
 		ClockOnLCD_noSec(DischargeTimeSec);
 	}
+	Print_to_USART1_d(InitiStatus,"Init status: ",0);
+	Print_to_USART1_d(entered_in_charge_discharge_menu,"entered_in_charge_discharge_menu: ",0);
+
+	Print_to_USART1_d(ChargeStatusForTimer,"Chargestatus timer: ",0);
+	Print_to_USART1_d(ChargeTimeSec,"ChargeTimeSec: ",0);
+	Print_to_USART1_d(DisChargeStatusForTimer,"Dischargestatus timer: ",0);
+	Print_to_USART1_d(DischargeTimeSec,"DischargeTimeSec: ",0);
 
 }
 
@@ -734,7 +780,7 @@ void MenuLog(Key_Pressed_t key)
 		if (i_LogItems<0) i_LogItems=0;
 	}
 	lcd_set_xy(0,0);
-	PrintToLCD(LoggingData.Records[i_LogItems]);
+	PrintToLCD(LoggingData.Records[LoggingData.RecordsQuantity - i_LogItems-1]);
 	Print_to_USART1_d(i_LogItems,"i_LogItems: ",0);
 	Print_to_USART1_d(LoggingData.RecordsQuantity,"MRecordsQuantity: ",0);
 
@@ -828,9 +874,9 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	if(CountShow1 == 6)
 	{
 		lcd_set_xy(0,0);
-		ClockOnLCD(time_sec);
-
-
+		//ClockOnLCD(time_sec);
+		char s[17];
+		PrintToLCD(ClockStringWithSec(time_sec,s));
 	}
 
 	if(CountShow1 == 7)
@@ -1151,6 +1197,20 @@ void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key)
 
 }
 
+void MenuDischarge_Enter(Key_Pressed_t key)
+{
+	if (BatteryCapacityDischargeCurrent/3600>10)
+	{
+		char str[17];
+		char strout[17];
+		char s_clock[17];
+		ClockStringNoSec(DischargeTimeSec,s_clock);
+		Merge3Strings(itoaP(BatteryCapacityDischargeCurrent/3600,str),"mAh",s_clock,strout);
+		WriteInLOGc(strout,DISCHARGE_l);
+	}
+
+}
+
 void MenuOption_Enter(Key_Pressed_t key)
 {
 	lcd_set_xy(7,1);
@@ -1374,9 +1434,9 @@ void TIM1_UP_TIM16_IRQHandler()
 
 
 	//capacity
-	if (Current < 1)
+	if (Current < 2)
 		BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent + Module16(Current);
-	if (Current > 1)
+	if (Current > 2)
 		BatteryCapacityCharge = BatteryCapacityCharge + Module16(Current);
 	if (ChargeStatusForTimer == 1)
 		ChargeTimeSec++;
@@ -1455,19 +1515,13 @@ void All_OUT_OFF_When_Power_OFF()
 			Print_to_USART1_d(SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent,"dc: ",2);
 			char str[17];
 			char strout[17];
-			char strout1[17];
 			char s_clock[17];
-			ClockStringNoSec(DischargeTimeSec,s_clock);
-			Merge3Strings(itoaP(SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent/3600,str),"mAh",s_clock,strout);
-
-			char mode[2];
-			mode[0] = 3;
-			mode[1] = '\0';
-
-			Merge2Strings(mode,strout,strout1);
-			WriteInLOG(strout1);
-
-
+			if (BatteryCapacityDischargeCurrent/3600>10)
+			{
+				ClockStringNoSec(DischargeTimeSec,s_clock);
+				Merge3Strings(itoaP(SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent/3600,str),"mAh",s_clock,strout);
+				WriteInLOGc(strout,DISCHARGE_l);
+			}
 			WriteInLOG(Merge2Strings("PowerOFF ",itoa_komaP(U_IN/10,str,1),strout));
 			while (1)
 			{

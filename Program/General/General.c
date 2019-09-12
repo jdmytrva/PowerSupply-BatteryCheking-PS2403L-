@@ -230,6 +230,68 @@ void WriteInLOG(char  str [17])
 	Print_to_USART1_d(LoggingData.RecordsQuantity,"Q: ",0);
 }
 
+void WriteInLOGc(char  str [17],char c)
+{
+	static uint16_t i_log=0;
+	uint8_t i;
+	uint8_t j;
+
+	char *number;
+	number = itoa(LoggingData.RecordsQuantity);
+
+
+	for(i=0;number[i]!='\0';i++)
+	{
+		LoggingData.Records[LoggingData.RecordsQuantity][i] = number[i];
+	}
+	LoggingData.Records[LoggingData.RecordsQuantity][i] = c;
+	i++;
+
+	for(j=0;str[j]!='\0';i++,j++)
+	{
+		if (i<16) LoggingData.Records[LoggingData.RecordsQuantity][i] = str[j];
+		else
+		{
+			LoggingData.Records[LoggingData.RecordsQuantity][i] = '\0';
+			break;
+		}
+	}
+	for (;i<16;i++)
+	{
+		LoggingData.Records[LoggingData.RecordsQuantity][i] = ' ';
+	}
+	Print_to_USART1_d(i,"ii: ",0);
+	LoggingData.Records[LoggingData.RecordsQuantity][i] = '\0';
+
+	LoggingData.RecordsQuantity++;
+	if (LoggingData.RecordsQuantity>=(MAX_LOG_ITEMS))
+	{
+		for (i=0;i<MAX_LOG_ITEMS-10;i++)
+		{
+			number = itoa(i);
+			uint8_t k;
+			for(k=0;number[k]!='\0';k++)
+			{
+				LoggingData.Records[i][k] = number[k];
+			}
+			LoggingData.Records[i][k] = c;
+			k++;
+			for (j=k;LoggingData.Records[i][j]!='\0';j++)
+			{
+				if (i>=10)
+					LoggingData.Records[i][j] = LoggingData.Records[i+10][j];
+				else
+					LoggingData.Records[i][j] = LoggingData.Records[i+10][j+1];
+			}
+		}
+		LoggingData.RecordsQuantity=MAX_LOG_ITEMS-10;
+	}
+	flash_write_block();
+	Print_to_USART1_d(LoggingData.RecordsQuantity,"Q: ",0);
+}
+
+
+
 void InfoToUARTBeforeStart(void)
 {
 

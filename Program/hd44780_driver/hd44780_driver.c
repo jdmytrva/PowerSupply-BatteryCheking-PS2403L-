@@ -75,6 +75,7 @@ void lcd_out(char * txt,uint8_t TypeOfLCD) {
 
 void SetSymbols()
 {
+
 	char sym[8];
 	sym[0]=0b00100;
 	sym[1]=0b10101;

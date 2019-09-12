@@ -2,6 +2,8 @@
 #include "usart.h"
 #ifndef _GENERAL_
 #define _GENERAL_
+
+
 struct StructCalibrationValuetoSaveInFlash
 {
 	uint32_t CRC_data;
@@ -101,6 +103,7 @@ struct StructLoggingData
 };
 struct StructLoggingData LoggingData;
 void WriteInLOG(char  str[17]);
+void WriteInLOGc(char  str [17],char c);
 
 
 void InfoToUARTBeforeStart(void);
