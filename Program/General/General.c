@@ -70,7 +70,7 @@ struct StructCalibrationValuetoSaveInFlash CalibrationDataFactory=
 		ADDRESS_FLASH_CALIBRATTION+24,
 		1331,//CalibrationValueForVoltage2
 		ADDRESS_FLASH_CALIBRATTION+28,
-		116,//ResistanceComp_Ishunt_Wires mOm
+		116,//ResistanceComp_Ishunt_Wires mOm 116
 		ADDRESS_FLASH_CALIBRATTION+32,
 		34,//ResistanceComp_MOSFET mOm
 		ADDRESS_FLASH_CALIBRATTION+36
@@ -217,13 +217,21 @@ void WriteInLOG(char  str [17])
 				LoggingData.Records[i][k] = number[k];
 			}
 			LoggingData.Records[i][k] = ':';
-			k++;
-			if (i<10) k++;
-			for (j=k;LoggingData.Records[i][j]!='\0';j++)
+			for (j=k+1;LoggingData.Records[i][j]!='\0';j++)
 			{
-				LoggingData.Records[i][j] = LoggingData.Records[i+10][j];
+				if (i>=10)
+					LoggingData.Records[i][j] = LoggingData.Records[i+10][j];
+				else
+					LoggingData.Records[i][j] = LoggingData.Records[i+10][j+1];
 			}
+			j--;
+			for (;j<16;j++)
+			{
+				LoggingData.Records[i][j] = ' ';
+			}
+			LoggingData.Records[i][j] = '\0';
 		}
+
 		LoggingData.RecordsQuantity=MAX_LOG_ITEMS-10;
 	}
 	flash_write_block();
@@ -275,15 +283,21 @@ void WriteInLOGc(char  str [17],char c)
 				LoggingData.Records[i][k] = number[k];
 			}
 			LoggingData.Records[i][k] = c;
-			k++;
-			for (j=k;LoggingData.Records[i][j]!='\0';j++)
+			for (j=k+1;LoggingData.Records[i][j]!='\0';j++)
 			{
 				if (i>=10)
 					LoggingData.Records[i][j] = LoggingData.Records[i+10][j];
 				else
 					LoggingData.Records[i][j] = LoggingData.Records[i+10][j+1];
 			}
+			j--;
+			for (;j<16;j++)
+			{
+				LoggingData.Records[i][j] = ' ';
+			}
+			LoggingData.Records[i][j] = '\0';
 		}
+
 		LoggingData.RecordsQuantity=MAX_LOG_ITEMS-10;
 	}
 	flash_write_block();

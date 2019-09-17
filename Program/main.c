@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.73";
+char Version[] = "PS 30V 3A v1.74";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -526,7 +526,10 @@ void MenuDisCharge(Key_Pressed_t key)
 	Print_to_USART1_d(DischargeTimeSec,"DischargeTimeSec: ",0);
 
 }
+void MenuTraining_WriteInLOG(uint32_t BatteryCapacityDischarge, uint32_t DischargeTime, char c  )
+{
 
+}
 void MenuTraining(Key_Pressed_t key)
 {
 	entered_in_charge_discharge_menu = 1;
@@ -537,6 +540,7 @@ void MenuTraining(Key_Pressed_t key)
 		{
 			BATERYSTATUS = 1;//1 discahrge
 			discharge();
+
 			DischargeTimeSec = 0;
 			BatteryCapacityDischargeCurrent = 0;
 			DisChargeStatusForTimer = 1;
@@ -764,6 +768,10 @@ void MenuSwing(Key_Pressed_t key)
 			ClockOnLCD_noSec(DischargeTimeSec);
 		}
 
+}
+void MenuLog_Enter()
+{
+	i_LogItems = 0;
 }
 void MenuLog(Key_Pressed_t key)
 {
@@ -1211,6 +1219,22 @@ void MenuDischarge_Enter(Key_Pressed_t key)
 
 }
 
+void MenuCharge_Enter(Key_Pressed_t key)
+{
+	Print_to_USART1_d(BatteryCapacityCharge,"charge=",0);
+	if (BatteryCapacityCharge/3600>10)
+	{
+		char str[17];
+		char strout[17];
+		char s_clock[17];
+		ClockStringNoSec(ChargeTimeSec,s_clock);
+		Merge3Strings(itoaP(BatteryCapacityCharge/3600,str),"mAh",s_clock,strout);
+		WriteInLOGc(strout,CHARGE_H);
+		Print_to_USART1(strout);
+	}
+
+}
+
 void MenuOption_Enter(Key_Pressed_t key)
 {
 	lcd_set_xy(7,1);
@@ -1361,6 +1385,7 @@ int main(void)
 			//Print_to_USART1_d(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue,"Menu C maH : ",0);
 
 			DischargeTimeSec_Previous = DischargeTimeSec;
+
 		}
 
         Delay_mSec(100);

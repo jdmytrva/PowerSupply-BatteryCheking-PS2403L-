@@ -5,6 +5,8 @@
 void MenuCalibrationWriteToFlash_Enter(Key_Pressed_t key);
 void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key);
 void MenuDischarge_Enter(Key_Pressed_t key);
+void MenuCharge_Enter(Key_Pressed_t key);
+void MenuLog_Enter();
 
  //       NAME          NEXT,       PREV        PARENT,       CHILD       EnterCallback        SelectCallback         Text
  MENU_ITEM(Menu_1,     Menu_2,     Menu_10,    NULL_MENU,   Menu_1_1,   NULL,                NULL,               "Settings        ");
@@ -50,9 +52,9 @@ void MenuDischarge_Enter(Key_Pressed_t key);
  //Load
  MENU_ITEM(Menu_3_1,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_3,   NULL,                NULL,               "                ");
  //Charge CC CV
- MENU_ITEM(Menu_4_1,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_4,   NULL,                NULL,               "                ");
+ MENU_ITEM(Menu_4_1,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_4,   NULL,                MenuCharge_Enter,               "                ");
  //Charge addapt
- MENU_ITEM(Menu_5_1,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_5,   NULL,                NULL,               "                ");
+ MENU_ITEM(Menu_5_1,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_5,   NULL,                MenuCharge_Enter,               "                ");
  //DisCharge
  MENU_ITEM(Menu_6_1,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_6,   NULL,                MenuDischarge_Enter,"                ");
  //Training
@@ -63,7 +65,7 @@ void MenuDischarge_Enter(Key_Pressed_t key);
  MENU_ITEM(Menu_9_1,     NULL_MENU,    NULL_MENU,     NULL_MENU,   Menu_9,   NULL,                NULL,               "                ");
 
  //LOG
- MENU_ITEM(Menu_11_1,     NULL_MENU,    NULL_MENU,     NULL_MENU,   Menu_11,   NULL,                NULL,             "                ");
+ MENU_ITEM(Menu_11_1,     NULL_MENU,    NULL_MENU,     NULL_MENU,   Menu_11,   NULL,                MenuLog_Enter,             "                ");
 
 
 
