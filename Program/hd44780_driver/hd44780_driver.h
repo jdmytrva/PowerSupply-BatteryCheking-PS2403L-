@@ -36,10 +36,11 @@ typedef enum {
 } cursor_mode;
 
 typedef enum SpecialSymbols {
-    CHARGE_L=0,
+
     CHARGE_H=1,
     DISCHARGE_l=2,
-    DISCHARGE_H=3
+    DISCHARGE_H=3,
+    TRAINING_ = 4
 
 }SpecialChars ;
 

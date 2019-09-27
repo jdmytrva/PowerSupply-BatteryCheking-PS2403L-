@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.75";
+char Version[] = "PS 30V 3A v1.76";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -526,9 +526,19 @@ void MenuDisCharge(Key_Pressed_t key)
 	Print_to_USART1_d(DischargeTimeSec,"DischargeTimeSec: ",0);
 
 }
-void MenuTraining_WriteInLOG(uint32_t BatteryCapacityDischarge, uint32_t DischargeTime, char c  )
+void MenuTraining_WriteInLOG(uint32_t Capacity, uint32_t Time, char c  )
 {
-
+	char s[2];
+	s[0] = c;
+	s[1] = '\0';
+	char str[17];
+	char strout[17];
+	char strout1[17];
+	char s_clock[17];
+	ClockStringNoSec(Time,s_clock);
+	Merge3Strings(itoaP(Capacity/3600,str),"mAh",s_clock,strout);
+	Merge2Strings(s,strout,strout1);
+	WriteInLOGc(strout1,TRAINING_);
 }
 
 typedef enum ChargeDischargeStatus_e {
@@ -540,39 +550,34 @@ ChargeDischargeStatus_t ChargeDischargeStatus = DISCHARGEs;
 
 void MenuTraining_new(Key_Pressed_t key)
 {
-	if (1)
+	if (EnterInMenu_Status == 0)
 	{
-		if (U_OUT < SettingsData.LowVoltage)
-			ChargeDischargeStatus = CHARGEs;
-		if (U_OUT> SettingsData.MaxVoltage)
-			ChargeDischargeStatus = DISCHARGEs;
+		EnterInMenu_Status = 1;
+		ChargeStatusForTimer = 0;
+		DisChargeStatusForTimer = 0;
+		ChargeTimeSec = 0;
+		DischargeTimeSec = 0;
+		DischargeTimeSec_Previous = 0;
+		BatteryCapacityCharge = 0;
+		BatteryCapacityDischargeCurrent = 0;
 
-		if (EnterInMenu_Status == 0)
-		{
-			EnterInMenu_Status = 1;
-			ChargeStatusForTimer = 0;
-			DisChargeStatusForTimer = 0;
-			ChargeTimeSec = 0;
-			DischargeTimeSec = 0;
-			DischargeTimeSec_Previous = 0;
-			BatteryCapacityCharge = 0;
-			BatteryCapacityDischargeCurrent = 0;
-		}
-		if (ChargeDischargeStatus == DISCHARGEs)
-		{
-			//stop charge activity
-			ChargeStatusForTimer = 0;
-			ChargeTimeSec = 0;
-			BatteryCapacityCharge = 0;
+		//Start discharge activity
+		DisChargeStatusForTimer = 1;
+		discharge();
+		ChargeDischargeStatus = DISCHARGEs;
+		Delay_mSec(100);
+	}
 
-			//Start discharge activity
-			DisChargeStatusForTimer = 1;
-			discharge();
-		}
-		if (ChargeDischargeStatus == CHARGEs)
+	if (Module16(Current)>5)
+	{
+		if (U_OUT < SettingsData.LowVoltage && ChargeDischargeStatus == DISCHARGEs)
 		{
 			//stop discharge action
 			DisChargeStatusForTimer = 0;
+			if (BatteryCapacityDischargeCurrent/3600 > 100)
+			{
+				MenuTraining_WriteInLOG(BatteryCapacityDischargeCurrent,DischargeTimeSec,DISCHARGE_l);
+			}
 			DischargeTimeSec_Previous = DischargeTimeSec;
 			DischargeTimeSec = 0;
 			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
@@ -581,6 +586,28 @@ void MenuTraining_new(Key_Pressed_t key)
 			//Start charge action
 			ChargeStatusForTimer = 1;
 			charge();
+
+			Delay_mSec(300);
+			ChargeDischargeStatus = CHARGEs;
+		}
+		if (U_OUT> SettingsData.MaxVoltage && ChargeDischargeStatus == CHARGEs)
+		{
+
+
+			//stop charge activity
+			ChargeStatusForTimer = 0;
+			if (BatteryCapacityCharge/3600 > 100)
+			{
+				MenuTraining_WriteInLOG(BatteryCapacityCharge,ChargeTimeSec,CHARGE_H);
+			}
+			ChargeTimeSec = 0;
+			BatteryCapacityCharge = 0;
+
+			//Start discharge activity
+			DisChargeStatusForTimer = 1;
+			discharge();
+			Delay_mSec(100);
+			ChargeDischargeStatus = DISCHARGEs;
 		}
 
 		//Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu
@@ -663,15 +690,12 @@ void MenuTraining_new(Key_Pressed_t key)
 			lcd_set_xy(3,1);
 			ClockOnLCD_noSec(ChargeTimeSec);
 		}
-
 	}
 	else
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("NO/BAD Battery  ");
 	}
-
-
 	Print_to_USART1_d(EnterInMenu_Status,"EnterInMenu_Status: ",0);
 
 	Print_to_USART1_d(ChargeStatusForTimer,"Chargestatus timer: ",0);
