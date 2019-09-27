@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.74";
+char Version[] = "PS 30V 3A v1.75";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -83,7 +83,7 @@ uint8_t Status_Load = 0;
 uint8_t Status_Out = 0;
 int8_t CountShow = 0;
 int8_t CountShow1 = 0;
-volatile uint8_t entered_in_charge_discharge_menu = 0;
+volatile uint8_t EnterInMenu_Status = 0;
 int8_t PopUpMessage = 0;
 uint32_t SwingtimeSec = 0;
 volatile uint8_t ChargeStatusForTimer = 0;
@@ -113,7 +113,7 @@ void Generic_Write(char* Text)
 
 void MenuPowerSupply(Key_Pressed_t key) //PowerSupply
 {
-	entered_in_charge_discharge_menu = 1;
+	EnterInMenu_Status = 1;
 	lcd_set_xy(0,0);
 	if (On_off == 0)
 	{
@@ -147,7 +147,7 @@ void MenuPowerSupply(Key_Pressed_t key) //PowerSupply
 
 void MenuLoad(Key_Pressed_t key) //Load
 {
-	entered_in_charge_discharge_menu = 1;
+	EnterInMenu_Status = 1;
 	if (key == KEY_NEXT)
 	{
 		if (On_off == 0)
@@ -185,7 +185,7 @@ void MenuLoad(Key_Pressed_t key) //Load
 }
 void MenuChargeCC_CV(Key_Pressed_t key)
 {
-	entered_in_charge_discharge_menu = 1;
+	EnterInMenu_Status = 1;
 	if (InitiStatus==0)
 	{
 		ChargeStatusForTimer = 0;
@@ -281,7 +281,7 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 		ClockOnLCD_noSec(ChargeTimeSec);
 	}
 	Print_to_USART1_d(InitiStatus,"Init status: ",0);
-	Print_to_USART1_d(entered_in_charge_discharge_menu,"entered_in_charge_discharge_menu: ",0);
+	Print_to_USART1_d(EnterInMenu_Status,"EnterInMenu_Status: ",0);
 
 	Print_to_USART1_d(ChargeStatusForTimer,"Chargestatus timer: ",0);
 	Print_to_USART1_d(ChargeTimeSec,"ChargeTimeSec: ",0);
@@ -291,7 +291,7 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 }
 void MenuChargeAdapt(Key_Pressed_t key)
 {
-	entered_in_charge_discharge_menu = 1;
+	EnterInMenu_Status = 1;
 	if (InitiStatus==0)
 	{
 		ChargeStatusForTimer = 0;
@@ -408,7 +408,7 @@ void MenuChargeAdapt(Key_Pressed_t key)
 	Delay_mSec(MENUDELAY);
 
 	Print_to_USART1_d(InitiStatus,"Init status: ",0);
-	Print_to_USART1_d(entered_in_charge_discharge_menu,"entered_in_charge_discharge_menu: ",0);
+	Print_to_USART1_d(EnterInMenu_Status,"EnterInMenu_Status: ",0);
 
 	Print_to_USART1_d(ChargeStatusForTimer,"Chargestatus timer: ",0);
 	Print_to_USART1_d(ChargeTimeSec,"ChargeTimeSec: ",0);
@@ -418,7 +418,7 @@ void MenuChargeAdapt(Key_Pressed_t key)
 }
 void MenuDisCharge(Key_Pressed_t key)
 {
-	entered_in_charge_discharge_menu = 1;
+	EnterInMenu_Status = 1;
 	if (InitiStatus==0)
 	{
 		InitiStatus = 1;
@@ -518,7 +518,7 @@ void MenuDisCharge(Key_Pressed_t key)
 		ClockOnLCD_noSec(DischargeTimeSec);
 	}
 	Print_to_USART1_d(InitiStatus,"Init status: ",0);
-	Print_to_USART1_d(entered_in_charge_discharge_menu,"entered_in_charge_discharge_menu: ",0);
+	Print_to_USART1_d(EnterInMenu_Status,"EnterInMenu_Status: ",0);
 
 	Print_to_USART1_d(ChargeStatusForTimer,"Chargestatus timer: ",0);
 	Print_to_USART1_d(ChargeTimeSec,"ChargeTimeSec: ",0);
@@ -530,9 +530,164 @@ void MenuTraining_WriteInLOG(uint32_t BatteryCapacityDischarge, uint32_t Dischar
 {
 
 }
+
+typedef enum ChargeDischargeStatus_e {
+    CHARGEs=1,
+    DISCHARGEs,
+    IDLEs
+} ChargeDischargeStatus_t ;
+ChargeDischargeStatus_t ChargeDischargeStatus = DISCHARGEs;
+
+void MenuTraining_new(Key_Pressed_t key)
+{
+	if (1)
+	{
+		if (U_OUT < SettingsData.LowVoltage)
+			ChargeDischargeStatus = CHARGEs;
+		if (U_OUT> SettingsData.MaxVoltage)
+			ChargeDischargeStatus = DISCHARGEs;
+
+		if (EnterInMenu_Status == 0)
+		{
+			EnterInMenu_Status = 1;
+			ChargeStatusForTimer = 0;
+			DisChargeStatusForTimer = 0;
+			ChargeTimeSec = 0;
+			DischargeTimeSec = 0;
+			DischargeTimeSec_Previous = 0;
+			BatteryCapacityCharge = 0;
+			BatteryCapacityDischargeCurrent = 0;
+		}
+		if (ChargeDischargeStatus == DISCHARGEs)
+		{
+			//stop charge activity
+			ChargeStatusForTimer = 0;
+			ChargeTimeSec = 0;
+			BatteryCapacityCharge = 0;
+
+			//Start discharge activity
+			DisChargeStatusForTimer = 1;
+			discharge();
+		}
+		if (ChargeDischargeStatus == CHARGEs)
+		{
+			//stop discharge action
+			DisChargeStatusForTimer = 0;
+			DischargeTimeSec_Previous = DischargeTimeSec;
+			DischargeTimeSec = 0;
+			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
+			BatteryCapacityDischargeCurrent = 0;
+
+			//Start charge action
+			ChargeStatusForTimer = 1;
+			charge();
+		}
+
+		//Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu
+		#define MAXITEM3 5
+		if (key == KEY_NEXT)
+		{
+			CountShow++;
+			if (CountShow==MAXITEM3) CountShow=0;
+		}
+		if (key == KEY_BACK)
+		{
+			CountShow--;
+			if (CountShow<0) CountShow=MAXITEM3-1;
+		}
+		if(CountShow == 0)
+		{
+			lcd_set_xy(0,0);
+			PrintToLCD(itoa_koma(U_OUT,2));
+			PrintToLCD("V ");
+
+			PrintToLCD(itoa(Current));
+			PrintToLCD("mA     ");
+			lcd_set_xy(6,1);
+			LcdOutbyNumber(4,1);
+			if (Status_Out ==1)
+			{
+				lcd_set_xy(7,1);
+				LcdOutbyNumber(0,1);//charge
+			}
+			else
+			{
+				lcd_set_xy(7,1);
+				LcdOutbyNumber(2,1);//discharge
+			}
+		}
+		if(CountShow == 1)
+		{
+			lcd_set_xy(0,0);
+			PrintToLCD(itoa(SettingsData.ChargeTime));
+			PrintToLCD("h ");
+			PrintToLCD(itoa_koma(SettingsData.LowVoltage/10,1));
+			PrintToLCD("V ");
+			PrintToLCD(itoa_koma(SettingsData.MaxVoltage/10,1));
+			PrintToLCD("V     ");
+
+
+		}
+		if(CountShow == 2)
+		{
+			lcd_set_xy(0,0);
+			LcdOutbyNumber(2,1);//discharge
+			lcd_set_xy(1,0);
+			PrintToLCD("N ");
+			PrintToLCD(itoa(BatteryCapacityDischargeCurrent/3600));
+			PrintToLCD("mAH     ");
+			lcd_set_xy(3,1);
+			ClockOnLCD_noSec(DischargeTimeSec);
+		}
+		if(CountShow == 3)
+		{
+			lcd_set_xy(0,0);
+			LcdOutbyNumber(2,1);//discharge
+			lcd_set_xy(1,0);
+			PrintToLCD("P ");
+			PrintToLCD(itoa(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue/3600));
+			PrintToLCD("mAH     ");
+			lcd_set_xy(3,1);
+			ClockOnLCD_noSec(DischargeTimeSec_Previous);
+
+		}
+
+		if(CountShow == 4)
+		{
+			lcd_set_xy(0,0);
+			LcdOutbyNumber(0,1);//charge
+			lcd_set_xy(1,0);
+			PrintToLCD("C ");
+			PrintToLCD(itoa(BatteryCapacityCharge/3600));
+			PrintToLCD("mAH     ");
+			lcd_set_xy(3,1);
+			ClockOnLCD_noSec(ChargeTimeSec);
+		}
+
+	}
+	else
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("NO/BAD Battery  ");
+	}
+
+
+	Print_to_USART1_d(EnterInMenu_Status,"EnterInMenu_Status: ",0);
+
+	Print_to_USART1_d(ChargeStatusForTimer,"Chargestatus timer: ",0);
+	Print_to_USART1_d(ChargeTimeSec,"ChargeTimeSec: ",0);
+	Print_to_USART1_d(DisChargeStatusForTimer,"Dischargestatus timer: ",0);
+	Print_to_USART1_d(DischargeTimeSec,"DischargeTimeSec: ",0);
+
+	Print_to_USART1_d(BatteryCapacityDischargeCurrent,"BatteryCapacityDischargeCurrent: ",0);
+	Print_to_USART1_d(BatteryCapacityCharge,"BatteryCapacityCharge: ",0);
+
+
+	Delay_mSec(MENUDELAY);
+}
 void MenuTraining(Key_Pressed_t key)
 {
-	entered_in_charge_discharge_menu = 1;
+	EnterInMenu_Status = 1;
 	if (InitiStatus==0)
 	{
 		//InitiStatus
@@ -686,7 +841,7 @@ void MenuTraining(Key_Pressed_t key)
 void MenuSwing(Key_Pressed_t key)
 {
    	lcd_set_xy(0,0);
-       	entered_in_charge_discharge_menu = 1;
+       	EnterInMenu_Status = 1;
        	if (InitiStatus==0)
         {
        		InitiStatus=1;
@@ -799,7 +954,7 @@ void MenuLog(Key_Pressed_t key)
 void MenuDIAGNOSTIC(Key_Pressed_t key)
 {
 
-	entered_in_charge_discharge_menu=1;
+	EnterInMenu_Status=1;
 
 	//discharge();
 	#define MAXITEM 8
@@ -920,7 +1075,7 @@ void MenuCalibration_CURRENT_Load_to_0(Key_Pressed_t key)
 }
 void MenuCalibration_CURRENT_Out(Key_Pressed_t key)
 {
-	entered_in_charge_discharge_menu=1;
+	EnterInMenu_Status=1;
 	OUT_ON();
 	if (key == KEY_NEXT) CalibrationData.CalibrationValueForCurrent++;
 	if (key == KEY_BACK) CalibrationData.CalibrationValueForCurrent--;
@@ -934,7 +1089,7 @@ void MenuCalibration_CURRENT_Out(Key_Pressed_t key)
 }
 void MenuCalibration_CURRENT_Load(Key_Pressed_t key)
 {
-	entered_in_charge_discharge_menu=1;
+	EnterInMenu_Status=1;
 	discharge();
 	if (key == KEY_NEXT) CalibrationData.CalibrationValueForCurrent1++;
 	if (key == KEY_BACK) CalibrationData.CalibrationValueForCurrent1--;
@@ -948,7 +1103,7 @@ void MenuCalibration_CURRENT_Load(Key_Pressed_t key)
 }
 void MenuCalibration_VoltagePS(Key_Pressed_t key)
 {
-	entered_in_charge_discharge_menu=1;
+	EnterInMenu_Status=1;
 	OUT_ON();
 	if (key == KEY_NEXT) CalibrationData.CalibrationValueForVoltage++;
 	if (key == KEY_BACK) CalibrationData.CalibrationValueForVoltage--;
@@ -962,7 +1117,7 @@ void MenuCalibration_VoltagePS(Key_Pressed_t key)
 }
 void MenuCalibration_VoltageOut(Key_Pressed_t key)
 {
-	entered_in_charge_discharge_menu=1;
+	EnterInMenu_Status=1;
 	OUT_ON();
 	if (key == KEY_NEXT) CalibrationData.CalibrationValueForVoltage1++;
 	if (key == KEY_BACK) CalibrationData.CalibrationValueForVoltage1--;
@@ -976,7 +1131,7 @@ void MenuCalibration_VoltageOut(Key_Pressed_t key)
 }
 void MenuCalibration_VoltageIn(Key_Pressed_t key)
 {
-	entered_in_charge_discharge_menu=1;
+	EnterInMenu_Status=1;
 	OUT_ON();
 	if (key == KEY_NEXT) CalibrationData.CalibrationValueForVoltage2++;
 	if (key == KEY_BACK) CalibrationData.CalibrationValueForVoltage2--;
@@ -994,7 +1149,7 @@ void MenuCalibration_Resist_Comp_5V1A(Key_Pressed_t key)
 		static uint16_t ResistanceComp_Voltage = 470;
 		int16_t Delta;
 
-		entered_in_charge_discharge_menu=1;
+		EnterInMenu_Status=1;
 		OUT_ON();
 		if (key == KEY_NEXT) ResistanceComp_Voltage++;
 		if (key == KEY_BACK) ResistanceComp_Voltage--;
@@ -1244,153 +1399,7 @@ void MenuOption_Enter(Key_Pressed_t key)
 	Delay_mSec(200);
 }
 
-//=========================MAIN==================
-int main(void)
-{
-	Initialization();
-	OFF();
-	LoggingData.RecordsQuantity= 0;
-	uint8_t EEpromReadStatus;
-	PrintToLCD(Version);
-	SetSymbols();
-	lcd_set_xy(0,0);
-	Delay_mSec(2000);
-	flash_read_block();
-	if (LoggingData.RecordsQuantity>=MAX_LOG_ITEMS) LoggingData.RecordsQuantity = 0;
-	//WriteInLOG("Power ON");
-	EEpromReadStatus = ReadFromFlash();
-	if (EEpromReadStatus==0)
-	{
-		Delay_mSec(1000);
-		EEpromReadStatus = ReadFromFlash();
-	}
-	if (EEpromReadStatus == 0)
-	{
-		PrintToLCD("EEprom Read FAIL");
-		Delay_mSec(4000);
-		WriteInLOG("EEprmReadFAIL");
-	}
 
-
-    BatteryCapacityDischargeCurrentAfterPOwerUp = SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent;
-    ChargeDurationSec = SettingsData.ChargeTime*3600;
-    SelectedOptionValue = SettingsData.Option1;
-    Print_to_USART1(Version);
-    InfoToUARTBeforeStart();
-    //HSE_PLL();
-
-    lcd_clear();
-	Menu_SetGenericWriteCallback(Generic_Write);
-	if (SettingsData.Option1 == 1)
-		Menu_Navigate(&Menu_2_1);
-	else if (SettingsData.Option1 == 2)
-		Menu_Navigate(&Menu_3_1);
-	else if (SettingsData.Option1 == 3)
-		Menu_Navigate(&Menu_4_1);
-	else if (SettingsData.Option1 == 4)
-		Menu_Navigate(&Menu_5_1);
-	else if (SettingsData.Option1 == 5)
-		Menu_Navigate(&Menu_6_1);
-	else if (SettingsData.Option1 == 6)
-		Menu_Navigate(&Menu_7_1);
-	else if (SettingsData.Option1 == 7)
-		Menu_Navigate(&Menu_8_1);
-	else Menu_Navigate(&Menu_2_1);
-
-    while(1)
-    {
-    	Blink_message_counter++;
-        entered_in_charge_discharge_menu = 0;
-        Key_Pressed_t Button;
-    	Button=BUT_GetKey();
-		switch (Button)
-		{
-			case KEY_BACK:
-				Menu_Navigate(MENU_PREVIOUS);
-
-				break;
-			case KEY_NEXT:
-				Menu_Navigate(MENU_NEXT);
-
-				break;
-			case KEY_OK:
-				Menu_SelectItem(KEY_NEXT);
-				Menu_Navigate(MENU_CHILD);
-				break;
-			default:
-				//Print_to_USART1("NO key Pressed");
-				break;
-		}
-
-		if (Menu_GetCurrentMenu() == &Menu_2_1)
-			MenuPowerSupply(Button);
-		if (Menu_GetCurrentMenu() == &Menu_3_1)
-			MenuLoad(Button);
-		if (Menu_GetCurrentMenu() == &Menu_4_1)
-			MenuChargeCC_CV(Button);
-		if (Menu_GetCurrentMenu() == &Menu_5_1)
-			MenuChargeAdapt(Button);
-		if (Menu_GetCurrentMenu() == &Menu_6_1)
-			MenuDisCharge(Button);
-		if (Menu_GetCurrentMenu() == &Menu_7_1)
-			MenuTraining(Button);
-		if (Menu_GetCurrentMenu() == &Menu_8_1)
-			MenuSwing(Button);
-		if (Menu_GetCurrentMenu() == &Menu_9_1)
-			MenuDIAGNOSTIC(Button);
-		if (Menu_GetCurrentMenu() == &Menu_11_1)
-			MenuLog(Button);
-		if (Menu_GetCurrentMenu() == &Menu_10_2_1)
-			MenuCalibration_CURRENT_Load_to_0(Button);
-		if (Menu_GetCurrentMenu() == &Menu_10_1_1)
-			MenuCalibration_CURRENT_Out_to_0(Button);
-		if (Menu_GetCurrentMenu() == &Menu_10_4_1)
-			MenuCalibration_CURRENT_Load(Button);
-		if (Menu_GetCurrentMenu() == &Menu_10_3_1)
-			MenuCalibration_CURRENT_Out(Button);
-		if (Menu_GetCurrentMenu() == &Menu_10_7_1)
-			MenuCalibration_VoltageIn(Button);
-		if (Menu_GetCurrentMenu() == &Menu_10_6_1)
-			MenuCalibration_VoltageOut(Button);
-		if (Menu_GetCurrentMenu() == &Menu_10_5_1)
-			MenuCalibration_VoltagePS(Button);
-		if (Menu_GetCurrentMenu() == &Menu_10_8_1)
-			MenuCalibration_Resist_Comp_5V1A(Button);
-		if (Menu_GetCurrentMenu() == &Menu_10_9_1)
-			MenuCalibration_BackToFactory(Button);
-
-
-		if (Menu_GetCurrentMenu() == &Menu_1_1_1)
-			MenuSettingsChargeTime(Button);
-		if (Menu_GetCurrentMenu() == &Menu_1_2_1)
-			MenuSettingsLowVolt(Button);
-		if (Menu_GetCurrentMenu() == &Menu_1_3_1)
-			MenuSettingsMaxVolt(Button);
-		if (Menu_GetCurrentMenu() == &Menu_1_4_1)
-			MenuSettingsSwngChrgTime(Button);
-		if (Menu_GetCurrentMenu() == &Menu_1_5_1)
-			MenuSettingsSwngDChrgTime(Button);
-		if (Menu_GetCurrentMenu() == &Menu_1_6_1)
-			MenuSettingsChargeAddapt(Button);
-		if (Menu_GetCurrentMenu() == &Menu_1_S_1)
-			MenuSettingsSaveMenuPosWhenOFF(Button);
-
-
-		if (entered_in_charge_discharge_menu == 0)
-		{
-			OFF();
-			InitiStatus = 0;
-			CountShow = 0;
-			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
-			//Print_to_USART1_d(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue,"Menu C maH : ",0);
-
-			DischargeTimeSec_Previous = DischargeTimeSec;
-
-		}
-
-        Delay_mSec(100);
-    }//while
-}//main
 
 int16_t comp = 0;
 void BUT_Debrief(void)
@@ -1645,3 +1654,150 @@ void LOAD1_ON_OFF_Toggle()
 	else LOAD1_OFF();
 }
 
+//=========================MAIN==================
+int main(void)
+{
+	Initialization();
+	OFF();
+	LoggingData.RecordsQuantity= 0;
+	uint8_t EEpromReadStatus;
+	PrintToLCD(Version);
+	SetSymbols();
+	lcd_set_xy(0,0);
+	Delay_mSec(2000);
+	flash_read_block();
+	if (LoggingData.RecordsQuantity>=MAX_LOG_ITEMS) LoggingData.RecordsQuantity = 0;
+	//WriteInLOG("Power ON");
+	EEpromReadStatus = ReadFromFlash();
+	if (EEpromReadStatus==0)
+	{
+		Delay_mSec(1000);
+		EEpromReadStatus = ReadFromFlash();
+	}
+	if (EEpromReadStatus == 0)
+	{
+		PrintToLCD("EEprom Read FAIL");
+		Delay_mSec(4000);
+		WriteInLOG("EEprmReadFAIL");
+	}
+
+
+    BatteryCapacityDischargeCurrentAfterPOwerUp = SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent;
+    ChargeDurationSec = SettingsData.ChargeTime*3600;
+    SelectedOptionValue = SettingsData.Option1;
+    Print_to_USART1(Version);
+    InfoToUARTBeforeStart();
+    //HSE_PLL();
+
+    lcd_clear();
+	Menu_SetGenericWriteCallback(Generic_Write);
+	if (SettingsData.Option1 == 1)
+		Menu_Navigate(&Menu_2_1);
+	else if (SettingsData.Option1 == 2)
+		Menu_Navigate(&Menu_3_1);
+	else if (SettingsData.Option1 == 3)
+		Menu_Navigate(&Menu_4_1);
+	else if (SettingsData.Option1 == 4)
+		Menu_Navigate(&Menu_5_1);
+	else if (SettingsData.Option1 == 5)
+		Menu_Navigate(&Menu_6_1);
+	else if (SettingsData.Option1 == 6)
+		Menu_Navigate(&Menu_7_1);
+	else if (SettingsData.Option1 == 7)
+		Menu_Navigate(&Menu_8_1);
+	else Menu_Navigate(&Menu_2_1);
+
+    while(1)
+    {
+    	Blink_message_counter++;
+        Key_Pressed_t Button;
+    	Button=BUT_GetKey();
+		switch (Button)
+		{
+			case KEY_BACK:
+				Menu_Navigate(MENU_PREVIOUS);
+
+				break;
+			case KEY_NEXT:
+				Menu_Navigate(MENU_NEXT);
+
+				break;
+			case KEY_OK:
+				Menu_SelectItem(KEY_NEXT);
+				Menu_Navigate(MENU_CHILD);
+				break;
+			default:
+				//Print_to_USART1("NO key Pressed");
+				break;
+		}
+
+		if (Menu_GetCurrentMenu() == &Menu_2_1)
+			MenuPowerSupply(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_3_1)
+			MenuLoad(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_4_1)
+			MenuChargeCC_CV(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_5_1)
+			MenuChargeAdapt(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_6_1)
+			MenuDisCharge(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_7_1)
+			//MenuTraining(Button);
+			MenuTraining_new(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_8_1)
+			MenuSwing(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_9_1)
+			MenuDIAGNOSTIC(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_11_1)
+			MenuLog(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_10_2_1)
+			MenuCalibration_CURRENT_Load_to_0(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_10_1_1)
+			MenuCalibration_CURRENT_Out_to_0(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_10_4_1)
+			MenuCalibration_CURRENT_Load(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_10_3_1)
+			MenuCalibration_CURRENT_Out(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_10_7_1)
+			MenuCalibration_VoltageIn(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_10_6_1)
+			MenuCalibration_VoltageOut(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_10_5_1)
+			MenuCalibration_VoltagePS(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_10_8_1)
+			MenuCalibration_Resist_Comp_5V1A(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_10_9_1)
+			MenuCalibration_BackToFactory(Button);
+
+
+		else 	if (Menu_GetCurrentMenu() == &Menu_1_1_1)
+			MenuSettingsChargeTime(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_1_2_1)
+			MenuSettingsLowVolt(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_1_3_1)
+			MenuSettingsMaxVolt(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_1_4_1)
+			MenuSettingsSwngChrgTime(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_1_5_1)
+			MenuSettingsSwngDChrgTime(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_1_6_1)
+			MenuSettingsChargeAddapt(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_1_S_1)
+			MenuSettingsSaveMenuPosWhenOFF(Button);
+		else EnterInMenu_Status = 0;
+
+		if (EnterInMenu_Status == 0)
+		{
+			OFF();
+			InitiStatus = 0;
+			CountShow = 0;
+			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
+			//Print_to_USART1_d(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue,"Menu C maH : ",0);
+
+			DischargeTimeSec_Previous = DischargeTimeSec;
+
+		}
+
+        Delay_mSec(100);
+    }//while
+}//main
