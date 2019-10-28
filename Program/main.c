@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 30V 3A v1.77";
+char Version[] = "PS 23V 3A v1.79";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -722,15 +722,24 @@ void MenuSwing(Key_Pressed_t key)
         	   ReStart_Timer_sec();
                Timer_Sec  = Timer_Sec+ SettingsData.Swing_Chrg_time;
            }
+   		Print_to_USART1_d(Timer_Sec,"Timer_Sec:Timer_Sec<=SettingsData.Swing_Chrg_time ",0);
        }
-       if (Timer_Sec > SettingsData.Swing_Chrg_time)
+       if (Timer_Sec > SettingsData.Swing_DChrg_time)
        {
            discharge();
            if (U_OUT<SettingsData.LowVoltage)
+           {
         	   ReStart_Timer_sec();
+        	   Print_to_USART1_d(Timer_Sec,"Timer_Sec: (U_OUT<SettingsData.LowVoltage)",0);
+           }
+
+           Print_to_USART1_d(Timer_Sec,"Timer_Sec: (Timer_Sec > SettingsData.Swing_DChrg_time)",0);
        }
        if (Timer_Sec > (SettingsData.Swing_Chrg_time+SettingsData.Swing_DChrg_time))
+       {
     	   ReStart_Timer_sec();
+   		Print_to_USART1_d(Timer_Sec,"Timer_Sec:(Timer_Sec > (SettingsData.Swing_Chrg_time+SettingsData.Swing_DChrg_time)) ",0);
+       }
 
 		#define MAXITEM6 3
 		if (key == KEY_NEXT)
@@ -788,6 +797,11 @@ void MenuSwing(Key_Pressed_t key)
 			lcd_set_xy(3,1);
 			ClockOnLCD_noSec(DischargeTimeSec);
 		}
+
+		Print_to_USART1_d(EnterInMenu_Status,"EnterInMenu_Status: ",0);
+
+		Print_to_USART1_d(Timer_Sec,"Timer_Sec: ",0);
+		Print_to_USART1_d(InitiStatus,"InitiStatus: ",0);
 
 }
 void MenuLog_Enter()
@@ -1081,6 +1095,66 @@ void MenuSettingsChargeTime(Key_Pressed_t key)
 	PrintToLCD("h   ");
     ChargeDurationSec = SettingsData.ChargeTime*3600;
 }
+int8_t CountShowBT = 0;
+#define MAXITEM_BT 7
+void MenuSettingsBatteryType(Key_Pressed_t key)
+{
+	if (key == KEY_NEXT)
+	{
+		CountShowBT++;
+		if (CountShowBT==MAXITEM_BT) CountShowBT=0;
+	}
+	if (key == KEY_BACK)
+	{
+		CountShowBT--;
+		if (CountShowBT<0) CountShowBT=MAXITEM_BT-1;
+	}
+	if(CountShowBT == 0)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("12V Pb Battery  ");
+		SettingsData.LowVoltage = 1060;
+		SettingsData.MaxVoltage = 1460;
+	}
+	if(CountShowBT == 1)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("Li ion  Battery  ");
+		SettingsData.LowVoltage = 360;
+		SettingsData.MaxVoltage = 420;
+	}
+	if(CountShowBT == 2)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("LiFePo4 Battery ");
+		SettingsData.LowVoltage = 280;
+		SettingsData.MaxVoltage = 370;
+	}
+	if(CountShowBT == 3)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("LiTo Battery   ");
+		SettingsData.LowVoltage = 1060;
+		SettingsData.MaxVoltage = 1460;
+	}
+	if(CountShowBT == 4)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("    Battery     ");
+	}
+	if(CountShowBT == 5)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("Other  Battery  ");
+	}
+	if(CountShowBT == 6)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("Min 1V  MAX 20V");
+		SettingsData.LowVoltage = 100;
+		SettingsData.MaxVoltage = 2000;
+	}
+}
 void MenuSettingsLowVolt_Enter(void)
 {
 
@@ -1356,6 +1430,7 @@ void Start_Timer_sec()
 }
 void ReStart_Timer_sec()
 {
+	Print_to_USART1_d(Timer_Sec,"Timer_Sec:Restart Timer ",0);
 	Timer_Sec = 0;
 	Status_Timer_Sec = 1;
 
@@ -1423,7 +1498,8 @@ void All_OUT_OFF_When_Power_OFF()
 				WriteInLOGc(strout,DISCHARGE_l);
 			}
 			WriteInLOG(Merge2Strings("PowerOFF ",itoa_komaP(U_IN/10,str,1),strout));
-			while (1)
+			uint8_t i=0;
+			for (i = 0; i<50; i++)
 			{
 				Print_to_USART1_d(U_IN,"U off: ",2);
 				Delay_mSec(10);
@@ -1636,8 +1712,10 @@ int main(void)
 			MenuCalibration_BackToFactory(Button);
 
 
-		else 	if (Menu_GetCurrentMenu() == &Menu_1_1_1)
+		else if (Menu_GetCurrentMenu() == &Menu_1_1_1)
 			MenuSettingsChargeTime(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_1_1_1a)
+			MenuSettingsBatteryType(Button);
 		else if (Menu_GetCurrentMenu() == &Menu_1_2_1)
 			MenuSettingsLowVolt(Button);
 		else if (Menu_GetCurrentMenu() == &Menu_1_3_1)
