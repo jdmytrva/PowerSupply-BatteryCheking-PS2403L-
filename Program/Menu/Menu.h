@@ -4,6 +4,7 @@
 
 void MenuCalibrationWriteToFlash_Enter(Key_Pressed_t key);
 void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key);
+void MenuSettingsBatteryType_Enter(Key_Pressed_t key);
 void MenuDischarge_Enter(Key_Pressed_t key);
 void MenuCharge_Enter(Key_Pressed_t key);
 void MenuLog_Enter();
@@ -102,7 +103,7 @@ void MenuLog_Enter();
  //Charge time, h
  MENU_ITEM(Menu_1_1_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_1,   NULL,    MenuSettingsWriteToFlash_Enter,                   "                ");
  //Battery type
-  MENU_ITEM(Menu_1_1_1a,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_1a,   NULL,    MenuSettingsWriteToFlash_Enter,                   "                ");
+  MENU_ITEM(Menu_1_1_1a,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_1a,   NULL,    MenuSettingsBatteryType_Enter,                   "                ");
  //Low Volt, mV*10
  MENU_ITEM(Menu_1_2_1,   NULL_MENU,   NULL_MENU,   NULL_MENU,   Menu_1_2,   NULL,       MenuSettingsWriteToFlash_Enter,               "                ");
  //Max Volt, mV*10

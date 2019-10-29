@@ -22,12 +22,13 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 23V 3A v1.79";
+char Version[] = "PS 23V 3A v1.80";
 
 
 Key_Pressed_t pressedKey = 0;
 volatile uint32_t  time_sec = 0;
 volatile uint32_t  Timer_Sec = 0;
+volatile uint32_t  TimerForReadyMeasurement_ms = 0;
 volatile uint8_t  Status_Timer_Sec = 0;
 volatile uint32_t  ChargeTimeSec = 0;
 volatile uint32_t  DischargeTimeSec = 0;
@@ -55,13 +56,15 @@ void ClockOnLCD_noSec (uint32_t time);
 
 void discharge();
 void charge();
+void discharge1();
+void charge1();
 void OFF();
 void OUT_OFF();
 void OUT_ON();
 void OUT_ON_OFF_Toggle();
-void LOAD1_ON();
-void LOAD1_OFF();
-void LOAD1_ON_OFF_Toggle();
+void LOAD_ON();
+void LOAD_OFF();
+void LOAD_ON_OFF_Toggle();
 void Start_Timer_sec();
 void ReStart_Timer_sec();
 void Stop_Timer_sec();
@@ -151,9 +154,9 @@ void MenuLoad(Key_Pressed_t key) //Load
 	if (key == KEY_NEXT)
 	{
 		if (On_off == 0)
-			discharge();
+			LOAD_ON();
 		else
-			OFF();
+			LOAD_OFF();
 	}
 	lcd_set_xy(0,0);
 	PrintToLCD(itoa_koma(U_OUT,2));
@@ -716,29 +719,24 @@ void MenuSwing(Key_Pressed_t key)
 
        if (Timer_Sec<=SettingsData.Swing_Chrg_time)
        {
-    	   charge();
-           if (U_OUT>SettingsData.MaxVoltage)
+    	   charge1();
+           if (U_OUT>SettingsData.MaxVoltage && TimerForReadyMeasurement_ms>400)
            {
         	   ReStart_Timer_sec();
                Timer_Sec  = Timer_Sec+ SettingsData.Swing_Chrg_time;
            }
-   		Print_to_USART1_d(Timer_Sec,"Timer_Sec:Timer_Sec<=SettingsData.Swing_Chrg_time ",0);
        }
-       if (Timer_Sec > SettingsData.Swing_DChrg_time)
+       if (Timer_Sec > SettingsData.Swing_Chrg_time)
        {
-           discharge();
-           if (U_OUT<SettingsData.LowVoltage)
+           discharge1();
+           if (U_OUT<SettingsData.LowVoltage && TimerForReadyMeasurement_ms>400)
            {
         	   ReStart_Timer_sec();
-        	   Print_to_USART1_d(Timer_Sec,"Timer_Sec: (U_OUT<SettingsData.LowVoltage)",0);
-           }
-
-           Print_to_USART1_d(Timer_Sec,"Timer_Sec: (Timer_Sec > SettingsData.Swing_DChrg_time)",0);
-       }
+            }
+        }
        if (Timer_Sec > (SettingsData.Swing_Chrg_time+SettingsData.Swing_DChrg_time))
        {
     	   ReStart_Timer_sec();
-   		Print_to_USART1_d(Timer_Sec,"Timer_Sec:(Timer_Sec > (SettingsData.Swing_Chrg_time+SettingsData.Swing_DChrg_time)) ",0);
        }
 
 		#define MAXITEM6 3
@@ -791,18 +789,12 @@ void MenuSwing(Key_Pressed_t key)
 			PrintToLCD("s ");
 
 			PrintToLCD(itoa(SettingsData.Swing_DChrg_time));
-			PrintToLCD("s   ");
+			PrintToLCD("s      ");
 
 
 			lcd_set_xy(3,1);
 			ClockOnLCD_noSec(DischargeTimeSec);
 		}
-
-		Print_to_USART1_d(EnterInMenu_Status,"EnterInMenu_Status: ",0);
-
-		Print_to_USART1_d(Timer_Sec,"Timer_Sec: ",0);
-		Print_to_USART1_d(InitiStatus,"InitiStatus: ",0);
-
 }
 void MenuLog_Enter()
 {
@@ -851,7 +843,7 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 		else OUT_OFF();
 
 		if (CountShow1 == 4)
-			LOAD1_ON_OFF_Toggle();
+			LOAD_ON_OFF_Toggle();
 	}
 	if(CountShow1 == 0)
 	{
@@ -1113,29 +1105,21 @@ void MenuSettingsBatteryType(Key_Pressed_t key)
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("12V Pb Battery  ");
-		SettingsData.LowVoltage = 1060;
-		SettingsData.MaxVoltage = 1460;
 	}
 	if(CountShowBT == 1)
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("Li ion  Battery  ");
-		SettingsData.LowVoltage = 360;
-		SettingsData.MaxVoltage = 420;
 	}
 	if(CountShowBT == 2)
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("LiFePo4 Battery ");
-		SettingsData.LowVoltage = 280;
-		SettingsData.MaxVoltage = 370;
 	}
 	if(CountShowBT == 3)
 	{
 		lcd_set_xy(0,0);
 		PrintToLCD("LiTo Battery   ");
-		SettingsData.LowVoltage = 1060;
-		SettingsData.MaxVoltage = 1460;
 	}
 	if(CountShowBT == 4)
 	{
@@ -1145,15 +1129,65 @@ void MenuSettingsBatteryType(Key_Pressed_t key)
 	if(CountShowBT == 5)
 	{
 		lcd_set_xy(0,0);
-		PrintToLCD("Other  Battery  ");
+		PrintToLCD("Min 1V  MAX 20V");
 	}
 	if(CountShowBT == 6)
 	{
 		lcd_set_xy(0,0);
-		PrintToLCD("Min 1V  MAX 20V");
+		PrintToLCD("   OK to Exit  ");
+	}
+}
+void MenuSettingsBatteryType_Enter(Key_Pressed_t key)
+{
+	if(CountShowBT == 0)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD(" 10.6V  14.6V   ");
+		SettingsData.LowVoltage = 1060;
+		SettingsData.MaxVoltage = 1460;
+	}
+	if(CountShowBT == 1)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("  3.6V   4.2V   ");
+		SettingsData.LowVoltage = 360;
+		SettingsData.MaxVoltage = 420;
+	}
+	if(CountShowBT == 2)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("  2.8V   3.7V   ");
+		SettingsData.LowVoltage = 280;
+		SettingsData.MaxVoltage = 370;
+	}
+	if(CountShowBT == 3)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("  1.8V   2.7V   ");
+		SettingsData.LowVoltage = 1060;
+		SettingsData.MaxVoltage = 1460;
+	}
+	if(CountShowBT == 4)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("    Battery     ");
+	}
+
+	if(CountShowBT == 5)
+	{
+		lcd_set_xy(0,0);
+		PrintToLCD("  1V    20V     ");
 		SettingsData.LowVoltage = 100;
 		SettingsData.MaxVoltage = 2000;
 	}
+	if(CountShowBT == 6)
+	{
+		CountShowBT = 0;
+	}
+
+	SettingsWriteToFlash_CRC();
+	//WriteInLOG("Seet");
+    Delay_mSec(600);
 }
 void MenuSettingsLowVolt_Enter(void)
 {
@@ -1300,6 +1334,8 @@ void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key)
 
 }
 
+
+
 void MenuDischarge_Enter(Key_Pressed_t key)
 {
 	if (BatteryCapacityDischargeCurrent/3600>10)
@@ -1395,8 +1431,7 @@ void TIM7_IRQHandler()
     TIM_ClearITPendingBit(TIM7, TIM_IT_Update);
     BUT_Debrief();
     All_OUT_OFF_When_Power_OFF();
-
-
+    TimerForReadyMeasurement_ms++;
   }
 }
 
@@ -1430,7 +1465,7 @@ void Start_Timer_sec()
 }
 void ReStart_Timer_sec()
 {
-	Print_to_USART1_d(Timer_Sec,"Timer_Sec:Restart Timer ",0);
+	//Print_to_USART1_d(Timer_Sec,"Timer_Sec:Restart Timer ",0);
 	Timer_Sec = 0;
 	Status_Timer_Sec = 1;
 
@@ -1514,19 +1549,45 @@ void All_OUT_OFF_When_Power_OFF()
 }
 void charge()
 {
-	LOAD1_OFF();
+	LOAD_OFF();
 	OUT_ON();
 }
 
 void discharge()
 {
 	OUT_OFF();
-	LOAD1_ON();
+	LOAD_ON();
 
+}
+int8_t ChargeDischargeState = 0;
+void charge1()//ChargeDischargeState = 1
+{
+	if (ChargeDischargeState !=1)
+	{
+		ChargeDischargeState = 1;
+		LOAD_OFF();
+		OUT_ON();
+		TimerForReadyMeasurement_ms = 0;
+		Delay_mSec(50);
+		Print_to_USART1("Charge");
+	}
+}
+
+void discharge1()
+{
+	if (ChargeDischargeState !=2)
+	{
+		ChargeDischargeState = 2;
+		OUT_OFF();
+		LOAD_ON();
+		TimerForReadyMeasurement_ms = 0;
+		Delay_mSec(50);
+		Print_to_USART1("DIsCharge");
+	}
 }
 void OFF()
 {
-	LOAD1_OFF();
+	LOAD_OFF();
 	OUT_OFF();
 }
 /*
@@ -1543,7 +1604,7 @@ void OUT_OFF()
 {
 	//GPIOB->BSRR =  GPIO_BSRR_BR0;//Diode 1 OUT ON//OFF
 	GPIOB->BSRR =  GPIO_BSRR_BR0;//ON-OFF OUT
-	GPIOB->BSRR =  GPIO_BSRR_BR1; //load1
+	//GPIOB->BSRR =  GPIO_BSRR_BR1; //load1
 
 	GPIOA->BSRR =  GPIO_BSRR_BR8;//led out on/off
 
@@ -1556,44 +1617,44 @@ void OUT_ON()
 {
 	//GPIOB->BSRR =  GPIO_BSRR_BR0;//Diode 1 OUT ON//OFF
 	GPIOB->BSRR =  GPIO_BSRR_BS0;//ON-OFF OUT
-	GPIOB->BSRR =  GPIO_BSRR_BR1; //load1
+	//GPIOB->BSRR =  GPIO_BSRR_BR1; //load1
 
 	On_off = 1;
    	//Print_to_USART1_d(On_off,"SelectON:",0);
 	Status_Out = 1;
 	GPIOA->BSRR =  GPIO_BSRR_BS8;//led out on/off
 }
-void OUT_ON_OFF_Toggle()
-{
-	if (Status_Out ==0)
-		OUT_ON();
-	else OUT_OFF();
-}
 
-void LOAD1_ON()
+void LOAD_ON()
 {
 	//GPIOB->BSRR =  GPIO_BSRR_BR0;//Diode 1 OUT ON//OFF
-	GPIOB->BSRR =  GPIO_BSRR_BR0;//ON-OFF OUT
+	//GPIOB->BSRR =  GPIO_BSRR_BR0;//ON-OFF OUT
 	GPIOB->BSRR =  GPIO_BSRR_BS1; //load1
 	On_off = 1;
 	Status_Load = 1;
 	GPIOA->BSRR =  GPIO_BSRR_BS11;//led load on/off
 }
 
-void LOAD1_OFF()
+void LOAD_OFF()
 {
 	//GPIOB->BSRR =  GPIO_BSRR_BR0;//Diode 1 OUT ON//OFF
-	GPIOB->BSRR =  GPIO_BSRR_BR0;//ON-OFF OUT
+	//GPIOB->BSRR =  GPIO_BSRR_BR0;//ON-OFF OUT
 	GPIOB->BSRR =  GPIO_BSRR_BR1; //load1
 	On_off = 0;
 	Status_Load = 0;
 	GPIOA->BSRR =  GPIO_BSRR_BR11;//led load on/off
 }
-void LOAD1_ON_OFF_Toggle()
+void LOAD_ON_OFF_Toggle()
 {
 	if (Status_Load == 0)
-		LOAD1_ON();
-	else LOAD1_OFF();
+		LOAD_ON();
+	else LOAD_OFF();
+}
+void OUT_ON_OFF_Toggle()
+{
+	if (Status_Out ==0)
+		OUT_ON();
+	else OUT_OFF();
 }
 
 //=========================MAIN==================
@@ -1739,9 +1800,9 @@ int main(void)
 			//Print_to_USART1_d(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue,"Menu C maH : ",0);
 
 			DischargeTimeSec_Previous = DischargeTimeSec;
+			ChargeDischargeState = 0;
 
 		}
-
         Delay_mSec(100);
     }//while
 }//main
