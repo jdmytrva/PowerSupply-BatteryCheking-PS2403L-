@@ -10,11 +10,12 @@
 #ifndef _INIT_
 #define _INIT_
 
-
+#define F_CPU 24000000UL
 void Initialization(void);
 
 void Init_Out(void);
 void Init_button(void);
 void init_timer7();
 void init_timer16();
+void InitTimer2ForDelay(void);
 #endif

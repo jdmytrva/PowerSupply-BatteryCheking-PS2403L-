@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 23V 3A v1.80";
+char Version[] = "PS 23V 3A v2.00R";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -106,6 +106,14 @@ uint8_t BATERYSTATUS = 0;
 uint32_t ChargeDurationSec;
 uint32_t SelectedOptionValue;
 
+void Delay_ms(volatile uint32_t value)
+{
+  TIM2->ARR = value;
+  TIM2->CNT = 0;
+  TIM2->CR1 = TIM_CR1_CEN | TIM_CR1_OPM;
+  while((TIM2->SR & TIM_SR_UIF)==0){}
+  TIM2->SR &= ~TIM_SR_UIF;
+}
 
 
 //////MENU FUNCTIONS ///////////////MENU FUNCTIONS ///////////////MENU FUNCTIONS /////////
@@ -566,14 +574,16 @@ void MenuTraining_new(Key_Pressed_t key)
 
 		//Start discharge activity
 		DisChargeStatusForTimer = 1;
-		discharge();
+		discharge1();
 		ChargeDischargeStatus = DISCHARGEs;
-		Delay_mSec(100);
+		lcd_set_xy(0,0);
+		PrintToLCD("Testing Battery.");
+		Delay_ms(1000);
 	}
 
 	if (Module16(Current)>5)
 	{
-		if (U_OUT < SettingsData.LowVoltage && ChargeDischargeStatus == DISCHARGEs)
+		if (U_OUT < SettingsData.LowVoltage && ChargeDischargeStatus == DISCHARGEs  && TimerForReadyMeasurement_ms>1000)
 		{
 			//stop discharge action
 			DisChargeStatusForTimer = 0;
@@ -588,12 +598,12 @@ void MenuTraining_new(Key_Pressed_t key)
 
 			//Start charge action
 			ChargeStatusForTimer = 1;
-			charge();
+			charge1();
 
-			Delay_mSec(300);
+			//Delay_ms(300);
 			ChargeDischargeStatus = CHARGEs;
 		}
-		if ((U_OUT > SettingsData.MaxVoltage && ChargeDischargeStatus == CHARGEs) || (ChargeTimeSec > ChargeDurationSec && ChargeDischargeStatus == CHARGEs))
+		if ((U_OUT > SettingsData.MaxVoltage && ChargeDischargeStatus == CHARGEs  && TimerForReadyMeasurement_ms>1000) || (ChargeTimeSec > ChargeDurationSec && ChargeDischargeStatus == CHARGEs))
 		{
 
 
@@ -608,8 +618,8 @@ void MenuTraining_new(Key_Pressed_t key)
 
 			//Start discharge activity
 			DisChargeStatusForTimer = 1;
-			discharge();
-			Delay_mSec(100);
+			discharge1();
+			//Delay_ms(100);
 			ChargeDischargeStatus = DISCHARGEs;
 		}
 
@@ -692,8 +702,11 @@ void MenuTraining_new(Key_Pressed_t key)
 	}
 	else
 	{
-		lcd_set_xy(0,0);
-		PrintToLCD("NO/BAD Battery  ");
+		if (TimerForReadyMeasurement_ms>1000)
+		{
+			lcd_set_xy(0,0);
+			PrintToLCD("NO/BAD Battery  ");
+		}
 	}
 	Print_to_USART1_d(EnterInMenu_Status,"EnterInMenu_Status: ",0);
 
@@ -704,7 +717,7 @@ void MenuTraining_new(Key_Pressed_t key)
 
 	Print_to_USART1_d(BatteryCapacityDischargeCurrent,"BatteryCapacityDischargeCurrent: ",0);
 	Print_to_USART1_d(BatteryCapacityCharge,"BatteryCapacityCharge: ",0);
-	Delay_mSec(MENUDELAY);
+	//Delay_ms(100);
 }
 
 void MenuSwing(Key_Pressed_t key)
@@ -1124,7 +1137,7 @@ void MenuSettingsBatteryType(Key_Pressed_t key)
 	if(CountShowBT == 4)
 	{
 		lcd_set_xy(0,0);
-		PrintToLCD("    Battery     ");
+		PrintToLCD("NIMh 9.6V Bat.  ");
 	}
 	if(CountShowBT == 5)
 	{
@@ -1142,15 +1155,15 @@ void MenuSettingsBatteryType_Enter(Key_Pressed_t key)
 	if(CountShowBT == 0)
 	{
 		lcd_set_xy(0,0);
-		PrintToLCD(" 10.6V  14.6V   ");
-		SettingsData.LowVoltage = 1060;
+		PrintToLCD(" 10.8V  14.6V   ");
+		SettingsData.LowVoltage = 1080;
 		SettingsData.MaxVoltage = 1460;
 	}
 	if(CountShowBT == 1)
 	{
 		lcd_set_xy(0,0);
-		PrintToLCD("  3.6V   4.2V   ");
-		SettingsData.LowVoltage = 360;
+		PrintToLCD("  3.0V   4.2V   ");
+		SettingsData.LowVoltage = 300;
 		SettingsData.MaxVoltage = 420;
 	}
 	if(CountShowBT == 2)
@@ -1163,14 +1176,16 @@ void MenuSettingsBatteryType_Enter(Key_Pressed_t key)
 	if(CountShowBT == 3)
 	{
 		lcd_set_xy(0,0);
-		PrintToLCD("  1.8V   2.7V   ");
-		SettingsData.LowVoltage = 1060;
-		SettingsData.MaxVoltage = 1460;
+		PrintToLCD("  1.6V   2.8V   ");
+		SettingsData.LowVoltage = 160;
+		SettingsData.MaxVoltage = 280;
 	}
 	if(CountShowBT == 4)
 	{
 		lcd_set_xy(0,0);
-		PrintToLCD("    Battery     ");
+		PrintToLCD("   8V  13.6V    ");
+		SettingsData.LowVoltage = 800;
+		SettingsData.MaxVoltage = 1360;
 	}
 
 	if(CountShowBT == 5)
@@ -1551,12 +1566,14 @@ void charge()
 {
 	LOAD_OFF();
 	OUT_ON();
+	Delay_ms(50);
 }
 
 void discharge()
 {
 	OUT_OFF();
 	LOAD_ON();
+	Delay_ms(50);
 
 }
 int8_t ChargeDischargeState = 0;
@@ -1568,7 +1585,7 @@ void charge1()//ChargeDischargeState = 1
 		LOAD_OFF();
 		OUT_ON();
 		TimerForReadyMeasurement_ms = 0;
-		Delay_mSec(50);
+		Delay_ms(50);
 		Print_to_USART1("Charge");
 	}
 }
@@ -1581,7 +1598,7 @@ void discharge1()
 		OUT_OFF();
 		LOAD_ON();
 		TimerForReadyMeasurement_ms = 0;
-		Delay_mSec(50);
+		Delay_ms(50);
 		Print_to_USART1("DIsCharge");
 	}
 }
@@ -1656,6 +1673,7 @@ void OUT_ON_OFF_Toggle()
 		OUT_ON();
 	else OUT_OFF();
 }
+
 
 //=========================MAIN==================
 int main(void)
@@ -1803,6 +1821,6 @@ int main(void)
 			ChargeDischargeState = 0;
 
 		}
-        Delay_mSec(100);
+        Delay_ms(100);
     }//while
 }//main

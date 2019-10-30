@@ -20,6 +20,7 @@ void Initialization(void)
 
 	init_timer3();
 	init_timer16();
+	InitTimer2ForDelay();
 	Init_Out();
 
 	ADC1_CH_DMA_Config();
@@ -142,3 +143,9 @@ void init_timer16()
   NVIC_SetPriority(TIM1_UP_TIM16_IRQn, 1);
 }
 
+void InitTimer2ForDelay(void)
+{
+	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+	TIM2->PSC     = F_CPU/1000-1;//7;//8035-1mc
+	TIM2->CR1 = TIM_CR1_CEN | TIM_CR1_OPM;
+}
