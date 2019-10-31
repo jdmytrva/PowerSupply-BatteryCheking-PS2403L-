@@ -15,8 +15,9 @@ void MenuLog_Enter();
  MENU_ITEM(Menu_3,     Menu_4,     Menu_2,     NULL_MENU,   Menu_3_1,   NULL,                NULL,               "Load            ");
  MENU_ITEM(Menu_4,     Menu_5,     Menu_3,     NULL_MENU,   Menu_4_1,   NULL,                NULL,               "Charge CC CV    ");
  MENU_ITEM(Menu_5,     Menu_6,     Menu_4,     NULL_MENU,   Menu_5_1,   NULL,                NULL,               "Charge addapt   ");
- MENU_ITEM(Menu_6,     Menu_7,     Menu_5,     NULL_MENU,   Menu_6_1,   NULL,                NULL,               "DisCharge       ");
- MENU_ITEM(Menu_7,     Menu_8,     Menu_6,     NULL_MENU,   Menu_7_1,   NULL,                NULL,               "Training        ");
+ MENU_ITEM(Menu_6,     Menu_6a,     Menu_5,     NULL_MENU,   Menu_6_1,   NULL,                NULL,              "DisCharge       ");
+ MENU_ITEM(Menu_6a,     Menu_7,     Menu_6,     NULL_MENU,   Menu_6_1a,   NULL,                NULL,             "CheckingCapacity");
+ MENU_ITEM(Menu_7,     Menu_8,     Menu_6a,     NULL_MENU,   Menu_7_1,   NULL,                NULL,              "Training        ");
  MENU_ITEM(Menu_8,     Menu_9,     Menu_7,     NULL_MENU,   Menu_8_1,   NULL,                NULL,               "Swing           ");
  MENU_ITEM(Menu_9,     Menu_11,    Menu_8,     NULL_MENU,   Menu_9_1,   NULL,                NULL,               "DIAGNOSTIC      ");
 
@@ -59,6 +60,8 @@ void MenuLog_Enter();
  MENU_ITEM(Menu_5_1,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_5,   NULL,                MenuCharge_Enter,               "                ");
  //DisCharge
  MENU_ITEM(Menu_6_1,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_6,   NULL,                MenuDischarge_Enter,"                ");
+ //Checking Capaciti
+  MENU_ITEM(Menu_6_1a,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_6a,   NULL,             NULL,"                ");
  //Training
  MENU_ITEM(Menu_7_1,     NULL_MENU,     NULL_MENU,     NULL_MENU,   Menu_7,   NULL,                NULL,               "                ");
  //Swing
