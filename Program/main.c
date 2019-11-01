@@ -199,11 +199,21 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 	EnterInMenu_Status = 1;
 	if (InitiStatus==0)
 	{
+		if (U_PS < (SettingsData.MaxVoltage+10))
+		{
+			lcd_set_xy(0,0);
+			PrintToLCD("U(ps)<U(bat.max)");
+			Delay_ms(2000);
+			lcd_set_xy(0,0);
+			PrintToLCD("UP U(ps)        ");
+			Delay_ms(3000);
+
+		}
 		ChargeStatusForTimer = 0;
 		DisChargeStatusForTimer = 0;
 		BatteryCapacityCharge = 0;
 		InitiStatus = 1;
-    	ChargeTimeSec = 0;
+		ChargeTimeSec = 0;
 	}
 
 	if ((ChargeTimeSec > ChargeDurationSec)|| (U_OUT> SettingsData.MaxVoltage))
@@ -217,16 +227,16 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 	#define MAXITEM0 3
 	if (key == KEY_NEXT)
 	{
-    	if (On_off == 0)
-    	{
-    		charge();
-    		ChargeStatusForTimer = 1;
-    	}
-    	else
-    	{
-    		OFF();
-    		ChargeStatusForTimer = 0;
-    	}
+		if (On_off == 0)
+		{
+			charge();
+			ChargeStatusForTimer = 1;
+		}
+		else
+		{
+			OFF();
+			ChargeStatusForTimer = 0;
+		}
 	}
 	if (key == KEY_BACK)
 	{
@@ -298,13 +308,22 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 	Print_to_USART1_d(ChargeTimeSec,"ChargeTimeSec: ",0);
 	Print_to_USART1_d(DisChargeStatusForTimer,"Dischargestatus timer: ",0);
 	Print_to_USART1_d(DischargeTimeSec,"DischargeTimeSec: ",0);
-
 }
 void MenuChargeAdapt(Key_Pressed_t key)
 {
 	EnterInMenu_Status = 1;
 	if (InitiStatus==0)
 	{
+		if (U_PS < (SettingsData.MaxVoltage+10))
+		{
+			lcd_set_xy(0,0);
+			PrintToLCD("U(ps)<U(bat.max)");
+			Delay_ms(2000);
+			lcd_set_xy(0,0);
+			PrintToLCD("UP U(ps)        ");
+			Delay_ms(3000);
+
+		}
 		ChargeStatusForTimer = 0;
 		DisChargeStatusForTimer = 0;
 		BatteryCapacityCharge = 0;
@@ -563,6 +582,16 @@ void MenuCheckingCapacity(Key_Pressed_t key)
 {
 	if (EnterInMenu_Status == 0)
 	{
+		if (U_PS < (SettingsData.MaxVoltage+10))
+		{
+			lcd_set_xy(0,0);
+			PrintToLCD("U(ps)<U(bat.max)");
+			Delay_ms(2000);
+			lcd_set_xy(0,0);
+			PrintToLCD("UP U(ps)        ");
+			Delay_ms(3000);
+
+		}
 		EnterInMenu_Status = 1;
 		ChargeStatusForTimer = 0;
 		DisChargeStatusForTimer = 0;
@@ -594,19 +623,19 @@ void MenuCheckingCapacity(Key_Pressed_t key)
 					MenuTraining_WriteInLOG(BatteryCapacityDischargeCurrent,DischargeTimeSec,DISCHARGE_l);
 				}
 				DischargeTimeSec_Previous = DischargeTimeSec;
-				DischargeTimeSec = 0;
+
 				SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
-				BatteryCapacityDischargeCurrent = 0;
+
 
 				//Start charge action
 				ChargeStatusForTimer = 1;
+				BatteryCapacityCharge = 0;
+				ChargeTimeSec = 0;
 				charge1();
 				CheckingCapacityCounter ++;
-
-				//Delay_ms(300);
 				ChargeDischargeStatus = CHARGEs;
 			}
-			if ((U_OUT > SettingsData.MaxVoltage && ChargeDischargeStatus == CHARGEs  && TimerForReadyMeasurement_ms>1000) || (ChargeTimeSec > ChargeDurationSec && ChargeDischargeStatus == CHARGEs))
+			if (((U_OUT > SettingsData.MaxVoltage && ChargeDischargeStatus == CHARGEs  && TimerForReadyMeasurement_ms>1000) || (ChargeTimeSec > ChargeDurationSec && ChargeDischargeStatus == CHARGEs))&&CheckingCapacityCounter<3)
 			{
 
 
@@ -616,20 +645,35 @@ void MenuCheckingCapacity(Key_Pressed_t key)
 				{
 					MenuTraining_WriteInLOG(BatteryCapacityCharge,ChargeTimeSec,CHARGE_H);
 				}
-				ChargeTimeSec = 0;
-				BatteryCapacityCharge = 0;
+
+
 
 				//Start discharge activity
 				DisChargeStatusForTimer = 1;
+				BatteryCapacityDischargeCurrent = 0;
+				DischargeTimeSec = 0;
 				discharge1();
 				CheckingCapacityCounter ++;
 				//Delay_ms(100);
 				ChargeDischargeStatus = DISCHARGEs;
 			}
-			if (CheckingCapacityCounter>3)
-				CountShow = 3;
+			if (((U_OUT > SettingsData.MaxVoltage && ChargeDischargeStatus == CHARGEs  && TimerForReadyMeasurement_ms>1000) || (ChargeTimeSec > ChargeDurationSec && ChargeDischargeStatus == CHARGEs))&&CheckingCapacityCounter>=3)
+			{
+
+
+				//stop charge activity
+				OFF();
+				ChargeStatusForTimer = 0;
+				DisChargeStatusForTimer = 0;
+				if (BatteryCapacityCharge/3600 > 100)
+				{
+					MenuTraining_WriteInLOG(BatteryCapacityCharge,ChargeTimeSec,CHARGE_H);
+				}
+				CheckingCapacityCounter ++;
+				CountShow = 2;
+			}
 			//Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu Menu
-			#define MAXITEM3 5
+			#define MAXITEM3 4
 			if (key == KEY_NEXT)
 			{
 				CountShow++;
@@ -676,31 +720,21 @@ void MenuCheckingCapacity(Key_Pressed_t key)
 				lcd_set_xy(0,0);
 				LcdOutbyNumber(2,1);//discharge
 				lcd_set_xy(1,0);
-				PrintToLCD("N ");
+				PrintToLCD(" ");
 				PrintToLCD(itoa(BatteryCapacityDischargeCurrent/3600));
-				PrintToLCD("mAH     ");
+				PrintToLCD("mAH      ");
 				lcd_set_xy(3,1);
 				ClockOnLCD_noSec(DischargeTimeSec);
 			}
+
 			if(CountShow == 3)
-			{
-				lcd_set_xy(0,0);
-				LcdOutbyNumber(2,1);//discharge
-				lcd_set_xy(1,0);
-				PrintToLCD("P ");
-				PrintToLCD(itoa(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue/3600));
-				PrintToLCD("mAH     ");
-				lcd_set_xy(3,1);
-				ClockOnLCD_noSec(DischargeTimeSec_Previous);
-			}
-			if(CountShow == 4)
 			{
 				lcd_set_xy(0,0);
 				LcdOutbyNumber(0,1);//charge
 				lcd_set_xy(1,0);
-				PrintToLCD("C ");
+				PrintToLCD(" ");
 				PrintToLCD(itoa(BatteryCapacityCharge/3600));
-				PrintToLCD("mAH     ");
+				PrintToLCD("mAH      ");
 				lcd_set_xy(3,1);
 				ClockOnLCD_noSec(ChargeTimeSec);
 			}
@@ -715,11 +749,9 @@ void MenuCheckingCapacity(Key_Pressed_t key)
 		}
 	}else
 	{
-		OFF();
-		ChargeStatusForTimer = 0;
-		DisChargeStatusForTimer = 0;
 
-		#define MAXITEM3 5
+
+		#define MAXITEM3 4
 		if (key == KEY_NEXT)
 		{
 			CountShow++;
@@ -766,31 +798,21 @@ void MenuCheckingCapacity(Key_Pressed_t key)
 			lcd_set_xy(0,0);
 			LcdOutbyNumber(2,1);//discharge
 			lcd_set_xy(1,0);
-			PrintToLCD("N ");
+			PrintToLCD(" ");
 			PrintToLCD(itoa(BatteryCapacityDischargeCurrent/3600));
-			PrintToLCD("mAH     ");
+			PrintToLCD("mAH      ");
 			lcd_set_xy(3,1);
 			ClockOnLCD_noSec(DischargeTimeSec);
 		}
+
 		if(CountShow == 3)
-		{
-			lcd_set_xy(0,0);
-			LcdOutbyNumber(2,1);//discharge
-			lcd_set_xy(1,0);
-			PrintToLCD("P ");
-			PrintToLCD(itoa(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue/3600));
-			PrintToLCD("mAH     ");
-			lcd_set_xy(3,1);
-			ClockOnLCD_noSec(DischargeTimeSec_Previous);
-		}
-		if(CountShow == 4)
 		{
 			lcd_set_xy(0,0);
 			LcdOutbyNumber(0,1);//charge
 			lcd_set_xy(1,0);
-			PrintToLCD("C ");
+			PrintToLCD(" ");
 			PrintToLCD(itoa(BatteryCapacityCharge/3600));
-			PrintToLCD("mAH     ");
+			PrintToLCD("mAH      ");
 			lcd_set_xy(3,1);
 			ClockOnLCD_noSec(ChargeTimeSec);
 		}
@@ -799,11 +821,11 @@ void MenuCheckingCapacity(Key_Pressed_t key)
 
 	Print_to_USART1_d(ChargeStatusForTimer,"Chargestatus timer: ",0);
 	Print_to_USART1_d(ChargeTimeSec,"ChargeTimeSec: ",0);
+	Print_to_USART1_d(BatteryCapacityCharge,"BatteryCapacityCharge: ",0);
 	Print_to_USART1_d(DisChargeStatusForTimer,"Dischargestatus timer: ",0);
 	Print_to_USART1_d(DischargeTimeSec,"DischargeTimeSec: ",0);
-
 	Print_to_USART1_d(BatteryCapacityDischargeCurrent,"BatteryCapacityDischargeCurrent: ",0);
-	Print_to_USART1_d(BatteryCapacityCharge,"BatteryCapacityCharge: ",0);
+
 	//Delay_ms(100);
 
 }
@@ -812,6 +834,16 @@ void MenuTraining_new(Key_Pressed_t key)
 {
 	if (EnterInMenu_Status == 0)
 	{
+		if (U_PS < (SettingsData.MaxVoltage+10))
+		{
+			lcd_set_xy(0,0);
+			PrintToLCD("U(ps)<U(bat.max)");
+			Delay_ms(2000);
+			lcd_set_xy(0,0);
+			PrintToLCD("UP U(ps)        ");
+			Delay_ms(3000);
+
+		}
 		EnterInMenu_Status = 1;
 		ChargeStatusForTimer = 0;
 		DisChargeStatusForTimer = 0;
@@ -821,10 +853,10 @@ void MenuTraining_new(Key_Pressed_t key)
 		BatteryCapacityCharge = 0;
 		BatteryCapacityDischargeCurrent = 0;
 
-		//Start discharge activity
-		DisChargeStatusForTimer = 1;
-		discharge1();
-		ChargeDischargeStatus = DISCHARGEs;
+		//Start charge activity
+		ChargeStatusForTimer = 1;
+		charge1();
+		ChargeDischargeStatus = CHARGEs;
 		lcd_set_xy(0,0);
 		PrintToLCD("Testing Battery.");
 		Delay_ms(1000);
@@ -840,12 +872,10 @@ void MenuTraining_new(Key_Pressed_t key)
 			{
 				MenuTraining_WriteInLOG(BatteryCapacityDischargeCurrent,DischargeTimeSec,DISCHARGE_l);
 			}
-			DischargeTimeSec_Previous = DischargeTimeSec;
-			DischargeTimeSec = 0;
-			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
-			BatteryCapacityDischargeCurrent = 0;
 
 			//Start charge action
+			ChargeTimeSec = 0;
+			BatteryCapacityCharge = 0;
 			ChargeStatusForTimer = 1;
 			charge1();
 
@@ -862,10 +892,12 @@ void MenuTraining_new(Key_Pressed_t key)
 			{
 				MenuTraining_WriteInLOG(BatteryCapacityCharge,ChargeTimeSec,CHARGE_H);
 			}
-			ChargeTimeSec = 0;
-			BatteryCapacityCharge = 0;
+			DischargeTimeSec_Previous = DischargeTimeSec;
+			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
 
 			//Start discharge activity
+			DischargeTimeSec = 0;
+			BatteryCapacityDischargeCurrent = 0;
 			DisChargeStatusForTimer = 1;
 			discharge1();
 			//Delay_ms(100);
@@ -920,13 +952,24 @@ void MenuTraining_new(Key_Pressed_t key)
 			lcd_set_xy(0,0);
 			LcdOutbyNumber(2,1);//discharge
 			lcd_set_xy(1,0);
-			PrintToLCD("N ");
+			PrintToLCD(" ");
 			PrintToLCD(itoa(BatteryCapacityDischargeCurrent/3600));
-			PrintToLCD("mAH     ");
+			PrintToLCD("mAH      ");
 			lcd_set_xy(3,1);
 			ClockOnLCD_noSec(DischargeTimeSec);
 		}
 		if(CountShow == 3)
+		{
+			lcd_set_xy(0,0);
+			LcdOutbyNumber(0,1);//charge
+			lcd_set_xy(1,0);
+			PrintToLCD(" ");
+			PrintToLCD(itoa(BatteryCapacityCharge/3600));
+			PrintToLCD("mAH      ");
+			lcd_set_xy(3,1);
+			ClockOnLCD_noSec(ChargeTimeSec);
+		}
+		if(CountShow == 4)
 		{
 			lcd_set_xy(0,0);
 			LcdOutbyNumber(2,1);//discharge
@@ -936,17 +979,6 @@ void MenuTraining_new(Key_Pressed_t key)
 			PrintToLCD("mAH     ");
 			lcd_set_xy(3,1);
 			ClockOnLCD_noSec(DischargeTimeSec_Previous);
-		}
-		if(CountShow == 4)
-		{
-			lcd_set_xy(0,0);
-			LcdOutbyNumber(0,1);//charge
-			lcd_set_xy(1,0);
-			PrintToLCD("C ");
-			PrintToLCD(itoa(BatteryCapacityCharge/3600));
-			PrintToLCD("mAH     ");
-			lcd_set_xy(3,1);
-			ClockOnLCD_noSec(ChargeTimeSec);
 		}
 	}
 	else
@@ -961,12 +993,11 @@ void MenuTraining_new(Key_Pressed_t key)
 
 	Print_to_USART1_d(ChargeStatusForTimer,"Chargestatus timer: ",0);
 	Print_to_USART1_d(ChargeTimeSec,"ChargeTimeSec: ",0);
+	Print_to_USART1_d(BatteryCapacityCharge,"BatteryCapacityCharge: ",0);
 	Print_to_USART1_d(DisChargeStatusForTimer,"Dischargestatus timer: ",0);
 	Print_to_USART1_d(DischargeTimeSec,"DischargeTimeSec: ",0);
-
 	Print_to_USART1_d(BatteryCapacityDischargeCurrent,"BatteryCapacityDischargeCurrent: ",0);
-	Print_to_USART1_d(BatteryCapacityCharge,"BatteryCapacityCharge: ",0);
-	//Delay_ms(100);
+
 }
 
 void MenuSwing(Key_Pressed_t key)
@@ -1080,14 +1111,9 @@ void MenuLog(Key_Pressed_t key)
 	PrintToLCD(LoggingData.Records[LoggingData.RecordsQuantity - i_LogItems-1]);
 	Print_to_USART1_d(i_LogItems,"i_LogItems: ",0);
 	Print_to_USART1_d(LoggingData.RecordsQuantity,"MRecordsQuantity: ",0);
-
-
-
-
 }
 void MenuDIAGNOSTIC(Key_Pressed_t key)
 {
-
 	EnterInMenu_Status=1;
 
 	//discharge();
@@ -1100,15 +1126,12 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	}
 	if (key == KEY_BACK)
 	{
-		if ((CountShow1 == 2)|| (CountShow1 == 3))
-			OUT_ON_OFF_Toggle();
-		else OUT_OFF();
-
-		if (CountShow1 == 4)
-			LOAD_ON_OFF_Toggle();
+		CountShow1--;
+		if (CountShow1<0) CountShow1=MAXITEM-1;
 	}
 	if(CountShow1 == 0)
 	{
+		OFF();
 		lcd_set_xy(0,0);
 		//PrintToLCD(" ");
 		PrintToLCD("Uin=");
@@ -1120,6 +1143,7 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	}
 	if(CountShow1 == 1)
 	{
+		OFF();
 		lcd_set_xy(0,0);
 		PrintToLCD("Ups ");
 		PrintToLCD(itoa_koma(U_PS,2));
@@ -1129,6 +1153,7 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	}
 	if(CountShow1 == 2)
 	{
+		OUT_ON();
 		lcd_set_xy(0,0);
 		PrintToLCD("Uout ");
 		PrintToLCD(itoa_koma(U_OUT,2));
@@ -1138,6 +1163,8 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	}
 	if(CountShow1 == 3)
 	{
+		LOAD_OFF();
+		OUT_ON();
 		lcd_set_xy(0,0);
 		PrintToLCD("Iout ");
 		PrintToLCD(itoa(Current));
@@ -1147,15 +1174,18 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	}
 	if(CountShow1 == 4)
 	{
+		OUT_OFF();
+		LOAD_ON();
 		lcd_set_xy(0,0);
-		PrintToLCD("Iload ");
+		PrintToLCD("I(l) ");
 		PrintToLCD(itoa(Current_load));
 		PrintToLCD("mA ");
 		PrintToLCD(itoa(RegularConvData[0]));
-		PrintToLCD("      ");
+		PrintToLCD("       ");
 	}
 	if(CountShow1 == 5)
 	{
+		LOAD_OFF();
 		OUT_ON();
 		CalibrationData.ResistanceComp_MOSFET= (int32_t)(U_PS-U_OUT_ForSetResistance)*10000/Current;
 		lcd_set_xy(0,0);
@@ -1170,14 +1200,16 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 	}
 	if(CountShow1 == 6)
 	{
+		OFF();
 		lcd_set_xy(0,0);
-		//ClockOnLCD(time_sec);
 		char s[17];
 		PrintToLCD(ClockStringWithSec(time_sec,s));
+		PrintToLCD("        ");
 	}
 
 	if(CountShow1 == 7)
 	{
+		OFF();
 		lcd_set_xy(0,0);
 		PrintToLCD("Old C=");
 		PrintToLCD(itoa(BatteryCapacityDischargeCurrentAfterPOwerUp/3600));
