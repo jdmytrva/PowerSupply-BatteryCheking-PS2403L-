@@ -17,12 +17,12 @@
 #define THRESHOLD 20
 
 #define MENUDELAY 100
-
+#define DELTA_UPS_BAT_MAX 5  //50mv
 #define VOLTAGE_OFF_SYSTEM 2000
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 23V 3A v2.00R";
+char Version[] = "PS 24V 3A v2.01R";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -199,7 +199,7 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 	EnterInMenu_Status = 1;
 	if (InitiStatus==0)
 	{
-		if (U_PS < (SettingsData.MaxVoltage+10))
+		if (U_PS < (SettingsData.MaxVoltage+DELTA_UPS_BAT_MAX))
 		{
 			lcd_set_xy(0,0);
 			PrintToLCD("U(ps)<U(bat.max)");
@@ -314,7 +314,7 @@ void MenuChargeAdapt(Key_Pressed_t key)
 	EnterInMenu_Status = 1;
 	if (InitiStatus==0)
 	{
-		if (U_PS < (SettingsData.MaxVoltage+10))
+		if (U_PS < (SettingsData.MaxVoltage+DELTA_UPS_BAT_MAX))
 		{
 			lcd_set_xy(0,0);
 			PrintToLCD("U(ps)<U(bat.max)");
@@ -582,7 +582,7 @@ void MenuCheckingCapacity(Key_Pressed_t key)
 {
 	if (EnterInMenu_Status == 0)
 	{
-		if (U_PS < (SettingsData.MaxVoltage+10))
+		if (U_PS < (SettingsData.MaxVoltage+DELTA_UPS_BAT_MAX))
 		{
 			lcd_set_xy(0,0);
 			PrintToLCD("U(ps)<U(bat.max)");
@@ -834,7 +834,7 @@ void MenuTraining_new(Key_Pressed_t key)
 {
 	if (EnterInMenu_Status == 0)
 	{
-		if (U_PS < (SettingsData.MaxVoltage+10))
+		if (U_PS < (SettingsData.MaxVoltage+DELTA_UPS_BAT_MAX))
 		{
 			lcd_set_xy(0,0);
 			PrintToLCD("U(ps)<U(bat.max)");
