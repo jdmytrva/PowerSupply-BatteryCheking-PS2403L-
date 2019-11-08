@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 24V 3A v2.01R";
+char Version[] = "PS 24V3.5A v2.02";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -1717,8 +1717,6 @@ Key_Pressed_t BUT_GetKey(void)
 	return key;
 }
 
-
-
 void TIM7_IRQHandler()
 {
 
@@ -1751,6 +1749,15 @@ void TIM1_UP_TIM16_IRQHandler()
 	if (Status_Timer_Sec == 1)
 		Timer_Sec++;
     time_sec++;
+
+    if (Current > 1500)
+    {
+    	GPIOB->BSRR =  GPIO_BSRR_BS8;//Fan ON
+    }else
+    {
+		GPIOB->BSRR =  GPIO_BSRR_BR8;//Fan Off
+	}
+
   }
 }
 
