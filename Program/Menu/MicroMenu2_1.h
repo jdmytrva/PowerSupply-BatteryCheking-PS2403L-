@@ -21,7 +21,8 @@
 typedef enum Key_Pressed {
     KEY_BACK=1,
     KEY_NEXT,
-    KEY_OK
+    KEY_OK,
+    KEY_UP
 }Key_Pressed_t ;
 
  typedef const struct Menu_Item {

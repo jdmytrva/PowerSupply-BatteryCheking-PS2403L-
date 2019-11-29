@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 24V3.5A v2.02";
+char Version[] = "PS 24V3.5A v2.10";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -1684,6 +1684,8 @@ void BUT_Debrief(void)
     key = KEY_NEXT;
   else if (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_6))
     key = KEY_BACK;
+  else if (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_7))
+    key = KEY_UP;
   else {
     key = 0;
   }
@@ -1749,15 +1751,6 @@ void TIM1_UP_TIM16_IRQHandler()
 	if (Status_Timer_Sec == 1)
 		Timer_Sec++;
     time_sec++;
-
-    if (Current > 1500)
-    {
-    	GPIOB->BSRR =  GPIO_BSRR_BS8;//Fan ON
-    }else
-    {
-		GPIOB->BSRR =  GPIO_BSRR_BR8;//Fan Off
-	}
-
   }
 }
 
@@ -2021,6 +2014,7 @@ int main(void)
     	Blink_message_counter++;
         Key_Pressed_t Button;
     	Button=BUT_GetKey();
+    	Print_to_USART1_d(Button,"Key:",0);
 		switch (Button)
 		{
 			case KEY_BACK:
@@ -2035,6 +2029,10 @@ int main(void)
 				Menu_SelectItem(KEY_NEXT);
 				Menu_Navigate(MENU_CHILD);
 				break;
+			case KEY_UP:
+				Menu_Navigate(MENU_PARENT);
+				break;
+
 			default:
 				//Print_to_USART1("NO key Pressed");
 				break;
