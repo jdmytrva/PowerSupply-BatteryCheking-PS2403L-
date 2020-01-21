@@ -3,6 +3,9 @@
 #ifndef _GENERAL_
 #define _GENERAL_
 
+//1 line LCD - CRS_ = 0
+//2 line LCD - CRS = 8
+#define CRS_ 8
 
 struct StructCalibrationValuetoSaveInFlash
 {

@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 22V2.5A v2.11";
+char Version[] = "PS 22V2.5A v3.00";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -133,7 +133,7 @@ void MenuPowerSupply(Key_Pressed_t key) //PowerSupply
 		lcd_set_xy(7,0);
 		PrintToLCD(itoa(Current));
 		PrintToLCD("mA   ");
-		lcd_set_xy(5,1);
+		lcd_set_xy(5+CRS_,0);
 		PrintToLCD("OFF ");
 	}
 	else
