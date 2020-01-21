@@ -18,11 +18,11 @@
 
 #define MENUDELAY 100
 #define DELTA_UPS_BAT_MAX 5  //50mv
-#define VOLTAGE_OFF_SYSTEM 2000
+#define VOLTAGE_OFF_SYSTEM 1800
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 24V3.5A v2.10";
+char Version[] = "PS 22V2.5A v2.11";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -1751,6 +1751,9 @@ void TIM1_UP_TIM16_IRQHandler()
 	if (Status_Timer_Sec == 1)
 		Timer_Sec++;
     time_sec++;
+
+    if (time_sec%2==0) GPIOA->BSRR =  GPIO_BSRR_BS15;
+    else GPIOA->BSRR =  GPIO_BSRR_BR15;
   }
 }
 
@@ -1960,6 +1963,7 @@ void OUT_ON_OFF_Toggle()
 int main(void)
 {
 	Initialization();
+	GPIOA->BSRR =  GPIO_BSRR_BS15;//Led on Board ON
 	OFF();
 	LoggingData.RecordsQuantity= 0;
 	uint8_t EEpromReadStatus;
@@ -2017,6 +2021,7 @@ int main(void)
     	Print_to_USART1_d(Button,"Key:",0);
 		switch (Button)
 		{
+
 			case KEY_BACK:
 				Menu_Navigate(MENU_PREVIOUS);
 
