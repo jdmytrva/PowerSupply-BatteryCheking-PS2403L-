@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 22V2.5A v2.12";
+char Version[] = "PS 22V2.5A v2.20";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -105,6 +105,9 @@ uint8_t ChargedStatus = 1;
 uint8_t BATERYSTATUS = 0;
 uint32_t ChargeDurationSec;
 uint32_t SelectedOptionValue;
+uint32_t SelectedOptionValue1;
+uint32_t OutStateAfterPowerUp = 1;
+//uint32_t OutState = 0;
 
 void Delay_ms(volatile uint32_t value)
 {
@@ -121,7 +124,23 @@ void Generic_Write(char* Text)
 {
 	if (Text) PrintToLCD_xy(Text,0,0);
 }
+void OUTStateAfterPowerUpFunction(void)
+{
+    if (OutStateAfterPowerUp ==2)
+    {
+    	OUT_ON();
+    	OutStateAfterPowerUp = 1;
+    }
+    if (OutStateAfterPowerUp ==3)
+    {
+    	if (SaveDataWhenPowerOff.OutState==1)
+    	{
+    		OUT_ON();
+    		OutStateAfterPowerUp = 1;
+    	}
+    }
 
+}
 void MenuPowerSupply(Key_Pressed_t key) //PowerSupply
 {
 	EnterInMenu_Status = 1;
@@ -154,6 +173,8 @@ void MenuPowerSupply(Key_Pressed_t key) //PowerSupply
     	else
     		OUT_OFF();
     }
+    OUTStateAfterPowerUpFunction();
+
 }
 
 void MenuLoad(Key_Pressed_t key) //Load
@@ -225,6 +246,7 @@ void MenuChargeCC_CV(Key_Pressed_t key)
 
 
 	#define MAXITEM0 3
+    OUTStateAfterPowerUpFunction();
 	if (key == KEY_NEXT)
 	{
 		if (On_off == 0)
@@ -352,6 +374,7 @@ void MenuChargeAdapt(Key_Pressed_t key)
 	}
 
 	#define MAXITEM1 4
+    OUTStateAfterPowerUpFunction();
 	if (key == KEY_NEXT)
 	{
 		if (On_off == 0)
@@ -1357,6 +1380,10 @@ void MenuCalibration_BackToFactory(Key_Pressed_t key)
 			PrintToLCD("Factory are OK  ");
 			WriteInLOG("Factory are OK");
 			Delay_mSec(2000);
+		    BatteryCapacityDischargeCurrentAfterPOwerUp = SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent;
+		    ChargeDurationSec = SettingsData.ChargeTime*3600;
+		    SelectedOptionValue = SettingsData.Option1;
+		    SelectedOptionValue1 = SettingsData.Option2;
 		}
 		else
 		{
@@ -1558,13 +1585,23 @@ void MenuSettingsChargeAddapt(Key_Pressed_t key)
 }
 void SelectedOption(void)
 {
-
 	if (SelectedOptionValue == SettingsData.Option1)
 	{
 		lcd_set_xy(7,1);
 		lcd_send(255,DATA);
 	}
 }
+
+void SelectedOption1(void)
+{
+	if (SelectedOptionValue1 == SettingsData.Option2)
+	{
+		lcd_set_xy(7,1);
+		lcd_send(255,DATA);
+	}
+}
+
+
 
 #define QUANTITY_OPTIONS 7
 void MenuSettingsSaveMenuPosWhenOFF(Key_Pressed_t key)
@@ -1617,6 +1654,42 @@ void MenuSettingsSaveMenuPosWhenOFF(Key_Pressed_t key)
 			break;
 	}
 }
+#define QUANTITY_OPTIONS1 3
+void MenuSettingsOutAfterPowerUp(Key_Pressed_t key)
+{
+	lcd_set_xy(0,0);
+	if (key == KEY_NEXT)
+	{
+		SettingsData.Option2++;
+		if (SettingsData.Option2==QUANTITY_OPTIONS1+1) SettingsData.Option2=1;
+	}
+	if (key == KEY_BACK)
+	{
+		SettingsData.Option2--;
+		if (SettingsData.Option2==0) SettingsData.Option2 = QUANTITY_OPTIONS1;
+	}
+
+	switch (SettingsData.Option2)
+	{
+		case 1:
+			PrintToLCD("OFF             ");
+			SelectedOption1();
+			break;
+		case 2:
+			PrintToLCD("ON              ");
+			SelectedOption1();
+			break;
+		case 3:
+			PrintToLCD("Previous        ");
+			SelectedOption1();
+			break;
+
+		default:
+			SettingsData.Option2 =1;
+			break;
+	}
+}
+
 void MenuCalibrationWriteToFlash_Enter(Key_Pressed_t key)
 {
 	CalibrationWriteToFlash_CRC();
@@ -1668,6 +1741,15 @@ void MenuOption_Enter(Key_Pressed_t key)
 	lcd_send(255,DATA);
 	SettingsWriteToFlash_CRC();
 	SelectedOptionValue = SettingsData.Option1;
+	Delay_mSec(200);
+}
+
+void MenuOption_Enter1(Key_Pressed_t key)
+{
+	lcd_set_xy(7,1);
+	lcd_send(255,DATA);
+	SettingsWriteToFlash_CRC();
+	SelectedOptionValue1 = SettingsData.Option2;
 	Delay_mSec(200);
 }
 
@@ -1813,13 +1895,24 @@ void ClockOnLCD_noSec (uint32_t time)
 void All_OUT_OFF_When_Power_OFF()
 {
 	static uint8_t EEpromWrite_status = 1;
-	if (U_IN < VOLTAGE_OFF_SYSTEM)
+	if ( (U_IN < VOLTAGE_OFF_SYSTEM) && (time_sec>6))
 	{
+		//Print_to_USART1("<");
+		if ((GPIOB->IDR & 0x01)==1)//if Out on
+		{
+			SaveDataWhenPowerOff.OutState = 1;
+		}
+		else
+		{
+			SaveDataWhenPowerOff.OutState = 0;
+		}
 		OFF();
 		if (EEpromWrite_status == 0)
 		{
+
 			EEpromWrite_status = 1;
 			SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent;
+			//Print_to_USART1_d(SaveDataWhenPowerOff.OutState,"stateout: ",0);
 			DataWhenPowerOffWriteToFlash_CRC();
 			Print_to_USART1_d(SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent,"dc: ",2);
 			char str[17];
@@ -1835,6 +1928,8 @@ void All_OUT_OFF_When_Power_OFF()
 			uint8_t i=0;
 			for (i = 0; i<50; i++)
 			{
+				//Print_to_USART1_d(SaveDataWhenPowerOff.OutState,"stateout: ",0);
+				//Print_to_USART1_d(SaveDataWhenPowerOffForVerify.OutState,"stateoutV: ",0);
 				Print_to_USART1_d(U_IN,"U off: ",2);
 				Delay_mSec(10);
 			}
@@ -1991,6 +2086,8 @@ int main(void)
     BatteryCapacityDischargeCurrentAfterPOwerUp = SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent;
     ChargeDurationSec = SettingsData.ChargeTime*3600;
     SelectedOptionValue = SettingsData.Option1;
+    SelectedOptionValue1 = SettingsData.Option2;
+    OutStateAfterPowerUp = SettingsData.Option2;
     Print_to_USART1(Version);
     InfoToUARTBeforeStart();
     //HSE_PLL();
@@ -2018,7 +2115,8 @@ int main(void)
     	Blink_message_counter++;
         Key_Pressed_t Button;
     	Button=BUT_GetKey();
-    	Print_to_USART1_d(Button,"Key:",0);
+    	Print_to_USART1_d((GPIOB->IDR & 0x01),"out:",0);
+
 		switch (Button)
 		{
 
@@ -2100,6 +2198,8 @@ int main(void)
 			MenuSettingsChargeAddapt(Button);
 		else if (Menu_GetCurrentMenu() == &Menu_1_S_1)
 			MenuSettingsSaveMenuPosWhenOFF(Button);
+		else if (Menu_GetCurrentMenu() == &Menu_1_SO_1)
+			MenuSettingsOutAfterPowerUp(Button);
 		else EnterInMenu_Status = 0;
 
 		if (EnterInMenu_Status == 0)
@@ -2112,6 +2212,7 @@ int main(void)
 
 			DischargeTimeSec_Previous = DischargeTimeSec;
 			ChargeDischargeState = 0;
+			OutStateAfterPowerUp = 1;
 
 		}
         Delay_ms(100);

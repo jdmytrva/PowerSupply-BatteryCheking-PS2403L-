@@ -94,7 +94,9 @@ struct StructSettingsValuetoSaveInFlash SettingsData=
 		0,
 		ADDRESS_FLASH_SETTINGS+24,
 		0,
-		ADDRESS_FLASH_SETTINGS+28
+		ADDRESS_FLASH_SETTINGS+28,
+		0,
+		ADDRESS_FLASH_SETTINGS+32
 };
 struct StructSettingsValuetoSaveInFlash SettingsDataForVerify=
 {
@@ -113,7 +115,9 @@ struct StructSettingsValuetoSaveInFlash SettingsDataForVerify=
 		0,
 		ADDRESS_FLASH_SETTINGS+24,
 		0,
-		ADDRESS_FLASH_SETTINGS+28
+		ADDRESS_FLASH_SETTINGS+28,
+		0,
+		ADDRESS_FLASH_SETTINGS+32
 };
 
 struct StructSettingsValuetoSaveInFlash SettingsDataFactory=
@@ -133,7 +137,10 @@ struct StructSettingsValuetoSaveInFlash SettingsDataFactory=
 		10,//Swing_DChrg_time
 		ADDRESS_FLASH_SETTINGS+24,
 		6,//ChargeAdapt %
-		ADDRESS_FLASH_SETTINGS+28
+		ADDRESS_FLASH_SETTINGS+28,
+		1,//Out after powerUp option. 1 - OFF
+		ADDRESS_FLASH_SETTINGS+32
+
 };
 //=====================================
 struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOff=
@@ -143,7 +150,9 @@ struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOff=
 		0,
 		ADDRESS_FLASH_WHEN_OFF+4,
 		0,
-		ADDRESS_FLASH_WHEN_OFF+8
+		ADDRESS_FLASH_WHEN_OFF+8,
+		0,
+		ADDRESS_FLASH_WHEN_OFF+12
 };
 
 struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffForVerify=
@@ -153,7 +162,9 @@ struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffForVerify=
 		0,
 		ADDRESS_FLASH_WHEN_OFF+4,
 		0,
-		ADDRESS_FLASH_WHEN_OFF+8
+		ADDRESS_FLASH_WHEN_OFF+8,
+		0,
+		ADDRESS_FLASH_WHEN_OFF+12
 };
 
 struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffFactory=
@@ -163,7 +174,9 @@ struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffFactory=
 		0,//BatteryCapacityDischargePreviousValue
 		ADDRESS_FLASH_WHEN_OFF+4,
 		0,//BatteryCapacityDischargeCurrent
-		ADDRESS_FLASH_WHEN_OFF+8
+		ADDRESS_FLASH_WHEN_OFF+8,
+		0,//Out State. 0 - OFF, 1 - ON
+		ADDRESS_FLASH_WHEN_OFF+12
 };
 
 
@@ -328,10 +341,13 @@ void InfoToUARTBeforeStart(void)
 	Print_to_USART1_d(SettingsData.ChargeAdapt ,"ChargeAdapt =",0);
 	Print_to_USART1_d(SettingsData.Swing_Chrg_time ,"Swing_Chrg_time =",0);
 	Print_to_USART1_d(SettingsData.Swing_DChrg_time ,"Swing_DChrg_time =",0);
+	Print_to_USART1_d(SettingsData.Option2 ,"Option2(OUT after powerUp) =",0);
+
 
 	Print_to_USART1_d(SaveDataWhenPowerOff.CRC_data,"CRC(SaveDataWhenPowerOff) =",0);
 	Print_to_USART1_d(SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue ,"BatteryCapacityDischargePreviousValue =",0);
 	Print_to_USART1_d(SaveDataWhenPowerOff.BatteryCapacityDischargeCurrent ,"BatteryCapacityDischargeCurrent =",0);
+	Print_to_USART1_d(SaveDataWhenPowerOff.OutState ,"OutState = ",0);
 
 }
 

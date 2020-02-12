@@ -27,15 +27,16 @@ void MenuLog_Enter();
 
 //MENU Settings
  //       NAME          NEXT,       PREV        PARENT,       CHILD       EnterCallback        SelectCallback         Text
- MENU_ITEM(Menu_1_1,   Menu_1_1a,   Menu_1_7,   Menu_1,   Menu_1_1_1,   NULL,                NULL,              "01:Charge time  ");
- MENU_ITEM(Menu_1_1a,   Menu_1_2,   Menu_1_1,   Menu_1,   Menu_1_1_1a,   NULL,                NULL,             "02:Battery type ");
- MENU_ITEM(Menu_1_2,   Menu_1_3,   Menu_1_1a,   Menu_1,   Menu_1_2_1,   NULL,                NULL,               "03:Low Voltage  ");
+ MENU_ITEM(Menu_1_1,   Menu_1_1a,  Menu_1_7,   Menu_1,   Menu_1_1_1,   NULL,                NULL,              "01:Charge time  ");
+ MENU_ITEM(Menu_1_1a,   Menu_1_2,  Menu_1_1,   Menu_1,   Menu_1_1_1a,   NULL,                NULL,             "02:Battery type ");
+ MENU_ITEM(Menu_1_2,   Menu_1_3,   Menu_1_1a,  Menu_1,   Menu_1_2_1,   NULL,                NULL,               "03:Low Voltage  ");
  MENU_ITEM(Menu_1_3,   Menu_1_4,   Menu_1_2,   Menu_1,   Menu_1_3_1,   NULL,                NULL,               "04:Max Voltage  ");
  MENU_ITEM(Menu_1_4,   Menu_1_5,   Menu_1_3,   Menu_1,   Menu_1_4_1,   NULL,                NULL,               "05:Swing Chrg Tm");
  MENU_ITEM(Menu_1_5,   Menu_1_6,   Menu_1_4,   Menu_1,   Menu_1_5_1,   NULL,                NULL,               "06:SwngDisChrg T");
  MENU_ITEM(Menu_1_6,   Menu_1_S,   Menu_1_5,   Menu_1,   Menu_1_6_1,   NULL,                NULL,               "07:Charge addapt");
- MENU_ITEM(Menu_1_S,   Menu_1_7,   Menu_1_6,   Menu_1,   Menu_1_S_1,   NULL,                NULL,               "08:Save Menu Pos" );
- MENU_ITEM(Menu_1_7,   Menu_1_1,   Menu_1_S,   Menu_1,   Menu_1,       NULL,                NULL,               "OK to exit      ");
+ MENU_ITEM(Menu_1_S,   Menu_1_SO,  Menu_1_6,   Menu_1,   Menu_1_S_1,   NULL,                NULL,               "08:Save Menu Pos");
+ MENU_ITEM(Menu_1_SO,  Menu_1_7,   Menu_1_S,   Menu_1,   Menu_1_SO_1,  NULL,                NULL,               "09:Out after ON ");
+ MENU_ITEM(Menu_1_7,   Menu_1_1,   Menu_1_SO,  Menu_1,   Menu_1,       NULL,                NULL,               "OK to exit      ");
 
  //MENU  CALIBRATION
  //       NAME          NEXT,       PREV        PARENT,       CHILD       EnterCallback        SelectCallback         Text
@@ -101,6 +102,7 @@ void MenuLog_Enter();
  void MenuSettingsSwngDChrgTime_Enter(void);
  void MenuSettingsChargeAddapt_Enter(void);
  void MenuOption_Enter(Key_Pressed_t key);
+ void MenuOption_Enter1(Key_Pressed_t key);
 
  //          NAME          NEXT,       PREV        PARENT,       CHILD      EnterCallback                    SelectCallback         Text
  //Charge time, h
@@ -119,5 +121,7 @@ void MenuLog_Enter();
  MENU_ITEM(Menu_1_6_1,   NULL_MENU,   NULL_MENU,   Menu_1_6,   Menu_1_6,   NULL,  MenuSettingsWriteToFlash_Enter,               "                ");
 //SaveMenuPos  OFF
  MENU_ITEM(Menu_1_S_1,   NULL_MENU,   NULL_MENU,   Menu_1_S,   Menu_1_S,   NULL,  MenuOption_Enter,               "                ");
+ //09:Out after powerUp
+ MENU_ITEM(Menu_1_SO_1,   NULL_MENU,   NULL_MENU,   Menu_1_SO,   Menu_1_SO,   NULL,  MenuOption_Enter1,               "                ");
 
 #endif

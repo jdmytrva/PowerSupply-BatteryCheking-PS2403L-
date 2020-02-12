@@ -62,6 +62,10 @@ struct StructSettingsValuetoSaveInFlash
 
 	uint32_t ChargeAdapt;
 	uint32_t ChargeAdapt_AddresInEEprom;
+
+	uint32_t Option2;
+	uint32_t Option2_AddresInEEprom;
+
 };
 struct StructValuetoSaveInFlashWhenPowerOFF
 {
@@ -73,6 +77,9 @@ struct StructValuetoSaveInFlashWhenPowerOFF
 
 	uint32_t BatteryCapacityDischargeCurrent;
 	uint32_t BatteryCapacityDischargeCurrent_AddresInEEprom;
+
+	uint32_t OutState;
+	uint32_t OutState_AddresInEEprom;
 };
 
 

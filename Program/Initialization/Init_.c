@@ -16,7 +16,7 @@ void Initialization(void)
 	//AdcInit();
 	Init_Out();
 	Init_button();
-	init_timer7();
+
 
 	init_timer3();
 	init_timer16();
@@ -24,6 +24,7 @@ void Initialization(void)
 	Init_Out();
 
 	ADC1_CH_DMA_Config();
+	init_timer7();
 }
 
 void Init_Out(void)
