@@ -60,17 +60,17 @@ struct StructCalibrationValuetoSaveInFlash CalibrationDataFactory=
 		ADDRESS_FLASH_CALIBRATTION+4,
 		0,//Calibration0ValueForCurrent1
 		ADDRESS_FLASH_CALIBRATTION+8,
-		132,//CalibrationValueForCurrent
+		141,//CalibrationValueForCurrent Resistor 6.2k || 4.7k  1%
 		ADDRESS_FLASH_CALIBRATTION+12,
-		132,//CalibrationValueForCurrent1
+		141,//CalibrationValueForCurrent1 Resistor 6.2k || 4.7k  1%
 		ADDRESS_FLASH_CALIBRATTION+16,
-		1105,//CalibrationValueForVoltage
+		1109,//CalibrationValueForVoltage Resistor 8.2k 1%
 		ADDRESS_FLASH_CALIBRATTION+20,
-		1105,//CalibrationValueForVoltage1
+		1109,//CalibrationValueForVoltage1 Resistor 8.2k 1%
 		ADDRESS_FLASH_CALIBRATTION+24,
-		1318,//CalibrationValueForVoltage2
+		1109,//CalibrationValueForVoltage2 Resistor 8.2k 1%
 		ADDRESS_FLASH_CALIBRATTION+28,
-		130,//ResistanceComp_Ishunt_Wires mOm 116
+		135,//ResistanceComp_Ishunt_Wires mOm 116
 		ADDRESS_FLASH_CALIBRATTION+32,
 		34,//ResistanceComp_MOSFET mOm
 		ADDRESS_FLASH_CALIBRATTION+36
