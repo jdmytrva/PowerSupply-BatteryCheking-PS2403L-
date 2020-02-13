@@ -18,4 +18,9 @@ void Init_button(void);
 void init_timer7();
 void init_timer16();
 void InitTimer2ForDelay(void);
+
+void init_timer6();
+void init_timer1();
+
+
 #endif

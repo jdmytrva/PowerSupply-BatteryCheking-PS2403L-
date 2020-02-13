@@ -12,7 +12,7 @@ void Initialization(void)
 	InitLCD();
 	USART1Init();
 //	OneWireInitGPIOs();
-// 	init_timer6();
+
 	//AdcInit();
 	Init_Out();
 	Init_button();
@@ -25,6 +25,10 @@ void Initialization(void)
 
 	ADC1_CH_DMA_Config();
 	init_timer7();
+
+	//======================
+	init_timer6();
+	init_timer1();
 }
 
 void Init_Out(void)
@@ -168,3 +172,50 @@ void InitTimer2ForDelay(void)
 	TIM2->PSC     = F_CPU/1000-1;//7;//8035-1mc
 	TIM2->CR1 = TIM_CR1_CEN | TIM_CR1_OPM;
 }
+//=======================================================================================================================================================
+void init_timer6()
+{
+
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, ENABLE);
+  TIM_TimeBaseInitTypeDef base_timer;
+  TIM_TimeBaseStructInit(&base_timer);
+  base_timer.TIM_Prescaler = 24000 - 1;
+  base_timer.TIM_Period = 1000;//10- 1ms
+  TIM_TimeBaseInit(TIM6, &base_timer);
+
+  TIM_ITConfig(TIM6, TIM_IT_Update, ENABLE);
+
+  TIM_Cmd(TIM6, ENABLE);
+
+
+
+  NVIC_EnableIRQ(TIM6_DAC_IRQn);
+  NVIC_SetPriority(TIM6_DAC_IRQn, 3);
+}
+
+void init_timer1()
+{
+
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+  TIM_TimeBaseInitTypeDef base_timer;
+  TIM_TimeBaseStructInit(&base_timer);
+
+  //base_timer.TIM_Prescaler = 240 - 1;
+  //base_timer.TIM_Period = 10;
+  base_timer.TIM_CounterMode = TIM_CounterMode_Up;
+  base_timer.TIM_Prescaler = 24000 - 1;
+  base_timer.TIM_Period = 1000;//1c
+  TIM_TimeBaseInit(TIM1, &base_timer);
+
+  TIM_ITConfig(TIM1, TIM_IT_Update, ENABLE);
+
+  TIM_Cmd(TIM1, ENABLE);
+
+
+  NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
+  NVIC_SetPriority(TIM1_UP_TIM16_IRQn, 1);
+}
+
+
+
+

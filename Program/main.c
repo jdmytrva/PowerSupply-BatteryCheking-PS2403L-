@@ -1837,6 +1837,13 @@ void TIM1_UP_TIM16_IRQHandler()
     if (time_sec%2==0) GPIOA->BSRR =  GPIO_BSRR_BS15;
     else GPIOA->BSRR =  GPIO_BSRR_BR15;
   }
+
+  if (TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET)
+    {
+      TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
+      Print_to_USART1("TIM1");
+    }
+
 }
 
 void Start_Timer_sec()
@@ -2218,3 +2225,19 @@ int main(void)
         Delay_ms(100);
     }//while
 }//main
+
+
+//======================================
+void TIM6_DAC_IRQHandler()
+{
+
+  if (TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET)
+  {
+
+    TIM_ClearITPendingBit(TIM6, TIM_IT_Update);
+    Print_to_USART1("TIm6");
+
+  }
+}
+
+
