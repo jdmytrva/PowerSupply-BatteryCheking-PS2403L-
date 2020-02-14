@@ -26,7 +26,8 @@ char Version[] = "PS 22V2.5A v2.20";
 
 
 Key_Pressed_t pressedKey = 0;
-volatile uint32_t  time_sec = 0;
+volatile uint32_t  Count100mSecond = 0;
+volatile uint32_t  Seconds = 0;
 volatile uint32_t  Timer_Sec = 0;
 volatile uint32_t  TimerForReadyMeasurement_ms = 0;
 volatile uint8_t  Status_Timer_Sec = 0;
@@ -109,14 +110,15 @@ uint32_t SelectedOptionValue1;
 uint32_t OutStateAfterPowerUp = 1;
 //uint32_t OutState = 0;
 
-void Delay_ms(volatile uint32_t value)
-{
-  TIM2->ARR = value;
-  TIM2->CNT = 0;
-  TIM2->CR1 = TIM_CR1_CEN | TIM_CR1_OPM;
-  while((TIM2->SR & TIM_SR_UIF)==0){}
-  TIM2->SR &= ~TIM_SR_UIF;
-}
+//void Delay_ms_del(volatile uint32_t value)
+//{
+ // TIM2->ARR = value;
+ // TIM2->CNT = 0;
+ // TIM2->CR1 = TIM_CR1_CEN | TIM_CR1_OPM;
+ // while((TIM2->SR & TIM_SR_UIF)==0){}
+ // TIM2->SR &= ~TIM_SR_UIF;
+//}
+
 
 
 //////MENU FUNCTIONS ///////////////MENU FUNCTIONS ///////////////MENU FUNCTIONS /////////
@@ -488,10 +490,10 @@ void MenuDisCharge(Key_Pressed_t key)
 	if (U_BatteryTmp >=SettingsData.LowVoltage) BatteryLow=0;
 	if (U_BatteryTmp < SettingsData.LowVoltage)
 	{
-		if (BatteryLow == 0) U_Battery_Timer = time_sec;
+		if (BatteryLow == 0) U_Battery_Timer = Seconds;
 		BatteryLow = 1;
 	}
-	if ((time_sec - U_Battery_Timer)>3 && BatteryLow !=0)//was 10
+	if ((Seconds - U_Battery_Timer)>3 && BatteryLow !=0)//was 10
 	{
 
 		OFF();
@@ -1226,7 +1228,7 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 		OFF();
 		lcd_set_xy(0,0);
 		char s[17];
-		PrintToLCD(ClockStringWithSec(time_sec,s));
+		PrintToLCD(ClockStringWithSec(Seconds,s));
 		PrintToLCD("        ");
 	}
 
@@ -1820,22 +1822,7 @@ void TIM1_UP_TIM16_IRQHandler()
     TIM_ClearITPendingBit(TIM16, TIM_IT_Update);
 
 
-	//capacity
-	if (Current < 2)
-		BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent + Module16(Current);
-	if (Current > 2)
-		BatteryCapacityCharge = BatteryCapacityCharge + Module16(Current);
-	if (ChargeStatusForTimer == 1)
-		ChargeTimeSec++;
-	if (DisChargeStatusForTimer == 1)
-		DischargeTimeSec++;
-	//Global timer
-	if (Status_Timer_Sec == 1)
-		Timer_Sec++;
-    time_sec++;
 
-    if (time_sec%2==0) GPIOA->BSRR =  GPIO_BSRR_BS15;
-    else GPIOA->BSRR =  GPIO_BSRR_BR15;
   }
 
   if (TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET)
@@ -1902,7 +1889,7 @@ void ClockOnLCD_noSec (uint32_t time)
 void All_OUT_OFF_When_Power_OFF()
 {
 	static uint8_t EEpromWrite_status = 1;
-	if ( (U_IN < VOLTAGE_OFF_SYSTEM) && (time_sec>6))
+	if ( (U_IN < VOLTAGE_OFF_SYSTEM) && (Seconds>6))
 	{
 		//Print_to_USART1("<");
 		if ((GPIOB->IDR & 0x01)==1)//if Out on
@@ -2072,20 +2059,20 @@ int main(void)
 	PrintToLCD(Version);
 	SetSymbols();
 	lcd_set_xy(0,0);
-	Delay_mSec(2000);
+	Delay_ms(2000);
 	flash_read_block();
 	if (LoggingData.RecordsQuantity>=MAX_LOG_ITEMS) LoggingData.RecordsQuantity = 0;
 	//WriteInLOG("Power ON");
 	EEpromReadStatus = ReadFromFlash();
 	if (EEpromReadStatus==0)
 	{
-		Delay_mSec(1000);
+		Delay_ms(1000);
 		EEpromReadStatus = ReadFromFlash();
 	}
 	if (EEpromReadStatus == 0)
 	{
 		PrintToLCD("EEprom Read FAIL");
-		Delay_mSec(4000);
+		Delay_ms(4000);
 		WriteInLOG("EEprmReadFAIL");
 	}
 
@@ -2122,7 +2109,23 @@ int main(void)
     	Blink_message_counter++;
         Key_Pressed_t Button;
     	Button=BUT_GetKey();
-    	Print_to_USART1_d((GPIOB->IDR & 0x01),"out:",0);
+
+    	Print_to_USART1_d(Seconds,"Seconds:",0);
+    	//Print_to_USART1_d(SystemCoreClock,"SystemCoreClock:",0);
+
+
+/*
+    	__disable_irq();
+    		f1 = SysTick->VAL;
+
+    		f2 = SysTick->VAL;
+    		__enable_irq();
+    		Print_to_USART1_d((f1-f2)*10/24,"us:",1);
+    		Print_to_USART1_d(f1,"f1:",0);
+    		Print_to_USART1_d(f2,"f2:",0);
+
+*/
+
 
 		switch (Button)
 		{
@@ -2239,5 +2242,28 @@ void TIM6_DAC_IRQHandler()
 
   }
 }
+void SysTick_Handler()
+{
+	if (Count100mSecond%10 == 0)
+	{
+		//capacity
+		if (Current < 2)
+			BatteryCapacityDischargeCurrent = BatteryCapacityDischargeCurrent + Module16(Current);
+		if (Current > 2)
+			BatteryCapacityCharge = BatteryCapacityCharge + Module16(Current);
+		if (ChargeStatusForTimer == 1)
+			ChargeTimeSec++;
+		if (DisChargeStatusForTimer == 1)
+			DischargeTimeSec++;
+		//Global timer
+		if (Status_Timer_Sec == 1)
+			Timer_Sec++;
+	    Seconds++;
 
+	    if (Seconds%2==0) GPIOA->BSRR =  GPIO_BSRR_BS15;
+	    else GPIOA->BSRR =  GPIO_BSRR_BR15;
+	}
+	Count100mSecond++;
+
+}
 

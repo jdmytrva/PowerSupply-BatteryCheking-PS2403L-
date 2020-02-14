@@ -1,31 +1,21 @@
 #include "hd44780_driver.h"
+#include "General.h"
 
 uint8_t pos_x = 0;
 uint8_t pos_y = 0;
 
 
-void DelaymSec(volatile uint16_t Count)//mSec
-{
-	volatile uint32_t tmpvar;
-	for (tmpvar=Count*2000;tmpvar!=0;tmpvar--);
-}
-
-void DelayuSec(volatile uint16_t Count)//uSec
-{
-	volatile uint32_t tmpvar;
-	for (tmpvar=Count*2;tmpvar!=0;tmpvar--);
-}
-
 void strobe(void)
 {
 	LCD_PORT->BSRR=LCD_EN_BS;
-	DelayuSec(2);
+	Delay_us(2);
 	LCD_PORT->BSRR=LCD_EN_BC;
-	DelayuSec(2);
+	Delay_us(2);
+
 }
 
 void lcd_init() {
-	DelaymSec(100);
+	Delay_ms(100);
 	lcd_set_4bit_mode();
 	lcd_set_state(LCD_ENABLE,CURSOR_ENABLE,NO_BLINK);
 	lcd_clear();
@@ -248,7 +238,7 @@ void LcdOut(char * txt,uint8_t Line)
 
 void lcd_clear(void) {
 	lcd_send(0x01,COMMAND);
-	//DelaymSec(2);
+	//Delay_ms(2);
 }
 
 void lcd_set_state(lcd_state state, cursor_state cur_state, cursor_mode cur_mode)  {
@@ -278,23 +268,23 @@ void lcd_set_4bit_mode(void) {
 	LCD_PORT->BSRR=(LCD_DB5_BS);
 
 	//LCD_PORT->BSRR=LCD_EN_BS;
-	//DelaymSec(1);
+	//Delay_ms(1);
 	//LCD_PORT->BSRR=LCD_EN_BC;
 
 	strobe();
-	DelaymSec(1);
+	Delay_ms(1);
 
 	LCD_PORT->BSRR=(LCD_DB7_BC | LCD_DB6_BC | LCD_DB5_BC | LCD_DB4_BC | LCD_CD_BC | LCD_EN_BC);
 	LCD_PORT->BSRR=(LCD_DB5_BS);
 
 	strobe();
-	DelaymSec(1);
+	Delay_ms(1);
 
 	LCD_PORT->BSRR=(LCD_DB7_BC | LCD_DB6_BC | LCD_DB5_BC | LCD_DB4_BC | LCD_CD_BC | LCD_EN_BC);
 	LCD_PORT->BSRR=(LCD_DB7_BS);
 
 	strobe();
-	DelaymSec(1);
+	Delay_ms(1);
 
 }
 
@@ -340,7 +330,7 @@ void lcd_send(uint8_t byte, dat_or_comm dc)  {
 
 
 	strobe();
-	DelaymSec(2);
+	Delay_ms(2);
 	if (dc) {
 			LCD_PORT->BSRR=LCD_CD_BC;
 		}

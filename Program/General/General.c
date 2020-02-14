@@ -350,4 +350,36 @@ void InfoToUARTBeforeStart(void)
 	Print_to_USART1_d(SaveDataWhenPowerOff.OutState ,"OutState = ",0);
 
 }
+void Delay_us(uint32_t us)
+{
+	uint32_t n=(SystemCoreClock/1000000)*us;
+    // Начальное значение счётчика SysTick.
+  volatile  uint32_t n0=SysTick->VAL;
+    // Предыдущее значение счётчика.
+  volatile uint32_t np=n0;
+      // Текущее значение счётчика SysTick.
+  volatile int32_t nc;
 
+    // Выполняем цикл до тех пор, пока не пройдёт
+    // заданное количество тактов процессора.
+    do{
+        nc=SysTick->VAL;
+        // Проверка на переполнение, корректировка
+        // на модуль пересчёта в случае переполнения.
+        if(nc>=np)
+            n0+=SysTick->LOAD+1;
+        np=nc;
+    }while(n0-nc<n);
+}
+void Delay_ms(volatile uint32_t value)
+{
+	while(value>0)
+	{
+		Delay_us(1000);
+		value--;
+	}
+}
+
+
+volatile uint32_t f1=0;
+volatile uint32_t f2=0;

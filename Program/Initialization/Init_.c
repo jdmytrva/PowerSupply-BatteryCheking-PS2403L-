@@ -2,8 +2,8 @@
 
 void Initialization(void)
 {
-
-
+	SysTick_Config(SystemCoreClock/10);//100 mseconds
+	NVIC_SetPriority(SysTick_IRQn, 1);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
@@ -18,9 +18,9 @@ void Initialization(void)
 	Init_button();
 
 
-	init_timer3();
+	init_timer3();//PWM
 	init_timer16();
-	InitTimer2ForDelay();
+	init_timer2();//ADC
 	Init_Out();
 
 	ADC1_CH_DMA_Config();
@@ -166,12 +166,12 @@ void init_timer16()
   NVIC_SetPriority(TIM1_UP_TIM16_IRQn, 1);
 }
 
-void InitTimer2ForDelay(void)
-{
-	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-	TIM2->PSC     = F_CPU/1000-1;//7;//8035-1mc
-	TIM2->CR1 = TIM_CR1_CEN | TIM_CR1_OPM;
-}
+//void InitTimer2ForDelay(void)
+//{
+//	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
+//	TIM2->PSC     = F_CPU/1000-1;//7;//8035-1mc
+//	TIM2->CR1 = TIM_CR1_CEN | TIM_CR1_OPM;
+//}
 //=======================================================================================================================================================
 void init_timer6()
 {
@@ -216,6 +216,44 @@ void init_timer1()
   NVIC_SetPriority(TIM1_UP_TIM16_IRQn, 1);
 }
 
+void init_timer3()
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
 
+	//Подаем тактовую частоту на таймер
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+
+	//Настройка порта
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+	//GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	//GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+	//GPIO_PinAFConfig(GPIOB, GPIO_PinSource4, GPIO_AF_TIM3);
+
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
+	/**** Timer3 time base setup ****/
+	TIM_TimeBaseInitStructure.TIM_Prescaler=SystemCoreClock/100000;
+	TIM_TimeBaseInitStructure.TIM_CounterMode = TIM_CounterMode_Up ;
+	TIM_TimeBaseInitStructure.TIM_Period = 40;
+	TIM_TimeBaseInitStructure.TIM_ClockDivision = 0;
+	TIM_TimeBaseInit(TIM3,&TIM_TimeBaseInitStructure);
+	TIM_Cmd(TIM3, ENABLE);
+	TIM_OCInitTypeDef TIM_OCInitStructure;
+	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable ;
+	TIM_OCInitStructure.TIM_Pulse = TIM_TimeBaseInitStructure.TIM_Period /2 +1;;
+	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+	//TIM_OC3Init(TIM3, &TIM_OCInitStructure); //PB0 - ouptut pwm on channel 3
+	//TIM_OC3PreloadConfig(TIM3, TIM_OCPreload_Enable);
+
+	TIM_OC1Init(TIM3, &TIM_OCInitStructure); //PB0 - ouptut pwm on channel 3
+	TIM_OC1PreloadConfig(TIM3, TIM_OCPreload_Enable);
+
+
+	TIM3->CCR3=15; // just some duty cycle value
+}
 
 

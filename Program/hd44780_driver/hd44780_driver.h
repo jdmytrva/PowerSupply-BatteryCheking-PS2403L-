@@ -224,8 +224,6 @@ void LcdOut(char * txt,uint8_t TypeOfLCD);
 void LcdOutbyNumber(int8_t num,uint8_t Line);
 void lcd_set_xy(uint8_t x, uint8_t y);
 void lcd_set_user_char(uint8_t char_num, char * char_data);
-void DelaymSec(volatile uint16_t Count);
-void DelayuSec(volatile uint16_t Count);
 void PrintToLCD(char* str);
 void PrintToLCD_int32(int32_t x);
 void PrintToLCD_int32_koma(int32_t x, uint8_t k);

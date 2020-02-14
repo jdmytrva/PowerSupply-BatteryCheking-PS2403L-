@@ -23,7 +23,7 @@ volatile int32_t OffTimer = 0;
 volatile uint8_t HighCurrentStatus = 0;
 
 
-#define TIM3_PERIOD 5
+#define TIM2_PERIOD 5
 #define TIME_OUT_FOR_CURRENT_SEC 5 //sec
 
 
@@ -34,7 +34,7 @@ void ADC1_CH_DMA_Config(void)
 	DMA_InitTypeDef DMA_InitStructure;
 
 	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AIN;
-	GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_1 | GPIO_Pin_2 |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5|GPIO_Pin_6 ;
+	GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_1 | GPIO_Pin_2 |GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5 ;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 
 
@@ -81,34 +81,34 @@ void ADC1_CH_DMA_Config(void)
 	ADC_SoftwareStartConvCmd ( ADC1 , ENABLE ) ;
 }
 
-void init_timer3()
+void init_timer2()
 {
 
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
 
   TIM_TimeBaseInitTypeDef base_timer;
   TIM_TimeBaseStructInit(&base_timer);
 
   base_timer.TIM_Prescaler = 24000 - 1;
-  base_timer.TIM_Period = TIM3_PERIOD;
-  TIM_TimeBaseInit(TIM3, &base_timer);
+  base_timer.TIM_Period = TIM2_PERIOD;
+  TIM_TimeBaseInit(TIM2, &base_timer);
 
 
-  TIM_ITConfig(TIM3, TIM_IT_Update, ENABLE);
+  TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
 
-  TIM_Cmd(TIM3, ENABLE);
+  TIM_Cmd(TIM2, ENABLE);
 
 
-  NVIC_EnableIRQ(TIM3_IRQn);
-  NVIC_SetPriority(TIM3_IRQn, 2);
+  NVIC_EnableIRQ(TIM2_IRQn);
+  NVIC_SetPriority(TIM2_IRQn, 2);
 }
-void TIM3_IRQHandler()
+void TIM2_IRQHandler()
 {
-  if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET)
+  if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
   {
 	  	CurrentTimer++;
-		TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
+		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 		volatile int16_t U_OUTtmp = 0;
 		volatile int16_t Ut = 0;
 
@@ -162,6 +162,7 @@ void TIM3_IRQHandler()
 
 
 		DMA_ITConfig(DMA1_Channel1, DMA1_IT_TC1, ENABLE);
+
   }
 }
 

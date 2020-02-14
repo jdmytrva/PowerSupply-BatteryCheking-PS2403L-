@@ -115,5 +115,9 @@ void WriteInLOGc(char  str [17],char c);
 
 void InfoToUARTBeforeStart(void);
 
+volatile uint32_t f1;
+volatile uint32_t f2;
+void Delay_ms(volatile uint32_t value);
+void Delay_us(uint32_t us);
 
 #endif
