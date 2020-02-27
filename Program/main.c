@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 22V2.5A v2.20";
+char Version[] = "PS 22V2.5A v2.30";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -1023,6 +1023,46 @@ void MenuTraining_new(Key_Pressed_t key)
 
 }
 
+void MenuBatterySimilation(Key_Pressed_t key)
+{
+	EnterInMenu_Status = 1;
+	lcd_set_xy(0,0);
+	if (On_off == 0)
+	{
+		PrintToLCD(itoa_koma(U_PS,2));
+		PrintToLCD("V  ");
+		lcd_set_xy(7,0);
+		PrintToLCD(itoa(Current));
+		PrintToLCD("mA   ");
+		lcd_set_xy(5,1);
+		PrintToLCD("OFF ");
+	}
+	else
+	{
+		PrintToLCD(itoa_koma(U_OUT,2));
+		PrintToLCD("V  ");
+		lcd_set_xy(7,0);
+		PrintToLCD(itoa(Current));
+		PrintToLCD("mA    ");
+		lcd_set_xy(6,1);
+		PrintToLCD("ON ");
+	}
+    if (key == KEY_NEXT)
+    {
+    	if (On_off == 0)
+    	{
+    		OUT_ON();
+    		LOAD_ON();
+    	}
+    	else
+    	{
+    		OUT_OFF();
+    		LOAD_OFF();
+    	}
+    }
+}
+
+
 void MenuSwing(Key_Pressed_t key)
 {
    	lcd_set_xy(0,0);
@@ -2021,6 +2061,9 @@ void OUT_ON()
 	GPIOA->BSRR =  GPIO_BSRR_BS8;//led out on/off
 }
 
+
+
+
 void LOAD_ON()
 {
 	//GPIOB->BSRR =  GPIO_BSRR_BR0;//Diode 1 OUT ON//OFF
@@ -2158,6 +2201,10 @@ int main(void)
 			MenuTraining_new(Button);
 		else if (Menu_GetCurrentMenu() == &Menu_8_1)
 			MenuSwing(Button);
+
+		else if (Menu_GetCurrentMenu() == &Menu_8a_1)
+					MenuBatterySimilation(Button);
+
 		else if (Menu_GetCurrentMenu() == &Menu_9_1)
 			MenuDIAGNOSTIC(Button);
 		else if (Menu_GetCurrentMenu() == &Menu_11_1)
