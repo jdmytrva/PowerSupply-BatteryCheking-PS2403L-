@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 22V2.5A v2.30";
+char Version[] = "PS 22V2.5A v2.40";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -1272,11 +1272,14 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 
 	if(CountShow1 == 7)
 	{
-		OFF();
+		LOAD_OFF();
+		OUT_ON();
 		lcd_set_xy(0,0);
-		PrintToLCD("Old C=");
-		PrintToLCD(itoa(BatteryCapacityDischargeCurrentAfterPOwerUp/3600));
-		PrintToLCD("mAh          ");
+		PrintToLCD("T=");
+		PrintToLCD(itoa(Temperature));
+		PrintToLCD("C   ");
+		PrintToLCD(itoa(RegularConvData[5]));
+		PrintToLCD("    ");
 	}
 }
 void MenuCalibration_CURRENT_Out_to_0(Key_Pressed_t key)

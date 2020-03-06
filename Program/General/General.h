@@ -101,6 +101,8 @@ volatile uint16_t U_OUT_ForSetResistance;
 volatile int16_t Current_RAW;
 volatile int16_t Current_load ;
 volatile int16_t Current_Out ;
+volatile int32_t Temperature;
+
 #define MAX_LOG_ITEMS 24
 
 struct StructLoggingData

@@ -14,11 +14,8 @@ __IO uint16_t RegularConvData[NUMBER_OF_CHANNELS] ;
 volatile uint16_t U_OUT;
 volatile uint16_t U_PS;
 volatile uint16_t U_IN;
-volatile int16_t Temperature;
 volatile uint16_t U_Controller;
 volatile uint16_t U_12V;
-volatile uint16_t U_5V_1Wire;
-volatile uint16_t U_5V;
 volatile int16_t Current;
 
 

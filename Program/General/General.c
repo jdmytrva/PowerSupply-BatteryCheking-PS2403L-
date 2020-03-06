@@ -183,6 +183,8 @@ struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffFactory=
 volatile uint16_t U_OUT_ForSetResistance=0;
 volatile int16_t Current_load = 0;
 volatile int16_t Current_Out = 0;
+volatile int32_t Temperature = 0;
+
 
 
 void WriteInLOG(char  str [17])
