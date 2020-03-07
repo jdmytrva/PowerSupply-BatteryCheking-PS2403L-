@@ -178,13 +178,60 @@ struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffFactory=
 		0,//Out State. 0 - OFF, 1 - ON
 		ADDRESS_FLASH_WHEN_OFF+12
 };
+struct StructTemperatureLinearTable T_Table []=
+{
+		{1,31000},
+		{10,20000},
+		{25,10000},//Temperature, Resistance
+		{40,5300},
+		{60,2500},
+		{80,1250},
+		{100,670},
+		{150,100}
+};
+void Generation_Coefficients_R_A_B()
+{
+	int8_t i;
+	for (i=0;i<(TLT-1);i++)
+	{
+		Temp_R_A_B[i].R = T_Table[i].R;
+		Temp_R_A_B[i].A10000 = (T_Table[i+1].T - T_Table[i].T)*10000/(T_Table[i+1].R - T_Table[i].R);
+		Temp_R_A_B[i].B = T_Table[i].T - Temp_R_A_B[i].A10000 * T_Table[i].R/10000;
+	}
+	Temp_R_A_B[i].R = T_Table[i].R;
 
+	for (i=0; i<(TLT-1);i++)
+	{
+		Print_to_USART1_d(Temp_R_A_B[i].R,"R:",0);
+	    Print_to_USART1_d(Temp_R_A_B[i].A10000,"A10000:",0);
+	    Print_to_USART1_d(Temp_R_A_B[i].B,"B:",0);
+	    Print_to_USART1_d(Temp_R_A_B[i].A10000*Temp_R_A_B[i].R/10000+Temp_R_A_B[i].B,"T0:",0);
+	    int32_t c;
+	    c=(Temp_R_A_B[i].R-Temp_R_A_B[i+1].R)/2+Temp_R_A_B[i+1].R;
+	    Print_to_USART1_d(c,"c= ",0);
+	    Print_to_USART1_d(Temp_R_A_B[i].A10000*c/10000+Temp_R_A_B[i].B,"T:",0);
+	}
+}
+int32_t GetTemperature(int32_t Rtemp)
+{
+	if (Rtemp>Temp_R_A_B[0].R) return -10;
 
+	int8_t i;
+	for (i=0; i<(TLT-1);i++)
+	{
+		if (Rtemp <= Temp_R_A_B[i].R  && Rtemp > Temp_R_A_B[i+1].R)
+		{
+			return Rtemp*Temp_R_A_B[i].A10000/10000+Temp_R_A_B[i].B;
+
+		}
+	}
+	return 200;
+}
 volatile uint16_t U_OUT_ForSetResistance=0;
 volatile int16_t Current_load = 0;
 volatile int16_t Current_Out = 0;
 volatile int32_t Temperature = 0;
-
+volatile int32_t Rt = 0;
 
 
 void WriteInLOG(char  str [17])
@@ -352,4 +399,3 @@ void InfoToUARTBeforeStart(void)
 	Print_to_USART1_d(SaveDataWhenPowerOff.OutState ,"OutState = ",0);
 
 }
-

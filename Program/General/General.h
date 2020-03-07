@@ -4,6 +4,7 @@
 #define _GENERAL_
 
 
+
 struct StructCalibrationValuetoSaveInFlash
 {
 	uint32_t CRC_data;
@@ -95,6 +96,20 @@ struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOff;
 struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffForVerify;
 struct StructValuetoSaveInFlashWhenPowerOFF SaveDataWhenPowerOffFactory;
 
+struct StructTemperatureLinearTable
+{
+	int16_t T;
+	int16_t R;
+};
+struct StructTemperature_R_A_B
+{
+	int32_t R;
+	int32_t A10000;
+	int32_t B;
+};
+#define TLT 8
+struct StructTemperatureLinearTable T_Table[TLT];
+struct StructTemperature_R_A_B Temp_R_A_B[TLT-1];
 
 //ADC
 volatile uint16_t U_OUT_ForSetResistance;
@@ -102,6 +117,7 @@ volatile int16_t Current_RAW;
 volatile int16_t Current_load ;
 volatile int16_t Current_Out ;
 volatile int32_t Temperature;
+volatile int32_t Rt;
 
 #define MAX_LOG_ITEMS 24
 
@@ -116,6 +132,8 @@ void WriteInLOGc(char  str [17],char c);
 
 
 void InfoToUARTBeforeStart(void);
+void Generation_Coefficients_R_A_B();
+int32_t GetTemperature(int32_t Rtemp);
 
 
 #endif

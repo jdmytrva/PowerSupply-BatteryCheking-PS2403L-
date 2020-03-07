@@ -17,6 +17,8 @@ volatile uint16_t U_12V = 0;
 volatile int16_t Current = 0;
 volatile int32_t CurrentTimer = 0;
 volatile int32_t OffTimer = 0;
+volatile int32_t U_Rt = 0;
+
 volatile uint8_t HighCurrentStatus = 0;
 
 
@@ -115,7 +117,8 @@ void TIM3_IRQHandler()
 		DMA_ClearFlag(DMA1_FLAG_TC1);
 		DMA_ClearITPendingBit( DMA1_IT_TC1);
 		DMA_ITConfig(DMA1_Channel1, DMA1_IT_TC1, DISABLE);
-		Temperature= (RegularConvData[5] *1000 )/ RegularConvData[6];
+		Rt= (RegularConvData[5] *2050 )/ RegularConvData[6];
+
 
 		Ut= (RegularConvData[3] * CalibrationData.CalibrationValueForVoltage) / RegularConvData[6];
 		U_PS = MedianFilter2(Ut);

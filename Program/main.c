@@ -1272,11 +1272,12 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 
 	if(CountShow1 == 7)
 	{
+
 		LOAD_OFF();
 		OUT_ON();
 		lcd_set_xy(0,0);
 		PrintToLCD("T=");
-		PrintToLCD(itoa(Temperature));
+		PrintToLCD(itoa(GetTemperature(Rt)));
 		PrintToLCD("C   ");
 		PrintToLCD(itoa(RegularConvData[5]));
 		PrintToLCD("    ");
@@ -2136,6 +2137,7 @@ int main(void)
     OutStateAfterPowerUp = SettingsData.Option2;
     Print_to_USART1(Version);
     InfoToUARTBeforeStart();
+	Generation_Coefficients_R_A_B();
     //HSE_PLL();
 
     lcd_clear();

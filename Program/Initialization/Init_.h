@@ -6,6 +6,7 @@
 #include "hd44780_driver/hd44780_driver.h"
 #include "usart.h"
 #include "ADC.h"
+#include "General.h"
 
 #ifndef _INIT_
 #define _INIT_
