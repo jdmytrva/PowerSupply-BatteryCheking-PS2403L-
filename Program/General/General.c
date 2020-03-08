@@ -183,11 +183,11 @@ struct StructTemperatureLinearTable T_Table []=
 		{1,31000},
 		{10,20000},
 		{25,10000},//Temperature, Resistance
-		{40,5300},
-		{60,2500},
-		{80,1250},
-		{100,670},
-		{150,100}
+		{40,4300},
+		{60,3000},
+		{80,1950},
+		{100,900},
+		{150,500}
 };
 void Generation_Coefficients_R_A_B()
 {

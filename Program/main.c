@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS 22V2.5A v2.40";
+char Version[] = "PS 22V3A v2.40 ";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -1880,6 +1880,8 @@ void TIM1_UP_TIM16_IRQHandler()
 
     if (time_sec%2==0) GPIOA->BSRR =  GPIO_BSRR_BS15;
     else GPIOA->BSRR =  GPIO_BSRR_BR15;
+    Temperature = GetTemperature(Rt);
+    if (Temperature>85) OFF();//85C OFF
   }
 }
 
@@ -2163,7 +2165,7 @@ int main(void)
     	Blink_message_counter++;
         Key_Pressed_t Button;
     	Button=BUT_GetKey();
-    	Print_to_USART1_d((GPIOB->IDR & 0x01),"out:",0);
+    	Print_to_USART1_d(Temperature,"T:",0);
 
 		switch (Button)
 		{
