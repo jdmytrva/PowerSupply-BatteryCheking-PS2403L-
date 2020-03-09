@@ -1,25 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <history>
    <processor signature="arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -g -nostartfiles -Map=BMS.map -Os --gc-sections -LC:\CooCox\CoIDE\configuration\ProgramData\BMS -TC:\CooCox\CoIDE\configuration\ProgramData\BMS/arm-gcc-link.ld -g">
-      <target file="BMS.elf" lastModified="170bbcc1180">
-         <source file="..\obj\MicroMenu2_1.o" lastModified="170bbcbf8d5"/>
-         <source file="..\obj\stm32f10x_tim.o" lastModified="170bbcbfa8b"/>
-         <source file="..\obj\startup_stm32f10x_ld_vl.o" lastModified="170bbcbfaf8"/>
-         <source file="..\obj\General.o" lastModified="170bbcbfc22"/>
-         <source file="..\obj\system_stm32f10x.o" lastModified="170bbcbfcbf"/>
-         <source file="..\obj\hd44780_driver.o" lastModified="170bbcbfd8a"/>
-         <source file="..\obj\stm32f10x_gpio.o" lastModified="170bbcbfe45"/>
-         <source file="..\obj\main.o" lastModified="170bbcc01d0"/>
-         <source file="..\obj\ADC.o" lastModified="170bbcc02ba"/>
-         <source file="..\obj\stm32f10x_rcc.o" lastModified="170bbcc0386"/>
-         <source file="..\obj\Init_.o" lastModified="170bbcc0431"/>
-         <source file="..\obj\stm32f10x_adc.o" lastModified="170bbcc04fc"/>
-         <source file="..\obj\stm32f10x_usart.o" lastModified="170bbcc05d7"/>
-         <source file="..\obj\Lib.o" lastModified="170bbcc06f0"/>
-         <source file="..\obj\stm32f10x_dma.o" lastModified="170bbcc077d"/>
-         <source file="..\obj\misc.o" lastModified="170bbcc080a"/>
-         <source file="..\obj\Eeprom.o" lastModified="170bbcc0df5"/>
-         <source file="..\obj\usart.o" lastModified="170bbcc0ed0"/>
+      <target file="BMS.elf" lastModified="170becec772">
+         <source file="..\obj\MicroMenu2_1.o" lastModified="170beceaf33"/>
+         <source file="..\obj\stm32f10x_tim.o" lastModified="170beceb108"/>
+         <source file="..\obj\startup_stm32f10x_ld_vl.o" lastModified="170beceb175"/>
+         <source file="..\obj\General.o" lastModified="170beceb26f"/>
+         <source file="..\obj\system_stm32f10x.o" lastModified="170beceb2fc"/>
+         <source file="..\obj\hd44780_driver.o" lastModified="170beceb3c7"/>
+         <source file="..\obj\stm32f10x_gpio.o" lastModified="170beceb492"/>
+         <source file="..\obj\main.o" lastModified="170beceb7b0"/>
+         <source file="..\obj\ADC.o" lastModified="170beceb8a9"/>
+         <source file="..\obj\stm32f10x_rcc.o" lastModified="170beceb965"/>
+         <source file="..\obj\Init_.o" lastModified="170beceba11"/>
+         <source file="..\obj\stm32f10x_adc.o" lastModified="170becebafb"/>
+         <source file="..\obj\stm32f10x_usart.o" lastModified="170becebbe5"/>
+         <source file="..\obj\Lib.o" lastModified="170becebcd0"/>
+         <source file="..\obj\stm32f10x_dma.o" lastModified="170becebd6c"/>
+         <source file="..\obj\misc.o" lastModified="170becebdfc"/>
+         <source file="..\obj\Eeprom.o" lastModified="170becec38a"/>
+         <source file="..\obj\usart.o" lastModified="170becec4c2"/>
       </target>
    </processor>
 </history>

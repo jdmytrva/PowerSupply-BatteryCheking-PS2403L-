@@ -109,7 +109,7 @@ struct StructTemperature_R_A_B
 };
 #define TLT 8
 struct StructTemperatureLinearTable T_Table[TLT];
-struct StructTemperature_R_A_B Temp_R_A_B[TLT-1];
+struct StructTemperature_R_A_B Temp_R_A_B[TLT];
 
 //ADC
 volatile uint16_t U_OUT_ForSetResistance;

@@ -199,7 +199,7 @@ void Generation_Coefficients_R_A_B()
 		Temp_R_A_B[i].B = T_Table[i].T - Temp_R_A_B[i].A10000 * T_Table[i].R/10000;
 	}
 	Temp_R_A_B[i].R = T_Table[i].R;
-
+/*
 	for (i=0; i<(TLT-1);i++)
 	{
 		Print_to_USART1_d(Temp_R_A_B[i].R,"R:",0);
@@ -211,6 +211,7 @@ void Generation_Coefficients_R_A_B()
 	    Print_to_USART1_d(c,"c= ",0);
 	    Print_to_USART1_d(Temp_R_A_B[i].A10000*c/10000+Temp_R_A_B[i].B,"T:",0);
 	}
+*/
 }
 int32_t GetTemperature(int32_t Rtemp)
 {
