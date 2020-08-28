@@ -22,7 +22,7 @@
 //#define VOLTAGE_OFF_SYSTEM 1400
 //#define VOLTAGE_OFF_SYSTEM 700
 
-char Version[] = "PS+L 20V3A v2.41";
+char Version[] = "PS+L 20V3A v2.42";
 
 
 Key_Pressed_t pressedKey = 0;
@@ -2269,8 +2269,8 @@ int main(void)
 			OutStateAfterPowerUp = 1;
 
 		}
-	    Temperature = GetTemperature(Rt);
-	    if (Temperature>85) OFF();//85C OFF
+	    //Temperature = GetTemperature(Rt);
+	    //if (Temperature>85) OFF();//85C OFF
         Delay_ms(100);
     }//while
 }//main
