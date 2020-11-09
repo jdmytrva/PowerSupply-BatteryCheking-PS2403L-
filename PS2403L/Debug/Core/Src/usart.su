@@ -1,0 +1,9 @@
+usart.c:12:6:printToBufferUART1	12	static
+usart.c:42:6:printToBufferWithoutEndUART1	12	static
+usart.c:63:6:printToBufferUART1D	24	static
+usart.c:148:6:putCharInBufferUart1	8	static
+usart.c:164:6:putStringInBufferUart1	8	static
+usart.c:170:6:putCharDirectToUart1	0	static
+usart.c:177:6:putStringDirectToUart1	8	static
+usart.c:113:6:Print_to_USART1	8	static
+usart.c:125:6:Print_to_USART1_d	24	static

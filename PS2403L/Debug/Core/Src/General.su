@@ -1,0 +1,7 @@
+General.c:198:6:Generation_Coefficients_R_A_B	24	static
+General.c:222:9:GetTemperature	12	static
+General.c:238:6:WriteInLOG	32	static
+General.c:304:6:WriteInLOGc	32	static
+General.c:405:6:delay_us	16	static
+General.c:429:6:delay_ms	16	static
+General.c:372:6:InfoToUARTBeforeStart	16	static

@@ -1,0 +1,8 @@
+usart.c:5:6:debug	12	static
+usart.c:24:6:debugD	24	static
+usart.c:94:6:putCharInBufferUart1	8	static
+usart.c:105:6:putStringInBufferUart1	8	static
+usart.c:111:6:putCharDirectToUart1	0	static
+usart.c:118:6:putStringDirectToUart1	8	static
+usart.c:59:6:Print_to_USART1	8	static
+usart.c:71:6:Print_to_USART1_d	24	static

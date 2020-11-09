@@ -1,0 +1,12 @@
+Lib.c:2:8:itoa	32	static
+Lib.c:29:8:itoaP	40	static
+Lib.c:56:8:itoa_koma	64	static
+Lib.c:106:8:itoa_komaP	64	static
+Lib.c:154:9:Module16	0	static
+Lib.c:161:8:Module8	0	static
+Lib.c:167:9:Module32	0	static
+Lib.c:174:9:strlen1	0	static
+Lib.c:182:8:Merge2Strings	16	static
+Lib.c:196:8:Merge3Strings	20	static
+Lib.c:215:7:ClockStringWithSec	48	static
+Lib.c:263:7:ClockStringNoSec	48	static

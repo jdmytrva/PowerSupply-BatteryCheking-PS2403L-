@@ -1,0 +1,4 @@
+MicroMenu2_1.c:33:14:Menu_GetCurrentMenu	0	static
+MicroMenu2_1.c:38:6:Menu_Navigate	8	static
+MicroMenu2_1.c:54:6:Menu_SetGenericWriteCallback	0	static
+MicroMenu2_1.c:60:6:Menu_SelectItem	0	static
