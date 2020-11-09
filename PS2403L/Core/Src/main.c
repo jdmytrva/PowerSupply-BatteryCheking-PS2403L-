@@ -1325,14 +1325,14 @@ void MenuDIAGNOSTIC(Key_Pressed_t key)
 }
 void MenuCalibration_CURRENT_Out_to_0(Key_Pressed_t key)
 {
-		lcd_set_xy(0,0);
-		PrintToLCD(itoa(Current));
-		PrintToLCD("mA >> set 0   ");
-		if (key == KEY_NEXT)
-		{
-			CalibrationData.Calibration0ValueForCurrent = Current_Out;
-			CalibrationWriteToFlash_CRC();
-		}
+	lcd_set_xy(0,0);
+	PrintToLCD(itoa(Current));
+	PrintToLCD("mA >> set 0   ");
+	if (key == KEY_NEXT)
+	{
+		CalibrationData.Calibration0ValueForCurrent = Current_Out;
+		CalibrationWriteToFlash_CRC();
+	}
 }
 
 void MenuCalibration_CURRENT_Load_to_0(Key_Pressed_t key)
@@ -1658,7 +1658,6 @@ void MenuSettingsChargeAddapt(Key_Pressed_t key)
 	if (key == KEY_NEXT)  SettingsData.ChargeAdapt++;
 	if (key == KEY_BACK)  SettingsData.ChargeAdapt--;
 
-
 	lcd_set_xy(0,0);
 	PrintToLCD(itoa(SettingsData.ChargeAdapt));
 	PrintToLCD("% ");
@@ -1783,11 +1782,7 @@ void MenuCalibrationWriteToFlash_Enter(Key_Pressed_t key)
 void MenuSettingsWriteToFlash_Enter(Key_Pressed_t key)
 {
 	SettingsWriteToFlash_CRC();
-	//WriteInLOG("Seet");
-
 }
-
-
 
 void MenuDischarge_Enter(Key_Pressed_t key)
 {
@@ -1837,45 +1832,42 @@ void MenuOption_Enter1(Key_Pressed_t key)
 	delay_ms(200);
 }
 
-
-
 int16_t comp = 0;
 void BUT_Debrief(void)
 {
 	Key_Pressed_t key;
 
-  if (!LL_GPIO_IsInputPinSet(GPIOB, LL_GPIO_PIN_4))
-    key = KEY_OK;
-  else if (!LL_GPIO_IsInputPinSet(GPIOB,LL_GPIO_PIN_5))
-    key = KEY_NEXT;
-  else if (!LL_GPIO_IsInputPinSet(GPIOB,LL_GPIO_PIN_6))
-    key = KEY_BACK;
-  else if (!LL_GPIO_IsInputPinSet(GPIOB,LL_GPIO_PIN_7))
-    key = KEY_UP;
-  else {
-    key = 0;
-  }
+	if (!LL_GPIO_IsInputPinSet(GPIOB, LL_GPIO_PIN_4))
+		key = KEY_OK;
+	else if (!LL_GPIO_IsInputPinSet(GPIOB,LL_GPIO_PIN_5))
+		key = KEY_NEXT;
+	else if (!LL_GPIO_IsInputPinSet(GPIOB,LL_GPIO_PIN_6))
+		key = KEY_BACK;
+	else if (!LL_GPIO_IsInputPinSet(GPIOB,LL_GPIO_PIN_7))
+		key = KEY_UP;
+	else
+	{
+		key = 0;
+	}
 
+	if (key)
+	{
+		if (comp > THRESHOLD2)
+		{
+			comp = THRESHOLD2 - 40;
+			pressedKey = key;
+			return;
+		}
+		else comp++;
 
-  if (key)
-    {
-      if (comp > THRESHOLD2)
-      {
-        comp = THRESHOLD2 - 40;
-        pressedKey = key;
-        return;
-      }
-      else comp++;
-
-      if (comp == THRESHOLD)
-      {
-       pressedKey = key;
-        return;
-      }
-    }
-    else comp=0;
+		if (comp == THRESHOLD)
+			{
+			pressedKey = key;
+			return;
+		}
+	}
+	else comp=0;
 }
-
 
 Key_Pressed_t BUT_GetKey(void)
 {
@@ -1884,8 +1876,6 @@ Key_Pressed_t BUT_GetKey(void)
 	pressedKey = 0;
 	return key;
 }
-
-
 
 void Start_Timer_sec()
 {
@@ -2099,7 +2089,9 @@ void SysTick_Callback()//1 mc
 	if (Count10mSecond >= 5)
 	{
 		Count10mSecond = 0;
+		f1 = SysTick->VAL;
 		adc_func();
+		f2 = SysTick->VAL;
 	}
 
 	if (Count100mSecond >= 100)
@@ -2125,8 +2117,6 @@ void SysTick_Callback()//1 mc
 
 		if (time_sec%2==0) GPIOA->BSRR =  GPIO_BSRR_BS15;
 		else GPIOA->BSRR =  GPIO_BSRR_BR15;
-		//logInfoD("Max was in Buffer :",bufferUart1.tx_buffer_overflow,0);
-
 	}
 	Count10mSecond++;
 	Count100mSecond++;
@@ -2144,8 +2134,6 @@ void adc_func()
 	//5 T
 	//6 temp
 	//7 vref
-
-
 	volatile int32_t Ut = 0;
 	volatile int32_t It = 0;
 	volatile int32_t Ut_m = 0;
@@ -2155,7 +2143,6 @@ void adc_func()
 
 
 	U_Controller = 491520 / RegularConvData[7];// Uref V/10;  1200 * 4096/ChVref
-	//Rt= (RegularConvData[5] *2050 )/ RegularConvData[7];
 	Ut= (RegularConvData[3] * CalibrationData.CalibrationValueForVoltage) / RegularConvData[7];
 	Ut_m = middle_of_3Umax1(Ut);
 	SumU1 =SumU1 + RunningAverageU1(Ut_m);
@@ -2168,13 +2155,10 @@ void adc_func()
 		if (U_PS < 3) U_PS = 0;
 	}
 
-
 	Ut = (RegularConvData[2] * CalibrationData.CalibrationValueForVoltage1) / RegularConvData[7];
 	Ut_m = middle_of_3Umax2(Ut);
 	SumU2 = SumU2 + RunningAverageU2(Ut_m);
 	SumU2Counter ++;
-
-
 
 
 	Ut = (RegularConvData[4] * CalibrationData.CalibrationValueForVoltage2) / RegularConvData[7];
@@ -2209,9 +2193,6 @@ void adc_func()
 		SumI2Counter = 0;
 		SumI2 = 0;
 	}
-	//if ( (GPIOA->IDR & 112) == 0 )
-	//Print_to_USART1_d(CalibrationData.Calibration0ValueForCurrent1,"cal1 ",0);
-	//Print_to_USART1_d(CalibrationData.Calibration0ValueForCurrent,"cal ",0);
 	if ((GPIOB->IDR & 0x02)==0x02)//if load on
 	{
 		Current =(int32_t)(Current_load-CalibrationData.Calibration0ValueForCurrent1)*(-1) ;//2745;
@@ -2219,9 +2200,6 @@ void adc_func()
 	{
 		Current = (Current_Out-CalibrationData.Calibration0ValueForCurrent)/1 ;//2745;
 	}
-
-	//Print_to_USART1_d(Current,"I: ",0);
-
 	if (SumU2Counter >= 10)
 	{
 
@@ -2239,18 +2217,11 @@ void adc_func()
 		else
 		{
 			U_OUTtmp = U_OUTtmp - (int32_t)CalibrationData.ResistanceComp_Ishunt_Wires*Current/10000;
-			//Print_to_USART1_d(Current,"I: ",0);
-			//P/rint_to_USART1_d(CalibrationData.ResistanceComp_Ishunt_Wires*(-1)*Current/10000,"ResC: ",0);
 		}
-
 		if (U_OUTtmp<3)
 			U_OUTtmp=0;
-
 		U_OUT = U_OUTtmp;
 	}
-
-
-
 	 //LL_DMA_EnableChannel(DMA1,LL_DMA_CHANNEL_1);
 }
 
@@ -2297,14 +2268,12 @@ int main(void)
 	uint8_t EEpromReadStatus;
 	PrintToLCD(Version);
 	InfoToUARTBeforeStart();
-
 	logInfo(Version);
 	SetSymbols();
 	lcd_set_xy(0,0);
 	delay_ms(1000);
 	flash_read_block();
 	if (LoggingData.RecordsQuantity>=MAX_LOG_ITEMS) LoggingData.RecordsQuantity = 0;
-	//WriteInLOG("Power ON");
 	EEpromReadStatus = ReadFromFlash();
 	if (EEpromReadStatus==0)
 	{
@@ -2329,9 +2298,8 @@ int main(void)
   SelectedOptionValue = SettingsData.Option1;
   SelectedOptionValue1 = SettingsData.Option2;
   OutStateAfterPowerUp = SettingsData.Option2;
-	Generation_Coefficients_R_A_B();
-  //HSE_PLL();
-	delay_ms(1000);
+  Generation_Coefficients_R_A_B();
+  delay_ms(1000);
   lcd_clear();
 	Menu_SetGenericWriteCallback(Generic_Write);
 	if (SettingsData.Option1 == 1)
@@ -2360,127 +2328,102 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-	  /*
-	  logDebugD("ch1 ", RegularConvData[0],0);
-	  logDebugD("ch2 ", RegularConvData[1],0);
-	  logDebugD("ch3 ", RegularConvData[2],0);
-	  logDebugD("ch4 ", RegularConvData[3],0);
-	  logDebugD("ch5 ", RegularConvData[4],0);
-	  logDebugD("ch6 ", RegularConvData[5],0);
-	  logDebugD("Tmp ", RegularConvData[6],0);
-	  logDebugD("Ref ", RegularConvData[7],0);
-*/
-	  logDebugD("U out ",U_OUT,0);
-	  logDebugD("U ps ",U_PS,0);
+	 // logDebugD("f1 ",f1,0);
+	 // logDebugD("f2 ",f2,0);
+	 // logDebugD("f1-f2 ",f1-f2,0);
   	Blink_message_counter++;
     Key_Pressed_t Button;
   	Button=BUT_GetKey();
-  	//logDebugD("ADC ",LL_ADC_REG_ReadConversionData12(ADC1),0);
+	switch (Button)
+	{
 
+		case KEY_BACK:
+			Menu_Navigate(MENU_PREVIOUS);
+			break;
+		case KEY_NEXT:
+			Menu_Navigate(MENU_NEXT);
+			break;
+		case KEY_OK:
+			Menu_SelectItem(KEY_NEXT);
+			Menu_Navigate(MENU_CHILD);
+			break;
+		case KEY_UP:
+			Menu_Navigate(MENU_PARENT);
+			break;
+		default:
+			break;
+	}
 
-		switch (Button)
-		{
-
-			case KEY_BACK:
-				Menu_Navigate(MENU_PREVIOUS);
-
-				break;
-			case KEY_NEXT:
-				Menu_Navigate(MENU_NEXT);
-
-				break;
-			case KEY_OK:
-				Menu_SelectItem(KEY_NEXT);
-				Menu_Navigate(MENU_CHILD);
-				break;
-			case KEY_UP:
-				Menu_Navigate(MENU_PARENT);
-				break;
-
-			default:
-				//logDebug("NO key Pressed");
-				break;
-		}
-
-		if (Menu_GetCurrentMenu() == &Menu_2_1)
-			MenuPowerSupply(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_3_1)
-			MenuLoad(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_4_1)
-			MenuChargeCC_CV(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_5_1)
-			MenuChargeAdapt(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_6_1)
-			MenuDisCharge(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_6_1a)
-			MenuCheckingCapacity(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_7_1)
-			//MenuTraining(Button);
-			MenuTraining_new(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_8_1)
-			MenuSwing(Button);
-
-		else if (Menu_GetCurrentMenu() == &Menu_8a_1)
-					MenuBatterySimilation(Button);
-
-		else if (Menu_GetCurrentMenu() == &Menu_9_1)
-			MenuDIAGNOSTIC(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_11_1)
-			MenuLog(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_10_2_1)
-			MenuCalibration_CURRENT_Load_to_0(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_10_1_1)
-			MenuCalibration_CURRENT_Out_to_0(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_10_4_1)
-			MenuCalibration_CURRENT_Load(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_10_3_1)
-			MenuCalibration_CURRENT_Out(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_10_7_1)
-			MenuCalibration_VoltageIn(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_10_6_1)
-			MenuCalibration_VoltageOut(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_10_5_1)
-			MenuCalibration_VoltagePS(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_10_8_1)
-			MenuCalibration_Resist_Comp_5V1A(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_10_9_1)
-			MenuCalibration_BackToFactory(Button);
-
-
-		else if (Menu_GetCurrentMenu() == &Menu_1_1_1)
-			MenuSettingsChargeTime(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_1_1_1a)
-			MenuSettingsBatteryType(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_1_2_1)
-			MenuSettingsLowVolt(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_1_3_1)
-			MenuSettingsMaxVolt(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_1_4_1)
-			MenuSettingsSwngChrgTime(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_1_5_1)
-			MenuSettingsSwngDChrgTime(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_1_6_1)
-			MenuSettingsChargeAddapt(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_1_S_1)
-			MenuSettingsSaveMenuPosWhenOFF(Button);
-		else if (Menu_GetCurrentMenu() == &Menu_1_SO_1)
-			MenuSettingsOutAfterPowerUp(Button);
-		else EnterInMenu_Status = 0;
-
-		if (EnterInMenu_Status == 0)
-		{
-			OFF();
-			InitiStatus = 0;
-			CountShow = 0;
-			SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
-			DischargeTimeSec_Previous = DischargeTimeSec;
-			ChargeDischargeState = 0;
-			OutStateAfterPowerUp = 1;
-		}
-	    //Temperature = GetTemperature(Rt);
-	    //if (Temperature>85) OFF();//85C OFF
-      delay_ms(100);
+	if (Menu_GetCurrentMenu() == &Menu_2_1)
+		MenuPowerSupply(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_3_1)
+		MenuLoad(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_4_1)
+		MenuChargeCC_CV(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_5_1)
+		MenuChargeAdapt(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_6_1)
+		MenuDisCharge(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_6_1a)
+		MenuCheckingCapacity(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_7_1)
+		MenuTraining_new(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_8_1)
+		MenuSwing(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_8a_1)
+		MenuBatterySimilation(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_9_1)
+		MenuDIAGNOSTIC(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_11_1)
+		MenuLog(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_10_2_1)
+		MenuCalibration_CURRENT_Load_to_0(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_10_1_1)
+		MenuCalibration_CURRENT_Out_to_0(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_10_4_1)
+		MenuCalibration_CURRENT_Load(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_10_3_1)
+		MenuCalibration_CURRENT_Out(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_10_7_1)
+		MenuCalibration_VoltageIn(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_10_6_1)
+		MenuCalibration_VoltageOut(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_10_5_1)
+		MenuCalibration_VoltagePS(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_10_8_1)
+		MenuCalibration_Resist_Comp_5V1A(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_10_9_1)
+		MenuCalibration_BackToFactory(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_1_1_1)
+		MenuSettingsChargeTime(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_1_1_1a)
+		MenuSettingsBatteryType(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_1_2_1)
+		MenuSettingsLowVolt(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_1_3_1)
+		MenuSettingsMaxVolt(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_1_4_1)
+		MenuSettingsSwngChrgTime(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_1_5_1)
+		MenuSettingsSwngDChrgTime(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_1_6_1)
+		MenuSettingsChargeAddapt(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_1_S_1)
+		MenuSettingsSaveMenuPosWhenOFF(Button);
+	else if (Menu_GetCurrentMenu() == &Menu_1_SO_1)
+		MenuSettingsOutAfterPowerUp(Button);
+	else EnterInMenu_Status = 0;
+	if (EnterInMenu_Status == 0)
+	{
+		OFF();
+		InitiStatus = 0;
+		CountShow = 0;
+		SaveDataWhenPowerOff.BatteryCapacityDischargePreviousValue = BatteryCapacityDischargeCurrent;
+		DischargeTimeSec_Previous = DischargeTimeSec;
+		ChargeDischargeState = 0;
+		OutStateAfterPowerUp = 1;
+	}
+	delay_ms(100);
   }
   /* USER CODE END 3 */
 }
