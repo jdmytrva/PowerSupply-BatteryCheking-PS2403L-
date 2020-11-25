@@ -185,7 +185,7 @@ void SysTick_Handler(void)
 	//Delay_us(990);
 	SysTick_Callback();
   /* USER CODE END SysTick_IRQn 0 */
-  HAL_IncTick();
+
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */

@@ -67,7 +67,7 @@ static void MX_ADC1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-char Version[] = "PS+L 20V3A v2.50";
+char Version[] = "PS+L 20V3A v2.60";
 
 Key_Pressed_t pressedKey = 0;
 volatile uint32_t  time_sec = 0;
@@ -1963,8 +1963,8 @@ void All_OUT_OFF_When_Power_OFF()
 			uint8_t i=0;
 			for (i = 0; i<5; i++)
 			{
-				logDebugD("U off: ",U_IN,2);
-				delay_ms(50);
+				logDebugD("U off(10msec): ",U_IN,2);
+				delay_ms(10);
 			}
 
 		}
@@ -2083,15 +2083,16 @@ void OUT_ON_OFF_Toggle()
 void SysTick_Callback()//1 mc
 {
 	BUT_Debrief();
-	All_OUT_OFF_When_Power_OFF();
+
 	TimerForReadyMeasurement_ms++;
 
 	if (Count10mSecond >= 5)
 	{
 		Count10mSecond = 0;
-		f1 = SysTick->VAL;
+		//f1 = SysTick->VAL;
 		adc_func();
-		f2 = SysTick->VAL;
+		All_OUT_OFF_When_Power_OFF();
+		//f2 = SysTick->VAL;
 	}
 
 	if (Count100mSecond >= 100)
@@ -2162,15 +2163,8 @@ void adc_func()
 
 
 	Ut = (RegularConvData[4] * CalibrationData.CalibrationValueForVoltage2) / RegularConvData[7];
-	Ut_m = middle_of_3Umax3(Ut);
-	SumU3 =SumU3 + RunningAverageU3(Ut_m);
-	SumU3Counter ++;
-	if (SumU3Counter >=NUM_READ)
-	{
-		U_IN = SumU3/NUM_READ;
-		SumU3Counter = 0;
-		SumU3 = 0;
-	}
+	U_IN = middle_of_3Umax3(Ut);
+
 
 	It = (RegularConvData[1] * CalibrationData.CalibrationValueForCurrent*10) / RegularConvData[7] ;//  Current A/10
 	It_m = middle_of_3Imax1(It);
@@ -2200,10 +2194,10 @@ void adc_func()
 	{
 		Current = (Current_Out-CalibrationData.Calibration0ValueForCurrent)/1 ;//2745;
 	}
-	if (SumU2Counter >= 10)
+	if (SumU2Counter >= NUM_READ)
 	{
 
-		U_OUTtmp = SumU2/10;
+		U_OUTtmp = SumU2/NUM_READ;
 		SumU2 = 0;
 		SumU2Counter = 0;
 
@@ -2240,7 +2234,17 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_AFIO);
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
+
+  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+
+  /* System interrupt init*/
+
+  /** NOJTAG: JTAG-DP Disabled and SW-DP Enabled
+  */
+  LL_GPIO_AF_Remap_SWJ_NOJTAG();
 
   /* USER CODE BEGIN Init */
 
@@ -2328,9 +2332,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	 // logDebugD("f1 ",f1,0);
+	  //logDebugD("f1 ",f1,0);
 	 // logDebugD("f2 ",f2,0);
-	 // logDebugD("f1-f2 ",f1-f2,0);
+	  //logDebugD("f1-f2 ",f1-f2,0);
   	Blink_message_counter++;
     Key_Pressed_t Button;
   	Button=BUT_GetKey();
@@ -2459,13 +2463,8 @@ void SystemClock_Config(void)
   {
 
   }
+  LL_Init1msTick(24000000);
   LL_SetSystemCoreClock(24000000);
-
-   /* Update the time base */
-  if (HAL_InitTick (TICK_INT_PRIORITY) != HAL_OK)
-  {
-    Error_Handler();
-  }
   LL_RCC_SetADCClockSource(LL_RCC_ADC_CLKSRC_PCLK2_DIV_2);
 }
 
@@ -2657,8 +2656,9 @@ static void MX_USART1_UART_Init(void)
 static void MX_DMA_Init(void)
 {
 
+  /* Init with LL driver */
   /* DMA controller clock enable */
-  __HAL_RCC_DMA1_CLK_ENABLE();
+  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
 
   /* DMA interrupt init */
   /* DMA1_Channel1_IRQn interrupt configuration */
