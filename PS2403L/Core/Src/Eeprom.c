@@ -1,8 +1,8 @@
 #include "Eeprom.h"
 
 ///////////////////////////////////////////////////////
-#define FLASH_KEY1               ((uint32_t)0x45670123)
-#define FLASH_KEY2               ((uint32_t)0xCDEF89AB)
+//#define FLASH_KEY1               ((uint32_t)0x45670123)
+//#define FLASH_KEY2               ((uint32_t)0xCDEF89AB)
 ///////////////////////////////////////////////////////
 static uint8_t EEpromReadStatus = 1;
 static uint8_t EEpromWriteStatus = 1;

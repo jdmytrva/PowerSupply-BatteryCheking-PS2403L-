@@ -11,7 +11,7 @@
 
 void printToBufferUART1(volatile char* str)//10us for one char 24Mgz
 {
-	while (bufferUart1.tx_counter >= TX_BUFFER_SIZE-30); //если буфер переполнен, ждем
+	//while (bufferUart1.tx_counter >= TX_BUFFER_SIZE-30); //если буфер переполнен, ждем
 
 	//LL_USART_DisableIT_TXE(USART1); //запрещаем прерывание, чтобы оно не мешало менять переменную
 	USART1->CR1 &= ~USART_CR1_TXEIE;  // Interrupt Disable
@@ -41,7 +41,7 @@ void printToBufferUART1(volatile char* str)//10us for one char 24Mgz
 
 void printToBufferWithoutEndUART1(volatile char* str)//10us for one char 24Mgz
 {
-	while (bufferUart1.tx_counter >= TX_BUFFER_SIZE-30); //если буфер переполнен, ждем
+	//while (bufferUart1.tx_counter >= TX_BUFFER_SIZE-30); //если буфер переполнен, ждем
 
 	//LL_USART_DisableIT_TXE(USART1); //запрещаем прерывание, чтобы оно не мешало менять переменную
 	USART1->CR1 &= ~USART_CR1_TXEIE;  // Interrupt Disable
@@ -68,7 +68,7 @@ void printToBufferUART1D(volatile char* str, volatile int32_t value, volatile ui
 	else
 		str1 = itoa_koma(value,koma);
 
-	while (bufferUart1.tx_counter >= TX_BUFFER_SIZE-30); //если буфер переполнен, ждем
+	//while (bufferUart1.tx_counter >= TX_BUFFER_SIZE-30); //если буфер переполнен, ждем
 
 	//LL_USART_DisableIT_TXE(USART1); //запрещаем прерывание, чтобы оно не мешало менять переменную
 	USART1->CR1 &= ~USART_CR1_TXEIE;  // Interrupt Disable
@@ -147,7 +147,7 @@ void Print_to_USART1_d(volatile int32_t value,volatile char *string,uint8_t koma
 
 void putCharInBufferUart1(uint8_t c) //вывод данных
 {
-	while (bufferUart1.tx_counter >= TX_BUFFER_SIZE); //если буфер переполнен, ждем
+	//while (bufferUart1.tx_counter >= TX_BUFFER_SIZE); //если буфер переполнен, ждем
 	LL_USART_DisableIT_TXE(USART1); //запрещаем прерывание, чтобы оно не мешало менять переменную
 	bufferUart1.tx_buffer[bufferUart1.tx_wr_index++]=c; //то кладем данные в буфер
 	if (bufferUart1.tx_wr_index == TX_BUFFER_SIZE)

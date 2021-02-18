@@ -67,7 +67,7 @@ static void MX_ADC1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-char Version[] = "PS+L 20V3A v2.60";
+char Version[] = "PS+L 20V3A v2.61";
 
 Key_Pressed_t pressedKey = 0;
 volatile uint32_t  time_sec = 0;

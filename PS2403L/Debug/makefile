@@ -57,8 +57,8 @@ all: main-build
 main-build: PS2403L.elf secondary-outputs
 
 # Tool invocations
-PS2403L.elf: $(OBJS) $(USER_OBJS) C:\Users\Vasyl\Documents\GitHub\PowerSupply-BatteryCheking-PS2403L-\PS2403L\STM32F100C8TX_FLASH.ld
-	arm-none-eabi-gcc -o "PS2403L.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\Vasyl\Documents\GitHub\PowerSupply-BatteryCheking-PS2403L-\PS2403L\STM32F100C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="PS2403L.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+PS2403L.elf: $(OBJS) $(USER_OBJS) C:\Users\SF\Project\ (GitHub)\PowerSupply-BatteryCheking-PS2403L-\PS2403L\STM32F100C8TX_FLASH.ld
+	arm-none-eabi-gcc -o "PS2403L.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\SF\Project (GitHub)\PowerSupply-BatteryCheking-PS2403L-\PS2403L\STM32F100C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="PS2403L.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
